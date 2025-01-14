@@ -8,7 +8,7 @@ const Hero = () => {
     >
       <div className="max-w-7xl mx-auto px-4 py-16 text-center">
         <img
-          src="public/profilepic.jpeg" // Placeholder for your photo link
+          src="public/profilepic.jpeg"
           alt="Lakshya Gupta"
           className="w-72 h-72 rounded-full mx-auto mb-4"
         />
