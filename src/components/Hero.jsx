@@ -1,6 +1,8 @@
 import React from "react";
 
 const Hero = () => {
+  const profilePic = import.meta.env.VITE_PROFILE_PIC;
+
   return (
     <section
       id="top"
@@ -8,7 +10,7 @@ const Hero = () => {
     >
       <div className="max-w-7xl mx-auto px-4 py-16 text-center">
         <img
-          src="./profilepic.jpeg"
+          src={profilePic}
           alt="Lakshya Gupta"
           className="w-72 h-72 rounded-full mx-auto mb-4"
         />
