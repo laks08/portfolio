@@ -5,7 +5,7 @@ const Education = () => {
     {
       school: "Northeastern University",
       degree: "Master of Science, Information Systems",
-      date: "Expected Dec 2024",
+      date: "Dec 2024",
     },
     {
       school: "Bennett University",

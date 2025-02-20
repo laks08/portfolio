@@ -20,8 +20,8 @@ const Hero = () => {
         </p>
         <p className="text-lg max-w-2xl mx-auto">
           A passionate professional with expertise in full-stack development,
-          data analysis, and machine learning. Currently pursuing a Master's in
-          Information Systems at Northeastern University.
+          data analysis, and machine learning. Graduated with a Master's in
+          Information Systems from Northeastern University.
         </p>
       </div>
     </section>
