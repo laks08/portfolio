@@ -4,74 +4,51 @@ import { Link } from "react-scroll";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
+  // Added "home" as first item.
+  const navItems = ["home", "education", "experience", "skills", "projects"];
 
   return (
-    <nav className="fixed top-0 w-full bg-slate-900 text-white z-50">
+    <nav className="fixed top-0 w-full text-white z-50">
       <div className="mx-auto px-4">
-        <div className="flex justify-between h-16">
-          <div className="flex items-center">
-            <Link
-              to="top"
-              spy={true}
-              smooth={true}
-              duration={500}
-              className="text-white hover:text-blue-400 text-xl font-bold cursor-pointer"
-            >
-              Lakshya Gupta
-            </Link>
+        <div className="relative flex items-center justify-center h-16">
+          {/* Pill-Shaped Menu */}
+          <div
+            className="hidden md:flex items-center relative bg-gray-100 rounded-full backdrop-filter backdrop-blur-md bg-opacity-50 shadow-md p-1"
+            style={{ minWidth: "1000px" }}
+          >
+            {/* Sliding Pill Indicator */}
+            <div
+              className="absolute top-0 h-full bg-white rounded-full transition-all duration-300 z-1 shadow-md"
+              style={{
+                left: `calc(${activeIndex} * (100% / ${navItems.length}))`,
+                width: `calc(100% / ${navItems.length})`,
+              }}
+            />
+            <div className="relative flex justify-between w-full z-10">
+              {navItems.map((item, index) => (
+                <Link
+                  key={item}
+                  to={item}
+                  spy={true}
+                  smooth={true}
+                  duration={500}
+                  onClick={() => setActiveIndex(index)}
+                  onSetActive={() => setActiveIndex(index)}
+                  className={`flex-1 text-center cursor-pointer p-2 transition-colors duration-300 text-lg mix-blend-difference ${
+                    activeIndex === index
+                      ? "text-slate-900"
+                      : "text-slate-500 hover:text-slate-300"
+                  }`}
+                >
+                  {item.charAt(0).toUpperCase() + item.slice(1)}
+                </Link>
+              ))}
+            </div>
           </div>
 
-          {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-8">
-            <Link
-              to="education"
-              spy={true}
-              smooth={true}
-              duration={500}
-              className="text-white hover:text-blue-400 cursor-pointer"
-            >
-              Education
-            </Link>
-            <Link
-              to="experience"
-              spy={true}
-              smooth={true}
-              duration={500}
-              className="text-white hover:text-blue-400 cursor-pointer"
-            >
-              Experience
-            </Link>
-            <Link
-              to="skills"
-              spy={true}
-              smooth={true}
-              duration={500}
-              className="text-white hover:text-blue-400 cursor-pointer"
-            >
-              Skills
-            </Link>
-            <Link
-              to="projects"
-              spy={true}
-              smooth={true}
-              duration={500}
-              className="text-white hover:text-blue-400 cursor-pointer"
-            >
-              Projects
-            </Link>
-            <Link
-              to="contact"
-              spy={true}
-              smooth={true}
-              duration={500}
-              className="text-white hover:text-blue-400 cursor-pointer"
-            >
-              Contact
-            </Link>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center">
+          {/* Mobile Menu Button positioned at top-right */}
+          <div className="absolute right-4 md:hidden">
             <button onClick={() => setIsOpen(!isOpen)}>
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -82,56 +59,23 @@ const Navbar = () => {
         {isOpen && (
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1">
-              <Link
-                to="education"
-                spy={true}
-                smooth={true}
-                duration={500}
-                className="block px-3 py-2 hover:bg-slate-800 cursor-pointer"
-                onClick={() => setIsOpen(false)}
-              >
-                Education
-              </Link>
-              <Link
-                to="experience"
-                spy={true}
-                smooth={true}
-                duration={500}
-                className="block px-3 py-2 hover:bg-slate-800 cursor-pointer"
-                onClick={() => setIsOpen(false)}
-              >
-                Experience
-              </Link>
-              <Link
-                to="skills"
-                spy={true}
-                smooth={true}
-                duration={500}
-                className="block px-3 py-2 hover:bg-slate-800 cursor-pointer"
-                onClick={() => setIsOpen(false)}
-              >
-                Skills
-              </Link>
-              <Link
-                to="projects"
-                spy={true}
-                smooth={true}
-                duration={500}
-                className="block px-3 py-2 hover:bg-slate-800 cursor-pointer"
-                onClick={() => setIsOpen(false)}
-              >
-                Projects
-              </Link>
-              <Link
-                to="contact"
-                spy={true}
-                smooth={true}
-                duration={500}
-                className="block px-3 py-2 hover:bg-slate-800 cursor-pointer"
-                onClick={() => setIsOpen(false)}
-              >
-                Contact
-              </Link>
+              {navItems.map((item, index) => (
+                <Link
+                  key={item}
+                  to={item}
+                  spy={true}
+                  smooth={true}
+                  duration={500}
+                  onClick={() => {
+                    setActiveIndex(index);
+                    setIsOpen(false);
+                  }}
+                  onSetActive={() => setActiveIndex(index)}
+                  className="block px-3 py-2 hover:bg-slate-800 cursor-pointer text-lg"
+                >
+                  {item.charAt(0).toUpperCase() + item.slice(1)}
+                </Link>
+              ))}
             </div>
           </div>
         )}
