@@ -1,7 +1,8 @@
 import React from "react";
 
 const Hero = () => {
-  const profilePic = import.meta.env.VITE_PROFILE_PIC;
+  // Replace the dynamic import of the profile picture with the relative path.
+  const profilePic = "./public/profilepic.jpeg";
 
   return (
     <section
