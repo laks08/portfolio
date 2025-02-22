@@ -15,7 +15,7 @@ const Navbar = () => {
           {/* Pill-Shaped Menu */}
           <div
             className="hidden md:flex items-center relative bg-gray-100 rounded-full backdrop-filter backdrop-blur-md bg-opacity-50 shadow-md p-1"
-            style={{ minWidth: "1000px" }}
+            style={{ minWidth: "800px" }}
           >
             {/* Sliding Pill Indicator */}
             <div
