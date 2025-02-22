@@ -2,7 +2,7 @@ import React from "react";
 import { FaLinkedin, FaGithub, FaEnvelope } from "react-icons/fa"; // Added social media icons
 
 const Hero = () => {
-  const profilePic = "./public/profilepic.jpeg";
+  const profilePic = import.meta.env.BASE_URL + "images/profilepic.jpeg";
 
   return (
     <section
