@@ -9,12 +9,12 @@ const Navbar = () => {
   const navItems = ["home", "education", "experience", "skills", "projects"];
 
   return (
-    <nav className="fixed top-0 w-full text-white z-50">
+    <nav className="fixed top-0 w-full z-50">
       <div className="mx-auto px-4">
         <div className="relative flex items-center justify-center h-16">
           {/* Pill-Shaped Menu */}
           <div
-            className="hidden md:flex items-center relative bg-gray-100 rounded-full backdrop-filter backdrop-blur-md bg-opacity-50 shadow-md p-1"
+            className="hidden md:flex items-center relative bg-slate-800 rounded-full backdrop-filter backdrop-blur-md bg-opacity-50 shadow-md p-1"
             style={{ minWidth: "800px" }}
           >
             {/* Sliding Pill Indicator */}
@@ -38,7 +38,7 @@ const Navbar = () => {
                   className={`flex-1 text-center cursor-pointer p-2 transition-colors duration-300 text-lg mix-blend-difference ${
                     activeIndex === index
                       ? "text-slate-900"
-                      : "text-slate-500 hover:text-slate-300"
+                      : "text-slate-300 hover:text-slate-100"
                   }`}
                 >
                   {item.charAt(0).toUpperCase() + item.slice(1)}
