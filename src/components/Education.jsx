@@ -6,13 +6,13 @@ const Education = () => {
       school: "Northeastern University",
       degree: "Master of Science, Information Systems",
       date: "Dec 2024",
-      logo: "/path/to/northeastern-logo.png", // add correct logo path
+      logo: import.meta.env.BASE_URL + "images/northeastern-logo.svg", // add correct logo path
     },
     {
       school: "Bennett University",
       degree: "Bachelor of Technology, Computer Science Engineering",
       date: "Jun 2020",
-      logo: "/path/to/bennett-logo.png", // add correct logo path
+      logo: import.meta.env.BASE_URL + "images/bennett-logo.png", // add correct logo path
     },
   ];
 
@@ -24,19 +24,24 @@ const Education = () => {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {education.map((edu, index) => (
-            <div key={index} className="bg-gray-50 p-6 rounded-lg shadow-md">
+            <div
+              key={index}
+              className="bg-gray-50 p-6 rounded-lg shadow-md transition transform duration-300 hover:-translate-y-1 hover:shadow-md"
+            >
               <div className="flex justify-between items-center">
-                <h3 className="text-xl font-bold text-blue-600">
-                  {edu.school}
-                </h3>
+                <div>
+                  <h3 className="text-xl font-bold text-blue-600">
+                    {edu.school}
+                  </h3>
+                  <p className="text-gray-700">{edu.degree}</p>
+                  <p className="text-gray-500">{edu.date}</p>
+                </div>
                 <img
                   src={edu.logo}
                   alt={`${edu.school} logo`}
-                  className="w-12 h-12 object-contain"
+                  className="w-28 h-28 object-contain"
                 />
               </div>
-              <p className="text-gray-700">{edu.degree}</p>
-              <p className="text-gray-500">{edu.date}</p>
             </div>
           ))}
         </div>
