@@ -6,7 +6,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   // Added "home" as first item.
-  const navItems = ["home", "education", "experience", "skills", "projects"];
+  const navItems = ["home", "projects", "experience", "skills", "education"];
 
   return (
     <nav className="fixed top-0 w-full z-50">

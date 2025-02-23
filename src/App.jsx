@@ -12,10 +12,10 @@ const App = () => {
     <div className="bg-gray-100 min-h-screen">
       <Navbar />
       <Hero />
-      <Education />
+      <Projects />
       <Experience />
       <Skills />
-      <Projects />
+      <Education />
       <Contact />
     </div>
   );
