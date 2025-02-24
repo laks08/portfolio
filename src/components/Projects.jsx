@@ -59,29 +59,25 @@ const Projects = () => {
       title: "Meal Train",
       description:
         "Developed a React-based Community Food Ordering Platform with RESTful API routes, Express, and MongoDB. Enhanced UX with Tailwind, SASS, and Chakra UI components.",
-      image:
-        import.meta.env.BASE_URL + "public/images/project-img/mealtrain.jpg",
+      image: import.meta.env.BASE_URL + "images/project-img/mealtrain.jpg",
     },
     {
       title: "Job Application Manager",
       description:
         "Built a Java-based Job Application Manager using JavaFX and Scene Builder. Implemented advanced search features and integrated ChatGPT through OpenAI API.",
-      image:
-        import.meta.env.BASE_URL + "public/images/project-img/job-app.jpeg",
+      image: import.meta.env.BASE_URL + "images/project-img/job-app.jpeg",
     },
     {
       title: "Meal Train",
       description:
         "Developed a React-based Community Food Ordering Platform with RESTful API routes, Express, and MongoDB. Enhanced UX with Tailwind, SASS, and Chakra UI components.",
-      image:
-        import.meta.env.BASE_URL + "public/images/project-img/mealtrain.jpg",
+      image: import.meta.env.BASE_URL + "images/project-img/mealtrain.jpg",
     },
     {
       title: "Job Application Manager",
       description:
         "Built a Java-based Job Application Manager using JavaFX and Scene Builder. Implemented advanced search features and integrated ChatGPT through OpenAI API.",
-      image:
-        import.meta.env.BASE_URL + "public/images/project-img/job-app.jpeg",
+      image: import.meta.env.BASE_URL + "images/project-img/job-app.jpeg",
     },
   ];
 
