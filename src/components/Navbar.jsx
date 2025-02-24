@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Link } from "react-scroll";
+import { FaTimes } from "react-icons/fa";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
-  // Added "home" as first item.
   const navItems = ["home", "projects", "skills", "education", "experience"];
 
   return (
@@ -49,16 +49,31 @@ const Navbar = () => {
 
           {/* Mobile Menu Button positioned at top-right */}
           <div className="absolute right-4 md:hidden">
-            <button onClick={() => setIsOpen(!isOpen)}>
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="p-2 bg-white bg-opacity-50 backdrop-filter backdrop-blur-md rounded-full shadow hover:bg-opacity-75 transition"
+            >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Updated Mobile Menu */}
         {isOpen && (
-          <div className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1">
+          <div
+            className="md:hidden fixed top-0 left-0 right-0 z-40 backdrop-filter backdrop-blur-md bg-white bg-opacity-50 rounded-b-2xl transition-transform duration-300"
+            style={{ animation: "slideDown 300ms ease-out forwards" }}
+          >
+            {/* Close button inside mobile menu */}
+            <div className="absolute top-2 right-4">
+              <button
+                onClick={() => setIsOpen(false)}
+                className="text-white text-2xl"
+              >
+                <FaTimes size={24} />
+              </button>
+            </div>
+            <div className="pt-16 px-2 pb-3 space-y-1">
               {navItems.map((item, index) => (
                 <Link
                   key={item}
@@ -71,7 +86,7 @@ const Navbar = () => {
                     setIsOpen(false);
                   }}
                   onSetActive={() => setActiveIndex(index)}
-                  className="block px-3 py-2 hover:bg-slate-800 cursor-pointer text-lg"
+                  className="block px-3 py-2 text-gray-800 hover:bg-gray-200 rounded cursor-pointer text-lg transition-colors duration-300"
                 >
                   {item.charAt(0).toUpperCase() + item.slice(1)}
                 </Link>

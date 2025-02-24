@@ -9,9 +9,9 @@ const Hero = () => {
       id="home"
       className="w-full bg-gradient-to-r from-blue-600 to-blue-800 text-white min-h-screen flex items-center"
     >
-      <div className="max-w-7xl mx-auto px-4 py-16 flex flex-col md:flex-row items-center">
+      <div className="max-w-7xl mx-auto px-4 py-16 flex flex-col-reverse md:flex-row items-center">
         {/* Left: Text */}
-        <div className="flex-1 md:text-left text-center">
+        <div className="flex-1 md:text-left text-center mt-6 md:mt-0">
           <h1 className="text-4xl md:text-6xl font-bold mb-4">Lakshya Gupta</h1>
           <p className="text-xl md:text-2xl mb-8">
             Software Engineer &amp; Data Analyst
@@ -47,7 +47,7 @@ const Hero = () => {
           <img
             src={profilePic}
             alt="Lakshya Gupta"
-            className="w-80 h-80 rounded-full mx-auto mb-4 md:mb-0"
+            className="w-60 h-60 md:w-80 md:h-80 rounded-full mx-auto mb-4 md:mb-0"
           />
         </div>
       </div>
