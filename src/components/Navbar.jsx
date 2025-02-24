@@ -6,7 +6,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   // Added "home" as first item.
-  const navItems = ["home", "projects", "experience", "skills", "education"];
+  const navItems = ["home", "projects", "skills", "education", "experience"];
 
   return (
     <nav className="fixed top-0 w-full z-50">
@@ -15,11 +15,11 @@ const Navbar = () => {
           {/* Pill-Shaped Menu */}
           <div
             className="hidden md:flex items-center relative bg-slate-800 rounded-full backdrop-filter backdrop-blur-md bg-opacity-50 shadow-md p-1"
-            style={{ minWidth: "800px" }}
+            style={{ minWidth: "600px" }}
           >
             {/* Sliding Pill Indicator */}
             <div
-              className="absolute top-0 h-full bg-white rounded-full transition-all duration-300 z-1 shadow-md"
+              className="absolute top-0 h-full bg-white rounded-full transition-all duration-300 z-1 shadow-sm"
               style={{
                 left: `calc(${activeIndex} * (100% / ${navItems.length}))`,
                 width: `calc(100% / ${navItems.length})`,
