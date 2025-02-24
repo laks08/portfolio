@@ -9,30 +9,34 @@ const Projects = () => {
       title: "Meal Train",
       description:
         "Developed a React-based Community Food Ordering Platform with RESTful API routes, Express, and MongoDB. Enhanced UX with Tailwind, SASS, and Chakra UI components.",
-      image: "/api/placeholder/400/320",
+      image:
+        import.meta.env.BASE_URL + "public/images/project-img/mealtrain.jpg",
     },
     {
       title: "Job Application Manager",
       description:
         "Built a Java-based Job Application Manager using JavaFX and Scene Builder. Implemented advanced search features and integrated ChatGPT through OpenAI API.",
-      image: "/api/placeholder/400/320",
+      image:
+        import.meta.env.BASE_URL + "public/images/project-img/job-app.jpeg",
     },
     {
       title: "Meal Train",
       description:
         "Developed a React-based Community Food Ordering Platform with RESTful API routes, Express, and MongoDB. Enhanced UX with Tailwind, SASS, and Chakra UI components.",
-      image: "/api/placeholder/400/320",
+      image:
+        import.meta.env.BASE_URL + "public/images/project-img/mealtrain.jpg",
     },
     {
       title: "Job Application Manager",
       description:
         "Built a Java-based Job Application Manager using JavaFX and Scene Builder. Implemented advanced search features and integrated ChatGPT through OpenAI API.",
-      image: "/api/placeholder/400/320",
+      image:
+        import.meta.env.BASE_URL + "public/images/project-img/job-app.jpeg",
     },
   ];
 
   const settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     speed: 500,
     slidesToShow: 3,
@@ -56,7 +60,7 @@ const Projects = () => {
         <h2 className="text-3xl font-bold mb-8 text-center text-gray-600">
           Projects
         </h2>
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-7xl mx-auto">
           <Slider {...settings}>
             {projects.map((project, index) => (
               <div key={index} className="px-2">
