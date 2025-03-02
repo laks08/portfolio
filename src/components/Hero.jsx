@@ -14,12 +14,14 @@ const Hero = () => {
         <div className="flex-1 md:text-left text-center mt-6 md:mt-0">
           <h1 className="text-4xl md:text-6xl font-bold mb-4">Lakshya Gupta</h1>
           <p className="text-xl md:text-2xl mb-8">
-            Software Engineer &amp; Data Analyst
+            Software Engineer | AI & Data Analyst | Business Intelligence
+            Specialist
           </p>
           <p className="text-lg max-w-2xl">
             A passionate professional with expertise in full-stack development,
-            data analysis, and machine learning. Graduated with a Master's in
-            Information Systems from Northeastern University.
+            data analysis, machine learning, and business intelligence tools.
+            Skilled in building scalable applications, custom dashboards, and
+            predictive analytics solutions.
           </p>
           {/* Social Media Icons */}
           <div className="flex space-x-4 justify-center md:justify-start mt-4">
