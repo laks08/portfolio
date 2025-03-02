@@ -63,7 +63,7 @@ const Projects = () => {
         "Designed to streamline the job application process, this tool leverages the OpenAI API to extract key job description keywords and provide tailored resume enhancements, significantly improving candidate matching.",
       tags: ["Java", "JavaFX", "ChatGPT", "OpenAI API", "Resume Optimization"],
       image: import.meta.env.BASE_URL + "images/project-img/job-app.jpeg",
-      link: "#", // Add your external link here
+      link: "https://github.com/laks08/ai-job-app-manager",
     },
     {
       title: "Community Food Ordering Platform",
@@ -72,7 +72,7 @@ const Projects = () => {
       extendedDescription:
         "This application offers a seamless food ordering experience by integrating Express, MongoDB, and Node.js with a modern React UI enhanced by Tailwind CSS, SASS, and Chakra UI components. Its design prioritizes scalability and user-centric features.",
       tags: [
-        "React",
+        "Next.js",
         "MERN",
         "Express",
         "MongoDB",
@@ -80,7 +80,7 @@ const Projects = () => {
         "Chakra UI",
       ],
       image: import.meta.env.BASE_URL + "images/project-img/mealtrain.jpg",
-      link: "#", // Add your external link here
+      link: "https://github.com/laks08/Meal-Train-Food-Platform",
     },
     {
       title: "Business Intelligence Dashboard",
@@ -123,7 +123,7 @@ const Projects = () => {
         "This mobile app emulates core Signal functionalities including one-click OAuth login, real-time messaging, and integration of multiple social logins. It serves as a strong demonstration of mobile app development using modern frameworks.",
       tags: ["React Native", "Expo", "OAuth", "Firebase", "Mobile App"],
       image: import.meta.env.BASE_URL + "images/project-img/signal.jpg",
-      link: "#", // Add your external link here
+      link: "https://github.com/laks08/Signal-Clone-React-Native",
     },
     {
       title: "Uber Clone App",
@@ -139,7 +139,7 @@ const Projects = () => {
         "Ride-sharing",
       ],
       image: import.meta.env.BASE_URL + "images/project-img/uber.jpg",
-      link: "#", // Add your external link here
+      link: "https://github.com/laks08/Uber-Clone-React-Native",
     },
     {
       title: "Swift ToDo Manager",
@@ -149,7 +149,7 @@ const Projects = () => {
         "Utilizing Swift and Realm for persistent storage along with iCloud sync, this task manager supports custom reminders and notifications across Apple devices, ensuring seamless task management and organization.",
       tags: ["Swift", "iOS", "Apple Watch", "Realm", "Task Management"],
       image: import.meta.env.BASE_URL + "images/project-img/todo.jpg",
-      link: "#", // Add your external link here
+      link: "https://github.com/laks08/Swift-Project-ToDo",
     },
     {
       title: "React Meetups Organizer",
@@ -165,7 +165,7 @@ const Projects = () => {
         "JavaScript",
       ],
       image: import.meta.env.BASE_URL + "images/project-img/meetups.jpg",
-      link: "#", // Add your external link here
+      link: "https://github.com/laks08/react-meetups",
     },
     {
       title: "Currency Converter",
@@ -181,7 +181,7 @@ const Projects = () => {
         "Currency Conversion",
       ],
       image: import.meta.env.BASE_URL + "images/project-img/currency.jpg",
-      link: "#", // Add your external link here
+      link: "https://github.com/laks08/React-CurrencyConverter",
     },
     {
       title: "Flashcards App",
@@ -191,7 +191,7 @@ const Projects = () => {
         "This application allows users to create, edit, and practice with flashcards. With a dedicated quiz mode and dynamic review features, it supports effective study sessions using a simple interface styled with Bootstrap and custom CSS.",
       tags: ["React", "JavaScript", "Bootstrap", "Flashcards", "Study App"],
       image: import.meta.env.BASE_URL + "images/project-img/flash-card.jpg",
-      link: "#", // Add your external link here
+      link: "https://github.com/laks08/React-Flashcard",
     },
     {
       title: "Grocery Shopping Platform",
@@ -201,7 +201,7 @@ const Projects = () => {
         "Built on a service-oriented architecture with Spring Boot, Spring JPA, and RESTful APIs, this project supports multiple sub-applications for admins, shop owners, and end-users. It demonstrates a scalable e-commerce solution with robust backend integration.",
       tags: ["Spring Boot", "Spring JPA", "REST API", "Grocery", "Backend"],
       image: import.meta.env.BASE_URL + "images/project-img/shopping.jpg",
-      link: "#", // Add your external link here
+      link: "https://github.com/laks08/SpringBoot-Project-Grocery",
     },
   ];
 
