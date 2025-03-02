@@ -95,7 +95,7 @@ const Projects = () => {
         "Dashboard",
         "Business Intelligence",
       ],
-      image: import.meta.env.BASE_URL + "images/project-img/bi-dashboard.jpg",
+      image: import.meta.env.BASE_URL + "images/project-img/bi-dash.jpg",
       link: "#", // Add your external link here
     },
     {
@@ -112,9 +112,7 @@ const Projects = () => {
         "Machine Learning",
         "Predictive Analytics",
       ],
-      image:
-        import.meta.env.BASE_URL +
-        "images/project-img/predictive-analytics.jpg",
+      image: import.meta.env.BASE_URL + "images/project-img/pre-analysis.jpg",
       link: "#", // Add your external link here
     },
     {
@@ -124,7 +122,7 @@ const Projects = () => {
       extendedDescription:
         "This mobile app emulates core Signal functionalities including one-click OAuth login, real-time messaging, and integration of multiple social logins. It serves as a strong demonstration of mobile app development using modern frameworks.",
       tags: ["React Native", "Expo", "OAuth", "Firebase", "Mobile App"],
-      image: import.meta.env.BASE_URL + "images/project-img/signal-clone.jpg",
+      image: import.meta.env.BASE_URL + "images/project-img/signal.jpg",
       link: "#", // Add your external link here
     },
     {
@@ -140,7 +138,7 @@ const Projects = () => {
         "Google Maps API",
         "Ride-sharing",
       ],
-      image: import.meta.env.BASE_URL + "images/project-img/uber-clone.jpg",
+      image: import.meta.env.BASE_URL + "images/project-img/uber.jpg",
       link: "#", // Add your external link here
     },
     {
@@ -150,7 +148,7 @@ const Projects = () => {
       extendedDescription:
         "Utilizing Swift and Realm for persistent storage along with iCloud sync, this task manager supports custom reminders and notifications across Apple devices, ensuring seamless task management and organization.",
       tags: ["Swift", "iOS", "Apple Watch", "Realm", "Task Management"],
-      image: import.meta.env.BASE_URL + "images/project-img/todo-app.jpg",
+      image: import.meta.env.BASE_URL + "images/project-img/todo.jpg",
       link: "#", // Add your external link here
     },
     {
@@ -182,8 +180,7 @@ const Projects = () => {
         "Axios",
         "Currency Conversion",
       ],
-      image:
-        import.meta.env.BASE_URL + "images/project-img/currency-converter.jpg",
+      image: import.meta.env.BASE_URL + "images/project-img/currency.jpg",
       link: "#", // Add your external link here
     },
     {
@@ -193,7 +190,7 @@ const Projects = () => {
       extendedDescription:
         "This application allows users to create, edit, and practice with flashcards. With a dedicated quiz mode and dynamic review features, it supports effective study sessions using a simple interface styled with Bootstrap and custom CSS.",
       tags: ["React", "JavaScript", "Bootstrap", "Flashcards", "Study App"],
-      image: import.meta.env.BASE_URL + "images/project-img/flashcards.jpg",
+      image: import.meta.env.BASE_URL + "images/project-img/flash-card.jpg",
       link: "#", // Add your external link here
     },
     {
@@ -203,8 +200,7 @@ const Projects = () => {
       extendedDescription:
         "Built on a service-oriented architecture with Spring Boot, Spring JPA, and RESTful APIs, this project supports multiple sub-applications for admins, shop owners, and end-users. It demonstrates a scalable e-commerce solution with robust backend integration.",
       tags: ["Spring Boot", "Spring JPA", "REST API", "Grocery", "Backend"],
-      image:
-        import.meta.env.BASE_URL + "images/project-img/grocery-platform.jpg",
+      image: import.meta.env.BASE_URL + "images/project-img/shopping.jpg",
       link: "#", // Add your external link here
     },
   ];
