@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isScrolling, setIsScrolling] = useState(false);
   const navItems = ["home", "projects", "skills", "education", "experience"];
   const menuRef = useRef(null);
 
@@ -26,6 +27,18 @@ const Navbar = () => {
 
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isOpen]);
+
+  const handleNavClick = (index) => {
+    setActiveIndex(index);
+    setIsScrolling(true);
+    setTimeout(() => setIsScrolling(false), 600);
+  };
+
+  const handleSetActive = (index) => {
+    if (!isScrolling) {
+      setActiveIndex(index);
+    }
+  };
 
   return (
     <nav className="fixed top-0 w-full z-50">
@@ -52,8 +65,8 @@ const Navbar = () => {
                   spy={true}
                   smooth={true}
                   duration={500}
-                  onClick={() => setActiveIndex(index)}
-                  onSetActive={() => setActiveIndex(index)}
+                  onClick={() => handleNavClick(index)}
+                  onSetActive={() => handleSetActive(index)}
                   className={`flex-1 text-center cursor-pointer p-2 transition-colors duration-300 text-lg mix-blend-difference ${
                     activeIndex === index
                       ? "text-slate-900"
@@ -106,10 +119,10 @@ const Navbar = () => {
                     smooth={true}
                     duration={500}
                     onClick={() => {
-                      setActiveIndex(index);
+                      handleNavClick(index);
                       setIsOpen(false);
                     }}
-                    onSetActive={() => setActiveIndex(index)}
+                    onSetActive={() => handleSetActive(index)}
                     className="block px-3 py-2 text-white hover:bg-gray-200 rounded cursor-pointer text-lg transition-colors duration-300"
                   >
                     {item.charAt(0).toUpperCase() + item.slice(1)}
