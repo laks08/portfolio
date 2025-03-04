@@ -85,18 +85,18 @@ const Projects = () => {
     {
       title: "Business Intelligence Dashboard",
       description:
-        "Implemented a robust BI dashboard using Power BI, Salesforce CLI, and REST APIs to streamline data reporting.",
+        "Implemented a robust BI dashboard using Power BI, Salesforce API, and REST APIs to streamline data reporting.",
       extendedDescription:
         "This dashboard consolidates data from multiple sources into dynamic visualizations, enhancing client engagement and reducing reporting hours. Its integration of custom API calls provides real-time insights for strategic decision-making.",
       tags: [
         "Power BI",
-        "Salesforce CLI",
+        "Salesforce API",
         "REST APIs",
         "Dashboard",
         "Business Intelligence",
       ],
       image: import.meta.env.BASE_URL + "images/project-img/bi-dash.jpg",
-      link: "#", // Add your external link here
+      link: "https://github.com",
     },
     {
       title: "Predictive Analytics Engine",
@@ -113,7 +113,7 @@ const Projects = () => {
         "Predictive Analytics",
       ],
       image: import.meta.env.BASE_URL + "images/project-img/pre-analysis.jpg",
-      link: "#", // Add your external link here
+      link: "https://github.com",
     },
     {
       title: "Signal Clone App",
@@ -144,40 +144,34 @@ const Projects = () => {
     {
       title: "Swift ToDo Manager",
       description:
-        "A cross-platform to-do list application for iOS, iPad, and Apple Watch developed in Swift.",
+        "A cross-platform to-do list application for iOS developed in Swift.",
       extendedDescription:
-        "Utilizing Swift and Realm for persistent storage along with iCloud sync, this task manager supports custom reminders and notifications across Apple devices, ensuring seamless task management and organization.",
-      tags: ["Swift", "iOS", "Apple Watch", "Realm", "Task Management"],
+        "Utilizing Swift for persistent storage, this task manager supports custom reminders and notifications, ensuring seamless task management and organization.",
+      tags: ["Swift", "iOS", "Task Management"],
       image: import.meta.env.BASE_URL + "images/project-img/todo.jpg",
       link: "https://github.com/laks08/Swift-Project-ToDo",
     },
     {
       title: "React Meetups Organizer",
       description:
-        "A React-based event management platform for organizing meetups with real-time Firebase integration.",
+        "A React-based event management platform for organizing meetups.",
       extendedDescription:
-        "This tool allows users to create, join, and manage events with real-time updates. Its backend is powered by Firebase, ensuring robust authentication and data management while offering an intuitive, responsive interface.",
-      tags: [
-        "React",
-        "Firebase",
-        "Event Management",
-        "Real-time",
-        "JavaScript",
-      ],
+        "This tool allows users to create, join, and manage events with real-time updates. Its intuitive and has responsive interface. Simple but effective, it showcases the power of React for dynamic web applications.",
+      tags: ["React", "Event Management", "Real-time", "JavaScript"],
       image: import.meta.env.BASE_URL + "images/project-img/meetups.jpg",
       link: "https://github.com/laks08/react-meetups",
     },
     {
       title: "Currency Converter",
       description:
-        "A real-time currency conversion app built with React, TypeScript, and Bootstrap.",
+        "A real-time currency conversion app built with React, TypeScript, and Chakra UI components library.",
       extendedDescription:
-        "Fetching live exchange rates via API, this application supports over 150 currencies. Built with Axios for API calls and Moment.js for date handling, it offers a clean, responsive interface ideal for quick financial calculations.",
+        "Fetching live exchange rates via API, this application supports over 150 currencies. Offers a clean, responsive interface ideal for quick financial calculations.",
       tags: [
         "React",
         "TypeScript",
-        "Bootstrap",
-        "Axios",
+        "Chakra UI",
+        "API Integration",
         "Currency Conversion",
       ],
       image: import.meta.env.BASE_URL + "images/project-img/currency.jpg",
@@ -189,7 +183,14 @@ const Projects = () => {
         "An interactive flashcard application built with React to aid in exam preparation.",
       extendedDescription:
         "This application allows users to create, edit, and practice with flashcards. With a dedicated quiz mode and dynamic review features, it supports effective study sessions using a simple interface styled with Bootstrap and custom CSS.",
-      tags: ["React", "JavaScript", "Bootstrap", "Flashcards", "Study App"],
+      tags: [
+        "React",
+        "JavaScript",
+        "Bootstrap",
+        "Flashcards",
+        "Study App",
+        "Axios",
+      ],
       image: import.meta.env.BASE_URL + "images/project-img/flash-card.jpg",
       link: "https://github.com/laks08/React-Flashcard",
     },
