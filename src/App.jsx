@@ -6,8 +6,11 @@ import Education from "./components/Education";
 import Skills from "./components/Skills";
 import Projects from "./components/Projects";
 import Contact from "./components/Contact";
+import useDisableRightClick from "./hooks/useDisableRightClick";
 
 const App = () => {
+  useDisableRightClick();
+
   return (
     <div className="bg-gray-100 min-h-screen">
       <Navbar />
