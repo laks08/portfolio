@@ -8,7 +8,6 @@ const Education = () => {
       degree: "Master of Science, Information Systems",
       date: "Dec 2024",
       location: "Boston, Massachusetts",
-      gpa: "3.8/4.0",
       courses: [
         "Application Engineering Development",
         "Web Design and User Experience",
@@ -22,7 +21,6 @@ const Education = () => {
       degree: "Bachelor of Technology, Computer Science Engineering",
       date: "Jun 2020",
       location: "Greater Noida, India",
-      gpa: "3.7/4.0",
       courses: [
         "Data Structures and Algorithms",
         "Object-Oriented Programming",
@@ -128,8 +126,8 @@ const Education = () => {
                     </h4>
                     <div className="flex flex-wrap items-center gap-2 sm:gap-4 mt-1 text-sm sm:text-base">
                       <span className="text-gray-400">{edu.date}</span>
-                      <span className="text-gray-400 hidden sm:inline">|</span>
-                      <span className="text-gray-400">GPA: {edu.gpa}</span>
+                      {/* <span className="text-gray-400 hidden sm:inline">|</span> */}
+                      {/* <span className="text-gray-400">GPA: {edu.gpa}</span> */}
                     </div>
                   </div>
 
