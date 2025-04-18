@@ -297,10 +297,18 @@ const Skills = () => {
         }
 
         @media (max-width: 768px) {
+          .hexagon-grid {
+            justify-content: flex-start;
+            padding-left: 1rem;
+            scroll-padding-left: 1rem;
+            scroll-snap-type: x mandatory;
+          }
+
           .hexagon-wrapper {
             flex: 0 0 150px;
             width: 150px;
             padding-top: 173px;
+            scroll-snap-align: start;
           }
 
           .hexagon-content {
