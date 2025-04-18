@@ -175,25 +175,23 @@ const Skills = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 20 }}
-              className="mt-8 lg:mt-16 mx-4 lg:mx-auto max-w-4xl bg-white/5 backdrop-blur-lg rounded-xl p-4 sm:p-6 lg:p-8 border border-white/10"
+              className="mt-16 bg-white/5 backdrop-blur-lg rounded-xl p-8 border border-white/10"
             >
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
+              <div className="flex items-center justify-between mb-8">
                 <div className="flex items-center">
-                  <span className="text-3xl sm:text-4xl mr-3 sm:mr-4">
-                    {selectedCategory.icon}
-                  </span>
-                  <h3 className="text-xl sm:text-2xl font-bold text-white">
+                  <span className="text-4xl mr-4">{selectedCategory.icon}</span>
+                  <h3 className="text-2xl font-bold text-white">
                     {selectedCategory.title}
                   </h3>
                 </div>
                 <button
                   onClick={() => setSelectedCategory(null)}
-                  className="text-gray-400 hover:text-white transition-colors ml-auto sm:ml-0"
+                  className="text-gray-400 hover:text-white transition-colors"
                 >
                   ✕
                 </button>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {selectedCategory.skills.map((skill, idx) => (
                   <motion.div
                     key={skill.name}
@@ -204,18 +202,18 @@ const Skills = () => {
                   >
                     <div className="flex justify-between items-center mb-2">
                       <div>
-                        <span className="text-sm sm:text-base text-white font-medium group-hover:text-blue-400 transition-colors">
+                        <span className="text-white font-medium group-hover:text-blue-400 transition-colors">
                           {skill.name}
                         </span>
-                        <span className="text-xs sm:text-sm text-gray-500 ml-2">
+                        <span className="text-gray-500 text-sm ml-2">
                           {skill.years} {skill.years === 1 ? "year" : "years"}
                         </span>
                       </div>
-                      <span className="text-xs sm:text-sm text-gray-400">
+                      <span className="text-gray-400 text-sm">
                         {skill.level}%
                       </span>
                     </div>
-                    <div className="h-1.5 sm:h-2 bg-gray-800 rounded-full overflow-hidden">
+                    <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
                       <motion.div
                         className={`h-full bg-gradient-to-r ${selectedCategory.color}`}
                         initial={{ width: 0 }}
@@ -234,56 +232,29 @@ const Skills = () => {
       <style jsx>{`
         .hexagon-grid {
           display: flex;
-          justify-content: flex-start;
+          justify-content: center;
           align-items: center;
-          gap: 1rem;
-          max-width: 100%;
+          gap: 2rem;
+          max-width: 1400px;
           margin: 0 auto;
-          padding: 1rem;
+          padding: 2rem;
+          flex-wrap: nowrap;
           overflow-x: auto;
           -webkit-overflow-scrolling: touch;
-          scrollbar-width: none;
-          -ms-overflow-style: none;
-          scroll-snap-type: x mandatory;
-          scroll-padding: 1rem;
+          scrollbar-width: none; /* Firefox */
+          -ms-overflow-style: none; /* Internet Explorer 10+ */
+          padding-bottom: 2rem;
         }
 
         .hexagon-grid::-webkit-scrollbar {
-          display: none;
+          display: none; /* WebKit */
         }
 
         .hexagon-wrapper {
-          flex: 0 0 auto;
-          width: 160px;
-          padding-top: 184px;
+          flex: 0 0 200px;
+          width: 200px;
+          padding-top: 230px;
           position: relative;
-          scroll-snap-align: start;
-        }
-
-        @media (min-width: 640px) {
-          .hexagon-grid {
-            gap: 1.5rem;
-            padding: 1.5rem;
-          }
-
-          .hexagon-wrapper {
-            width: 180px;
-            padding-top: 207px;
-          }
-        }
-
-        @media (min-width: 1024px) {
-          .hexagon-grid {
-            justify-content: center;
-            gap: 2rem;
-            padding: 2rem;
-            max-width: 1400px;
-          }
-
-          .hexagon-wrapper {
-            width: 200px;
-            padding-top: 230px;
-          }
         }
 
         .hexagon {
@@ -309,18 +280,32 @@ const Skills = () => {
           transform: translate(-50%, -50%);
           text-align: center;
           width: 100%;
-          padding: 0.5rem;
-        }
-
-        @media (min-width: 640px) {
-          .hexagon-content {
-            padding: 1rem;
-          }
+          padding: 1rem;
         }
 
         .even,
         .odd {
           transform: none;
+        }
+
+        @media (max-width: 1200px) {
+          .hexagon-wrapper {
+            flex: 0 0 180px;
+            width: 180px;
+            padding-top: 207px;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .hexagon-wrapper {
+            flex: 0 0 150px;
+            width: 150px;
+            padding-top: 173px;
+          }
+
+          .hexagon-content {
+            padding: 0.5rem;
+          }
         }
       `}</style>
     </motion.section>

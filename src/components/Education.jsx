@@ -93,7 +93,15 @@ const Education = () => {
               `}
             >
               {/* Timeline Dot - Desktop */}
-              <div className="hidden lg:block absolute top-0 left-0 lg:top-1/2 lg:left-0 transform lg:-translate-x-[1.65rem] lg:-translate-y-1/2">
+              <div
+                className={`hidden lg:block absolute top-0 lg:top-1/2 transform
+                ${
+                  index % 2 === 0
+                    ? "left-0 lg:-translate-x-[1.65rem]"
+                    : "right-0 lg:translate-x-[1.65rem]"
+                } 
+                lg:-translate-y-1/2`}
+              >
                 <div className="w-6 h-6 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full border-4 border-gray-900" />
               </div>
 
