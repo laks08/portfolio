@@ -325,15 +325,15 @@ const Projects = () => {
 
   return (
     <section
-      className="py-20 bg-gradient-to-b from-gray-900 to-black relative overflow-hidden"
+      className="py-20 relative overflow-hidden bg-slate-200 dark:bg-gray-900"
       id="projects"
     >
       {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-[0.02]">
+      <div className="absolute inset-0 opacity-[0.03]">
         <div
           className="absolute inset-0"
           style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M30 0l30 30-30 30L0 30z'/%3E%3C/g%3E%3C/svg%3E")`,
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23000000' fill-opacity='0.1'%3E%3Cpath d='M30 0l30 30-30 30L0 30z'/%3E%3C/g%3E%3C/svg%3E")`,
             backgroundSize: "30px 30px",
           }}
         />
@@ -346,10 +346,10 @@ const Projects = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl font-bold text-white mb-4">
+          <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
             Featured Projects
           </h2>
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+          <p className="text-gray-600 dark:text-gray-400 text-lg max-w-2xl mx-auto">
             A collection of projects that showcase my passion for building
             innovative solutions
           </p>
@@ -359,7 +359,7 @@ const Projects = () => {
         <div className="flex justify-between items-center mb-8">
           <motion.button
             onClick={handlePlayPause}
-            className="px-4 py-2 bg-gray-800/80 backdrop-blur-sm rounded-full text-white hover:bg-gray-700/80 transition-colors flex items-center gap-2"
+            className="px-4 py-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full text-gray-900 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700/80 transition-all duration-300 flex items-center gap-2 shadow-sm"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -395,7 +395,7 @@ const Projects = () => {
                 >
                   <motion.div
                     layout
-                    className="relative rounded-xl bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 transition-all duration-300 hover:border-blue-500/50 h-[550px]"
+                    className="relative rounded-xl bg-white dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-700/50 transition-all duration-300 hover:border-blue-500/50 h-[550px] shadow-md hover:shadow-xl"
                     animate={{
                       scale: hoveredIndex === index ? 1.05 : 1,
                     }}
@@ -414,11 +414,14 @@ const Projects = () => {
                     <motion.div layout className="p-6">
                       <motion.h3
                         layout
-                        className="text-xl font-bold text-white mb-2 group-hover:text-blue-400 transition-colors"
+                        className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors"
                       >
                         {project.title}
                       </motion.h3>
-                      <motion.p layout className="text-gray-400 text-sm mb-4">
+                      <motion.p
+                        layout
+                        className="text-gray-600 dark:text-gray-400 text-sm mb-4"
+                      >
                         {hoveredIndex === index
                           ? project.extendedDescription
                           : project.description}
@@ -433,14 +436,14 @@ const Projects = () => {
                           <motion.span
                             key={tagIndex}
                             layout
-                            className="px-2 py-1 text-xs rounded-full text-blue-300 bg-blue-900/30 border border-blue-800/50"
+                            className="px-2 py-1 text-xs rounded-full text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-900/30 border border-blue-100 dark:border-blue-800/50"
                             whileHover={{ scale: 1.05 }}
                           >
                             {tag}
                           </motion.span>
                         ))}
                         {hoveredIndex !== index && project.tags.length > 4 && (
-                          <span className="text-gray-400 text-xs">
+                          <span className="text-gray-500 dark:text-gray-400 text-xs">
                             +{project.tags.length - 4} more
                           </span>
                         )}
@@ -453,10 +456,10 @@ const Projects = () => {
                             href={project.link}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center gap-2 px-3 py-1.5 bg-blue-600/20 text-blue-400 rounded-full hover:bg-blue-600/30 transition-colors text-sm"
+                            className="flex items-center gap-2 px-3 py-1.5 bg-blue-50 dark:bg-blue-600/20 text-blue-700 dark:text-blue-400 rounded-full hover:bg-blue-100 dark:hover:bg-blue-600/30 transition-colors text-sm shadow-sm"
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            onClick={(e) => e.stopPropagation()} // Prevent card click when clicking link
+                            onClick={(e) => e.stopPropagation()}
                           >
                             <FiGithub size={16} />
                             <span>View Project</span>
@@ -467,10 +470,10 @@ const Projects = () => {
                             href={project.demoLink}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center gap-2 px-3 py-1.5 bg-rose-600/20 text-rose-400 rounded-full hover:bg-rose-600/30 transition-colors text-sm"
+                            className="flex items-center gap-2 px-3 py-1.5 bg-rose-50 dark:bg-rose-600/20 text-rose-700 dark:text-rose-400 rounded-full hover:bg-rose-100 dark:hover:bg-rose-600/30 transition-colors text-sm shadow-sm"
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            onClick={(e) => e.stopPropagation()} // Prevent card click when clicking link
+                            onClick={(e) => e.stopPropagation()}
                           >
                             <FiExternalLink size={16} />
                             <span>Demo</span>

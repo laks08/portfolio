@@ -104,18 +104,18 @@ const Skills = () => {
 
   return (
     <motion.section
-      className="py-20 bg-gray-900 relative overflow-hidden"
+      className="py-20 bg-slate-200 dark:bg-gray-900 relative overflow-hidden"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
       id="skills"
     >
       {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-[0.02]">
+      <div className="absolute inset-0 opacity-[0.03]">
         <div
           className="absolute inset-0"
           style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M50 0l25 25-25 25-25-25z'/%3E%3Cpath d='M0 50l25 25-25 25v-50z'/%3E%3Cpath d='M100 50l-25 25 25 25v-50z'/%3E%3C/g%3E%3C/svg%3E")`,
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23000000' fill-opacity='0.1'%3E%3Cpath d='M50 0l25 25-25 25-25-25z'/%3E%3Cpath d='M0 50l25 25-25 25v-50z'/%3E%3Cpath d='M100 50l-25 25 25 25v-50z'/%3E%3C/g%3E%3C/svg%3E")`,
             backgroundSize: "50px 50px",
           }}
         />
@@ -124,7 +124,7 @@ const Skills = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div className="text-center mb-16">
           <motion.h2
-            className="text-4xl font-bold text-white mb-4"
+            className="text-4xl font-bold text-gray-900 dark:text-white mb-4"
             initial={{ opacity: 0, y: -20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -132,7 +132,7 @@ const Skills = () => {
             Technical Expertise
           </motion.h2>
           <motion.p
-            className="text-gray-400 text-lg"
+            className="text-gray-600 dark:text-gray-400 text-lg"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -175,18 +175,18 @@ const Skills = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 20 }}
-              className="mt-16 bg-white/5 backdrop-blur-lg rounded-xl p-8 border border-white/10"
+              className="mt-16 bg-white/80 dark:bg-gray-800/50 backdrop-blur-lg rounded-xl p-8 border border-gray-200 dark:border-gray-700/50 shadow-lg"
             >
               <div className="flex items-center justify-between mb-8">
                 <div className="flex items-center">
                   <span className="text-4xl mr-4">{selectedCategory.icon}</span>
-                  <h3 className="text-2xl font-bold text-white">
+                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
                     {selectedCategory.title}
                   </h3>
                 </div>
                 <button
                   onClick={() => setSelectedCategory(null)}
-                  className="text-gray-400 hover:text-white transition-colors"
+                  className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors"
                 >
                   ✕
                 </button>
@@ -202,18 +202,18 @@ const Skills = () => {
                   >
                     <div className="flex justify-between items-center mb-2">
                       <div>
-                        <span className="text-white font-medium group-hover:text-blue-400 transition-colors">
+                        <span className="text-gray-900 dark:text-white font-medium group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                           {skill.name}
                         </span>
-                        <span className="text-gray-500 text-sm ml-2">
+                        <span className="text-gray-500 dark:text-gray-400 text-sm ml-2">
                           {skill.years} {skill.years === 1 ? "year" : "years"}
                         </span>
                       </div>
-                      <span className="text-gray-400 text-sm">
+                      <span className="text-gray-600 dark:text-gray-400 text-sm">
                         {skill.level}%
                       </span>
                     </div>
-                    <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
+                    <div className="h-2 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
                       <motion.div
                         className={`h-full bg-gradient-to-r ${selectedCategory.color}`}
                         initial={{ width: 0 }}
@@ -241,13 +241,13 @@ const Skills = () => {
           flex-wrap: nowrap;
           overflow-x: auto;
           -webkit-overflow-scrolling: touch;
-          scrollbar-width: none; /* Firefox */
-          -ms-overflow-style: none; /* Internet Explorer 10+ */
+          scrollbar-width: none;
+          -ms-overflow-style: none;
           padding-bottom: 2rem;
         }
 
         .hexagon-grid::-webkit-scrollbar {
-          display: none; /* WebKit */
+          display: none;
         }
 
         .hexagon-wrapper {
@@ -271,6 +271,8 @@ const Skills = () => {
             0% 75%,
             0% 25%
           );
+          backdrop-filter: blur(8px);
+          transition: all 0.3s ease;
         }
 
         .hexagon-content {
@@ -281,6 +283,7 @@ const Skills = () => {
           text-align: center;
           width: 100%;
           padding: 1rem;
+          color: white;
         }
 
         .even,
