@@ -1,26 +1,37 @@
-import React from "react";
-import Navbar from "./components/Navbar";
+import React, { useEffect } from "react";
 import Hero from "./components/Hero";
-import Experience from "./components/Experience";
-import Education from "./components/Education";
-import Skills from "./components/Skills";
 import Projects from "./components/Projects";
+import Skills from "./components/Skills";
+import Education from "./components/Education";
+import Experience from "./components/Experience";
 import Contact from "./components/Contact";
-import useDisableRightClick from "./hooks/useDisableRightClick";
+import { ThemeProvider } from "./context/ThemeContext";
+import Navbar from "./components/Navbar";
 
 const App = () => {
-  useDisableRightClick();
+  useEffect(() => {
+    const handleContextMenu = (e) => {
+      e.preventDefault();
+    };
+
+    document.addEventListener("contextmenu", handleContextMenu);
+    return () => {
+      document.removeEventListener("contextmenu", handleContextMenu);
+    };
+  }, []);
 
   return (
-    <div className="bg-gray-100 min-h-screen">
-      <Navbar />
-      <Hero />
-      <Projects />
-      <Skills />
-      <Education />
-      <Experience />
-      <Contact />
-    </div>
+    <ThemeProvider>
+      <div className="min-h-screen transition-colors duration-300 dark:bg-gray-900 bg-slate-200">
+        <Navbar />
+        <Hero />
+        <Projects />
+        <Skills />
+        <Education />
+        <Experience />
+        <Contact />
+      </div>
+    </ThemeProvider>
   );
 };
 

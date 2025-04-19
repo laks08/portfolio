@@ -1,8 +1,11 @@
 import React from "react";
 import { FaLinkedin, FaGithub, FaEnvelope } from "react-icons/fa";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { FiMoon, FiSun } from "react-icons/fi";
+import { useTheme } from "../context/ThemeContext";
 
 const Hero = () => {
+  const { isDark, toggleTheme } = useTheme();
   const profilePic = import.meta.env.BASE_URL + "images/profilepic.jpeg";
 
   const socialLinks = [
@@ -10,55 +13,65 @@ const Hero = () => {
       icon: FaLinkedin,
       url: "https://www.linkedin.com/in/lakshyagupta-/",
       label: "LinkedIn",
-      color: "hover:text-blue-400",
+      color: "hover:text-blue-600 dark:hover:text-blue-400",
     },
     {
       icon: FaGithub,
       url: "https://github.com/laks08",
       label: "GitHub",
-      color: "hover:text-gray-400",
+      color: "hover:text-gray-900 dark:hover:text-gray-400",
     },
     {
       icon: FaEnvelope,
       url: "mailto:lakshyagupta997@gmail.com",
       label: "Email",
-      color: "hover:text-red-400",
+      color: "hover:text-red-600 dark:hover:text-red-400",
     },
   ];
 
   return (
     <section
-      className="relative min-h-screen overflow-hidden bg-gray-900"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden"
       id="home"
     >
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute w-full h-full">
-          {[...Array(20)].map((_, i) => (
+      {/* Theme Toggle Button */}
+      <div className="absolute top-4 left-4 md:top-6 md:left-6 z-50">
+        <motion.button
+          onClick={toggleTheme}
+          className="p-2 md:p-3 rounded-full bg-white/80 dark:bg-gray-800/80 text-gray-900 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700/80 transition-colors duration-300 backdrop-blur-sm shadow-lg"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          aria-label="Toggle theme"
+        >
+          <AnimatePresence mode="wait">
             <motion.div
-              key={i}
-              className="absolute rounded-full bg-blue-500/10"
-              style={{
-                width: Math.random() * 300 + 50,
-                height: Math.random() * 300 + 50,
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-              }}
-              animate={{
-                x: [0, Math.random() * 100 - 50],
-                y: [0, Math.random() * 100 - 50],
-                scale: [1, Math.random() + 0.5],
-              }}
-              transition={{
-                duration: Math.random() * 10 + 10,
-                repeat: Infinity,
-                repeatType: "reverse",
-                ease: "easeInOut",
-              }}
-            />
-          ))}
+              key={isDark ? "dark" : "light"}
+              initial={{ y: -20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: 20, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              {isDark ? <FiSun size={24} /> : <FiMoon size={24} />}
+            </motion.div>
+          </AnimatePresence>
+        </motion.button>
+      </div>
+
+      {/* Background Pattern and Gradient */}
+      <div className="absolute inset-0 overflow-hidden transition-colors duration-700">
+        {/* Simple background */}
+        <div className="absolute inset-0 bg-slate-200 dark:bg-gray-900 transition-colors duration-700" />
+
+        {/* Subtle pattern overlay */}
+        <div className="absolute inset-0 opacity-[0.03]">
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23000000' fill-opacity='0.1'%3E%3Cpath d='M30 0l30 30-30 30L0 30z'/%3E%3C/g%3E%3C/svg%3E")`,
+              backgroundSize: "30px 30px",
+            }}
+          />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-900/95 to-gray-900" />
       </div>
 
       {/* Content */}
@@ -133,7 +146,7 @@ const Hero = () => {
                 }}
               />
               {/* Profile picture */}
-              <div className="absolute inset-6 rounded-full overflow-hidden bg-gradient-to-br from-blue-600 to-purple-600 p-1">
+              <div className="absolute inset-6 rounded-full overflow-hidden bg-gradient-to-br from-blue-600 to-purple-600 p-1 shadow-xl">
                 <img
                   src={profilePic}
                   alt="Lakshya Gupta"
@@ -158,10 +171,10 @@ const Hero = () => {
                 transition={{ duration: 0.5 }}
                 className="inline-block"
               >
-                <span className="text-blue-400 font-medium mb-2 block">
+                <span className="text-blue-600 dark:text-blue-400 font-medium mb-2 block">
                   👋 Hi, I'm
                 </span>
-                <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-white">
+                <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-gray-900 dark:text-white">
                   Lakshya Gupta
                 </h1>
               </motion.div>
@@ -169,7 +182,7 @@ const Hero = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
-                className="text-xl sm:text-2xl lg:text-3xl font-medium text-gray-400"
+                className="text-xl sm:text-2xl lg:text-3xl font-medium text-gray-600 dark:text-gray-400"
               >
                 Software Engineer | AI & Data Analyst
               </motion.h2>
@@ -180,7 +193,7 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-base sm:text-lg text-gray-300 max-w-2xl mx-auto lg:mx-0 leading-relaxed"
+              className="text-base sm:text-lg text-gray-700 dark:text-gray-300 max-w-2xl mx-auto lg:mx-0 leading-relaxed"
             >
               A passionate professional with expertise in full-stack
               development, data analysis, machine learning, and business
@@ -197,7 +210,7 @@ const Hero = () => {
             >
               <a
                 href="#contact"
-                className="px-6 sm:px-8 py-3 bg-blue-600 text-white rounded-full font-medium hover:bg-blue-700 transition-colors duration-300 inline-flex items-center group"
+                className="px-6 sm:px-8 py-3 bg-blue-600 text-white rounded-full font-medium hover:bg-blue-700 transition-colors duration-300 inline-flex items-center group shadow-lg hover:shadow-xl"
               >
                 Get in Touch
                 <svg
@@ -216,7 +229,7 @@ const Hero = () => {
               </a>
               <a
                 href="#projects"
-                className="px-6 sm:px-8 py-3 border border-gray-600 text-gray-300 rounded-full font-medium hover:border-blue-400 hover:text-blue-400 transition-colors duration-300"
+                className="px-6 sm:px-8 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-full font-medium hover:border-blue-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300 shadow-lg hover:shadow-xl"
               >
                 View Projects
               </a>
@@ -237,7 +250,7 @@ const Hero = () => {
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
-                  className={`text-gray-400 transition-colors duration-300 ${social.color}`}
+                  className={`text-gray-600 dark:text-gray-400 transition-colors duration-300 ${social.color}`}
                 >
                   <social.icon size={28} />
                 </motion.a>

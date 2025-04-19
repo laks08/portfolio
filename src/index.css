@@ -2,6 +2,44 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Global styles */
+* {
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* Remove focus outlines */
+button:focus,
+a:focus {
+  outline: none !important;
+}
+
+/* Disable text selection for specific elements if needed */
+img, button, a {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+}
+
+/* Custom focus styles if needed */
+button:focus-visible,
+a:focus-visible {
+  @apply ring-2 ring-blue-500/50 ring-offset-2 ring-offset-transparent;
+}
+
+/* Enable text selection for specific elements if needed */
+.selectable {
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+}
+
 /* Prevent image dragging */
 img {
   -webkit-user-drag: none;
