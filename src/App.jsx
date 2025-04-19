@@ -7,6 +7,7 @@ import Experience from "./components/Experience";
 import Contact from "./components/Contact";
 import { ThemeProvider } from "./context/ThemeContext";
 import Navbar from "./components/Navbar";
+import FloatingContactButton from "./components/FloatingContactButton";
 
 const App = () => {
   useEffect(() => {
@@ -30,6 +31,7 @@ const App = () => {
         <Education />
         <Experience />
         <Contact />
+        <FloatingContactButton />
       </div>
     </ThemeProvider>
   );
