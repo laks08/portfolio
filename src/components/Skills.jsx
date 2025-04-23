@@ -1,8 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 const Skills = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const scrollContainerRef = useRef(null);
+
+  const handleScroll = (direction) => {
+    if (scrollContainerRef.current) {
+      const container = scrollContainerRef.current;
+      const scrollAmount = 200; // Adjust this value based on your needs
+      const newScrollPosition =
+        container.scrollLeft +
+        (direction === "left" ? -scrollAmount : scrollAmount);
+
+      container.scrollTo({
+        left: newScrollPosition,
+        behavior: "smooth",
+      });
+    }
+  };
 
   const skillCategories = [
     {
@@ -141,7 +158,28 @@ const Skills = () => {
           </motion.p>
         </div>
 
+        {/* Navigation Buttons - Only visible on mobile */}
+        <div className="flex justify-between items-center mb-8 lg:hidden">
+          <motion.button
+            onClick={() => handleScroll("left")}
+            className="p-3 bg-gray-800/80 backdrop-blur-sm rounded-full text-white hover:bg-gray-700/80 transition-colors"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+          >
+            <FiChevronLeft size={24} />
+          </motion.button>
+          <motion.button
+            onClick={() => handleScroll("right")}
+            className="p-3 bg-gray-800/80 backdrop-blur-sm rounded-full text-white hover:bg-gray-700/80 transition-colors"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+          >
+            <FiChevronRight size={24} />
+          </motion.button>
+        </div>
+
         <motion.div
+          ref={scrollContainerRef}
           className="hexagon-grid"
           initial="hidden"
           whileInView="visible"
@@ -244,6 +282,7 @@ const Skills = () => {
           scrollbar-width: none;
           -ms-overflow-style: none;
           padding-bottom: 2rem;
+          scroll-behavior: smooth;
         }
 
         .hexagon-grid::-webkit-scrollbar {
