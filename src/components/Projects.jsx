@@ -101,7 +101,7 @@ const Projects = () => {
       ],
       image:
         import.meta.env.BASE_URL + "images/project-img/boston-weather-etl.jpg",
-      link: "https://github.com/laks08/weather-etl",
+      link: "https://github.com/laks08/weather-pipeline",
       showProjectLink: true,
       showDemoLink: false,
     },
