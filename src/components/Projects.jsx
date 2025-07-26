@@ -84,6 +84,28 @@ const Projects = () => {
 
   const projects = [
     {
+      title: "Boston Weather Data ETL Pipeline",
+      description:
+        "A comprehensive weather data pipeline using the 4D Stack (DuckDB, DBT, Dagster, Docker) that fetches Boston weather data from the National Weather Service API.",
+      extendedDescription:
+        "Built with modern data engineering practices, this pipeline orchestrates real-time weather data collection, processing, and transformation. Features automated scheduling with Dagster, efficient analytical storage with DuckDB, data transformation with DBT, and full containerization with Docker for seamless deployment.",
+      tags: [
+        "Python",
+        "DuckDB",
+        "DBT",
+        "Dagster",
+        "Docker",
+        "ETL",
+        "Data Engineering",
+        "Weather API",
+      ],
+      image:
+        import.meta.env.BASE_URL + "images/project-img/boston-weather-etl.jpg",
+      link: "https://github.com/laks08/weather-etl",
+      showProjectLink: true,
+      showDemoLink: false,
+    },
+    {
       title: "AI-Powered Job Application Manager",
       description:
         "Built a Java-based Job Application Manager with JavaFX and Scene Builder, featuring advanced search and ChatGPT integration for resume optimization.",
