@@ -4,6 +4,7 @@ import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 const Skills = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [showScrollHint, setShowScrollHint] = useState(true);
   const scrollContainerRef = useRef(null);
 
   const handleScroll = (direction) => {
@@ -18,7 +19,15 @@ const Skills = () => {
         left: newScrollPosition,
         behavior: "smooth",
       });
+
+      // Hide scroll hint after user interaction
+      setShowScrollHint(false);
     }
+  };
+
+  // Handle scroll to hide hint
+  const handleContainerScroll = () => {
+    setShowScrollHint(false);
   };
 
   const skillCategories = [
@@ -97,6 +106,13 @@ const Skills = () => {
   const HexagonCard = ({ category, index }) => {
     const isSelected = selectedCategory?.title === category.title;
 
+    const handleKeyPress = (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        setSelectedCategory(isSelected ? null : category);
+      }
+    };
+
     return (
       <div className={`hexagon-wrapper ${index % 2 === 0 ? "even" : "odd"}`}>
         <div
@@ -104,8 +120,14 @@ const Skills = () => {
             bg-gradient-to-br ${category.color} ${
             category.shadowColor
           } shadow-lg
-            ${isSelected ? "ring-2 ring-white/20 scale-105" : ""}`}
+            ${isSelected ? "ring-2 ring-white/20 scale-105" : ""}
+            focus:outline-none focus:ring-2 focus:ring-white/40`}
           onClick={() => setSelectedCategory(isSelected ? null : category)}
+          onKeyDown={handleKeyPress}
+          tabIndex={0}
+          role="button"
+          aria-pressed={isSelected}
+          aria-label={`${category.title} skills category. ${category.skills.length} skills available.`}
         >
           <div className="hexagon-content">
             <span className="text-4xl mb-2">{category.icon}</span>
@@ -158,24 +180,42 @@ const Skills = () => {
           </motion.p>
         </div>
 
-        {/* Navigation Buttons - Only visible on mobile */}
-        <div className="flex justify-between items-center mb-8 lg:hidden">
-          <motion.button
-            onClick={() => handleScroll("left")}
-            className="p-3 bg-gray-800/80 backdrop-blur-sm rounded-full text-white hover:bg-gray-700/80 transition-colors"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-          >
-            <FiChevronLeft size={24} />
-          </motion.button>
-          <motion.button
-            onClick={() => handleScroll("right")}
-            className="p-3 bg-gray-800/80 backdrop-blur-sm rounded-full text-white hover:bg-gray-700/80 transition-colors"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-          >
-            <FiChevronRight size={24} />
-          </motion.button>
+        {/* Navigation Buttons and Scroll Hint - Only visible on mobile */}
+        <div className="lg:hidden mb-8">
+          <div className="flex justify-between items-center">
+            <motion.button
+              onClick={() => handleScroll("left")}
+              className="p-3 bg-gray-800/80 backdrop-blur-sm rounded-full text-white hover:bg-gray-700/80 transition-colors"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              aria-label="Scroll skills left"
+            >
+              <FiChevronLeft size={24} />
+            </motion.button>
+            <motion.button
+              onClick={() => handleScroll("right")}
+              className="p-3 bg-gray-800/80 backdrop-blur-sm rounded-full text-white hover:bg-gray-700/80 transition-colors"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              aria-label="Scroll skills right"
+            >
+              <FiChevronRight size={24} />
+            </motion.button>
+          </div>
+
+          {/* Scroll hint */}
+          {showScrollHint && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="text-center mt-4"
+            >
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                ← Swipe or use arrows to explore skills →
+              </p>
+            </motion.div>
+          )}
         </div>
 
         <motion.div
@@ -184,6 +224,7 @@ const Skills = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
+          onScroll={handleContainerScroll}
           variants={{
             hidden: { opacity: 0 },
             visible: {
@@ -283,6 +324,7 @@ const Skills = () => {
           -ms-overflow-style: none;
           padding-bottom: 2rem;
           scroll-behavior: smooth;
+          scroll-snap-type: x mandatory;
         }
 
         .hexagon-grid::-webkit-scrollbar {
@@ -294,6 +336,7 @@ const Skills = () => {
           width: 200px;
           padding-top: 230px;
           position: relative;
+          scroll-snap-align: center;
         }
 
         .hexagon {

@@ -5,7 +5,7 @@ import { FiGithub, FiPause, FiPlay, FiExternalLink } from "react-icons/fi";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-const CustomPrevArrow = (props) => {
+const CustomPrevArrow = React.memo((props) => {
   const { onClick } = props;
   return (
     <motion.button
@@ -13,6 +13,7 @@ const CustomPrevArrow = (props) => {
       onClick={onClick}
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.9 }}
+      aria-label="Previous project"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -30,9 +31,9 @@ const CustomPrevArrow = (props) => {
       </svg>
     </motion.button>
   );
-};
+});
 
-const CustomNextArrow = (props) => {
+const CustomNextArrow = React.memo((props) => {
   const { onClick } = props;
   return (
     <motion.button
@@ -40,6 +41,7 @@ const CustomNextArrow = (props) => {
       onClick={onClick}
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.9 }}
+      aria-label="Next project"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -57,13 +59,15 @@ const CustomNextArrow = (props) => {
       </svg>
     </motion.button>
   );
-};
+});
 
 const Projects = () => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [imageLoadingStates, setImageLoadingStates] = useState({});
+  const [imageErrors, setImageErrors] = useState({});
   const sliderRef = useRef(null);
 
   // Check if device is mobile on component mount
@@ -345,6 +349,20 @@ const Projects = () => {
     }
   };
 
+  // Handle image loading states
+  const handleImageLoad = (index) => {
+    setImageLoadingStates((prev) => ({ ...prev, [index]: false }));
+  };
+
+  const handleImageError = (index) => {
+    setImageErrors((prev) => ({ ...prev, [index]: true }));
+    setImageLoadingStates((prev) => ({ ...prev, [index]: false }));
+  };
+
+  const handleImageLoadStart = (index) => {
+    setImageLoadingStates((prev) => ({ ...prev, [index]: true }));
+  };
+
   return (
     <section
       className="py-20 relative overflow-hidden bg-slate-200 dark:bg-gray-900"
@@ -375,6 +393,11 @@ const Projects = () => {
             A collection of projects that showcase my passion for building
             innovative solutions
           </p>
+          {isMobile && (
+            <p className="text-gray-500 dark:text-gray-500 text-sm mt-2">
+              Tap on any project card to see more details
+            </p>
+          )}
         </motion.div>
 
         {/* Controls */}
@@ -384,6 +407,9 @@ const Projects = () => {
             className="px-4 py-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full text-gray-900 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700/80 transition-all duration-300 flex items-center gap-2 shadow-sm"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            aria-label={
+              isAutoPlaying && !isHovered ? "Pause carousel" : "Play carousel"
+            }
           >
             {isAutoPlaying && !isHovered ? (
               <FiPause size={16} />
@@ -417,23 +443,65 @@ const Projects = () => {
                 >
                   <motion.div
                     layout
-                    className="relative rounded-xl bg-white dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-700/50 transition-all duration-300 hover:border-blue-500/50 h-[550px] shadow-md hover:shadow-xl"
+                    className={`relative rounded-xl bg-white dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-700/50 transition-all duration-300 hover:border-blue-500/50 shadow-md hover:shadow-xl ${
+                      isMobile ? "active:scale-95" : ""
+                    } ${
+                      isMobile && hoveredIndex === index
+                        ? "min-h-[600px] h-auto"
+                        : "h-[550px]"
+                    }`}
                     animate={{
                       scale: hoveredIndex === index ? 1.05 : 1,
                     }}
+                    role={isMobile ? "button" : undefined}
+                    aria-label={
+                      isMobile
+                        ? `Tap to ${
+                            hoveredIndex === index ? "collapse" : "expand"
+                          } ${project.title} details`
+                        : undefined
+                    }
                   >
                     {/* Project Image */}
                     <div className="relative h-48 overflow-hidden rounded-t-xl">
                       <div className="absolute inset-0 bg-blue-600 mix-blend-multiply opacity-60" />
-                      <img
-                        src={project.image}
-                        alt={project.title}
-                        className="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-110"
-                      />
+
+                      {/* Loading skeleton */}
+                      {imageLoadingStates[index] && (
+                        <div className="absolute inset-0 bg-gray-200 dark:bg-gray-700 animate-pulse flex items-center justify-center">
+                          <div className="text-gray-400 dark:text-gray-500">
+                            Loading...
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Error fallback */}
+                      {imageErrors[index] ? (
+                        <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-800 flex items-center justify-center">
+                          <div className="text-center text-gray-500 dark:text-gray-400">
+                            <div className="text-4xl mb-2">📁</div>
+                            <div className="text-sm">Project Image</div>
+                          </div>
+                        </div>
+                      ) : (
+                        <img
+                          src={project.image}
+                          alt={project.title}
+                          className="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-110"
+                          onLoad={() => handleImageLoad(index)}
+                          onError={() => handleImageError(index)}
+                          onLoadStart={() => handleImageLoadStart(index)}
+                        />
+                      )}
                     </div>
 
                     {/* Content */}
-                    <motion.div layout className="p-6">
+                    <motion.div
+                      layout
+                      className={`${
+                        isMobile && hoveredIndex === index ? "p-4" : "p-6"
+                      }`}
+                    >
                       <motion.h3
                         layout
                         className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors"
@@ -450,29 +518,45 @@ const Projects = () => {
                       </motion.p>
 
                       {/* Tags */}
-                      <motion.div layout className="flex flex-wrap gap-2 mb-4">
-                        {(hoveredIndex === index
-                          ? project.tags
-                          : project.tags.slice(0, 4)
-                        ).map((tag, tagIndex) => (
-                          <motion.span
-                            key={tagIndex}
-                            layout
-                            className="px-2 py-1 text-xs rounded-full text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-900/30 border border-blue-100 dark:border-blue-800/50"
-                            whileHover={{ scale: 1.05 }}
-                          >
-                            {tag}
-                          </motion.span>
-                        ))}
-                        {hoveredIndex !== index && project.tags.length > 4 && (
-                          <span className="text-gray-500 dark:text-gray-400 text-xs">
-                            +{project.tags.length - 4} more
-                          </span>
-                        )}
+                      <motion.div layout className="mb-4">
+                        <div
+                          className={`flex flex-wrap gap-2 ${
+                            hoveredIndex === index
+                              ? isMobile
+                                ? "max-h-24 overflow-y-auto"
+                                : "max-h-20 overflow-y-auto"
+                              : ""
+                          }`}
+                        >
+                          {(hoveredIndex === index
+                            ? project.tags
+                            : project.tags.slice(0, 4)
+                          ).map((tag, tagIndex) => (
+                            <motion.span
+                              key={tagIndex}
+                              layout
+                              className="px-2 py-1 text-xs rounded-full text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-900/30 border border-blue-100 dark:border-blue-800/50 flex-shrink-0"
+                              whileHover={{ scale: 1.05 }}
+                            >
+                              {tag}
+                            </motion.span>
+                          ))}
+                          {hoveredIndex !== index &&
+                            project.tags.length > 4 && (
+                              <span className="text-gray-500 dark:text-gray-400 text-xs flex-shrink-0">
+                                +{project.tags.length - 4} more
+                              </span>
+                            )}
+                        </div>
                       </motion.div>
 
                       {/* Links */}
-                      <motion.div layout className="flex items-center gap-2">
+                      <motion.div
+                        layout
+                        className={`flex items-center gap-2 ${
+                          isMobile && hoveredIndex === index ? "mt-2" : ""
+                        }`}
+                      >
                         {project.showProjectLink && (
                           <motion.a
                             href={project.link}
@@ -538,6 +622,10 @@ const Projects = () => {
           .projects-carousel .slick-slide {
             opacity: 1;
             transform: scale(1);
+          }
+
+          .projects-carousel .slick-list {
+            margin: 0;
           }
         }
       `}</style>

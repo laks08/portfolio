@@ -8,6 +8,7 @@ import Contact from "./components/Contact";
 import { ThemeProvider } from "./context/ThemeContext";
 import Navbar from "./components/Navbar";
 import FloatingContactButton from "./components/FloatingContactButton";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 const App = () => {
   useEffect(() => {
@@ -22,18 +23,32 @@ const App = () => {
   }, []);
 
   return (
-    <ThemeProvider>
-      <div className="min-h-screen transition-colors duration-300 dark:bg-gray-900 bg-slate-200">
-        <Navbar />
-        <Hero />
-        <Projects />
-        <Skills />
-        <Education />
-        <Experience />
-        <Contact />
-        <FloatingContactButton />
-      </div>
-    </ThemeProvider>
+    <ErrorBoundary>
+      <ThemeProvider>
+        <div className="min-h-screen transition-colors duration-300 dark:bg-gray-900 bg-slate-200">
+          <Navbar />
+          <ErrorBoundary>
+            <Hero />
+          </ErrorBoundary>
+          <ErrorBoundary>
+            <Projects />
+          </ErrorBoundary>
+          <ErrorBoundary>
+            <Skills />
+          </ErrorBoundary>
+          <ErrorBoundary>
+            <Education />
+          </ErrorBoundary>
+          <ErrorBoundary>
+            <Experience />
+          </ErrorBoundary>
+          <ErrorBoundary>
+            <Contact />
+          </ErrorBoundary>
+          <FloatingContactButton />
+        </div>
+      </ThemeProvider>
+    </ErrorBoundary>
   );
 };
 
