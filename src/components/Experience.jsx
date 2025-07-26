@@ -4,19 +4,34 @@ import { motion } from "framer-motion";
 const Experience = () => {
   const experiences = [
     {
-      title: "Software Engineer Intern",
+      title: "Project Lead / AI & Software Engineer",
+      company: "Ipser Lab",
+      location: "Boston, MA",
+      period: "Mar 2025 – Present",
+      logo: import.meta.env.BASE_URL + "images/ipserlab.jpeg",
+      color: "from-indigo-400 to-indigo-600",
+
+      technologies: [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "React Query",
+        "Vite",
+        "OpenAI",
+        "RAG",
+        "Jest",
+        "Playwright",
+        "GitHub Actions",
+      ],
+    },
+    {
+      title: "Software Engineer",
       company: "Burmester & Vogel",
       location: "Cambridge, MA",
       period: "Jan 2024 - Aug 2024",
-      type: "Internship",
       logo: import.meta.env.BASE_URL + "images/bv.jpg",
       color: "from-blue-400 to-blue-600",
-      points: [
-        "Developing and maintaining cloud-based software solutions",
-        "Collaborating with cross-functional teams on system architecture",
-        "Implementing new features and optimizing existing codebase",
-        "Working with modern tech stack including cloud technologies",
-      ],
+
       technologies: ["AWS", "React", "Node.js", "TypeScript", "Docker"],
     },
     {
@@ -24,15 +39,9 @@ const Experience = () => {
       company: "Essence Global",
       location: "Gurgaon, India",
       period: "Jan 2021 - Jun 2022",
-      type: "Full-time",
       logo: import.meta.env.BASE_URL + "images/essence.jpg",
       color: "from-purple-400 to-purple-600",
-      points: [
-        "Led development of data analytics solutions for major clients",
-        "Optimized reporting workflows saving 20+ hours weekly",
-        "Managed end-to-end implementation of automation projects",
-        "Mentored junior developers and conducted code reviews",
-      ],
+
       technologies: ["Python", "SQL", "Power BI", "Azure", "JavaScript"],
     },
     {
@@ -40,15 +49,9 @@ const Experience = () => {
       company: "Delhivery Logistics",
       location: "Gurgaon, India",
       period: "Dec 2019 - Apr 2020",
-      type: "Internship",
       logo: import.meta.env.BASE_URL + "images/delhivery.jpg",
       color: "from-green-400 to-green-600",
-      points: [
-        "Developed web applications for logistics management",
-        "Implemented data analysis solutions for delivery optimization",
-        "Created dashboards for real-time performance monitoring",
-        "Collaborated with logistics teams to improve systems",
-      ],
+
       technologies: ["React", "Python", "MongoDB", "Express", "Node.js"],
     },
     {
@@ -56,15 +59,9 @@ const Experience = () => {
       company: "Delhivery Logistics",
       location: "Gurgaon, India",
       period: "May 2019 - Jul 2019",
-      type: "Internship",
       logo: import.meta.env.BASE_URL + "images/delhivery.jpg",
       color: "from-teal-400 to-teal-600",
-      points: [
-        "Built data visualization tools for logistics operations",
-        "Automated reporting processes using Python scripts",
-        "Developed web interfaces for data management",
-        "Participated in agile development processes",
-      ],
+
       technologies: ["Python", "D3.js", "SQL", "HTML/CSS", "JavaScript"],
     },
     {
@@ -72,15 +69,8 @@ const Experience = () => {
       company: "Georgia Tech",
       location: "Atlanta, GA",
       period: "Jun 2018 - Jul 2018",
-      type: "Research",
       logo: import.meta.env.BASE_URL + "images/gt.jpg",
       color: "from-yellow-400 to-yellow-600",
-      points: [
-        "Automated laboratory equipment using Python",
-        "Developed data collection and analysis tools",
-        "Created documentation for lab procedures",
-        "Collaborated with research team on experiments",
-      ],
       technologies: ["Python", "LabVIEW", "MATLAB", "Arduino", "Raspberry Pi"],
     },
   ];
@@ -184,13 +174,9 @@ const Experience = () => {
                     </div>
                   </div>
 
-                  <ul className="list-disc list-inside space-y-2 text-gray-600 dark:text-gray-400">
-                    {exp.points.map((point, idx) => (
-                      <li key={idx} className="text-sm sm:text-base">
-                        {point}
-                      </li>
-                    ))}
-                  </ul>
+                  <p className="text-gray-600 dark:text-gray-400 text-sm sm:text-base leading-relaxed">
+                    {exp.description}
+                  </p>
 
                   <div className="pt-4">
                     <h5 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
