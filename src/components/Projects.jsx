@@ -443,8 +443,12 @@ const Projects = () => {
                 >
                   <motion.div
                     layout
-                    className={`relative rounded-xl bg-white dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-700/50 transition-all duration-300 hover:border-blue-500/50 h-[550px] shadow-md hover:shadow-xl ${
+                    className={`relative rounded-xl bg-white dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-700/50 transition-all duration-300 hover:border-blue-500/50 shadow-md hover:shadow-xl ${
                       isMobile ? "active:scale-95" : ""
+                    } ${
+                      isMobile && hoveredIndex === index
+                        ? "min-h-[600px] h-auto"
+                        : "h-[550px]"
                     }`}
                     animate={{
                       scale: hoveredIndex === index ? 1.05 : 1,
@@ -492,7 +496,12 @@ const Projects = () => {
                     </div>
 
                     {/* Content */}
-                    <motion.div layout className="p-6">
+                    <motion.div
+                      layout
+                      className={`${
+                        isMobile && hoveredIndex === index ? "p-4" : "p-6"
+                      }`}
+                    >
                       <motion.h3
                         layout
                         className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors"
@@ -513,7 +522,9 @@ const Projects = () => {
                         <div
                           className={`flex flex-wrap gap-2 ${
                             hoveredIndex === index
-                              ? "max-h-20 overflow-y-auto"
+                              ? isMobile
+                                ? "max-h-24 overflow-y-auto"
+                                : "max-h-20 overflow-y-auto"
                               : ""
                           }`}
                         >
@@ -540,7 +551,12 @@ const Projects = () => {
                       </motion.div>
 
                       {/* Links */}
-                      <motion.div layout className="flex items-center gap-2">
+                      <motion.div
+                        layout
+                        className={`flex items-center gap-2 ${
+                          isMobile && hoveredIndex === index ? "mt-2" : ""
+                        }`}
+                      >
                         {project.showProjectLink && (
                           <motion.a
                             href={project.link}
