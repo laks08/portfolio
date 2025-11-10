@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useRef, useState } from "react";
 import Slider from "react-slick";
 import { motion } from "framer-motion";
 import { FiGithub, FiPause, FiPlay, FiExternalLink } from "react-icons/fi";
@@ -61,32 +61,7 @@ const CustomNextArrow = React.memo((props) => {
   );
 });
 
-const Projects = () => {
-  const [hoveredIndex, setHoveredIndex] = useState(null);
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-  const [isHovered, setIsHovered] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  const [imageLoadingStates, setImageLoadingStates] = useState({});
-  const [imageErrors, setImageErrors] = useState({});
-  const sliderRef = useRef(null);
-
-  // Check if device is mobile on component mount
-  React.useEffect(() => {
-    const checkIfMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-
-    // Initial check
-    checkIfMobile();
-
-    // Add event listener for window resize
-    window.addEventListener("resize", checkIfMobile);
-
-    // Cleanup
-    return () => window.removeEventListener("resize", checkIfMobile);
-  }, []);
-
-  const projects = [
+const PROJECTS = [
     {
       title: "Boston Weather Data ETL Pipeline",
       description:
@@ -175,6 +150,63 @@ const Projects = () => {
       ],
       image: import.meta.env.BASE_URL + "images/project-img/pre-analysis.jpg",
       link: "https://github.com",
+      showProjectLink: true,
+      showDemoLink: false,
+    },
+    {
+      title: "Async File Parser with Redis & Postgres",
+      description:
+        "FastAPI microservice that ingests CSV, PDF, and image uploads asynchronously using Redis queues and background workers.",
+      extendedDescription:
+        "The service offloads heavy parsing tasks to RQ workers, tracks job metadata in PostgreSQL, and exposes REST endpoints for status polling and JSON result retrieval — all packaged in Docker for easy deployment.",
+      tags: [
+        "FastAPI",
+        "Redis",
+        "PostgreSQL",
+        "RQ",
+        "Async Processing",
+        "Docker",
+      ],
+      image: import.meta.env.BASE_URL + "images/project-img/async-parser.svg",
+      link: "https://github.com/laks08/async-file-parser-with-redis-and-postgres",
+      showProjectLink: true,
+      showDemoLink: false,
+    },
+    {
+      title: "Password Generator MCP Server",
+      description:
+        "Claude MCP server that delivers cryptographically strong passwords, passphrases, API keys, and PINs on demand.",
+      extendedDescription:
+        "Implements seven secure tools, including batch generation and entropy analysis, runs entirely inside Docker, and integrates seamlessly with Claude Desktop while keeping every credential offline.",
+      tags: [
+        "Python",
+        "Claude MCP",
+        "Security",
+        "Docker",
+        "CLI",
+        "Password Generation",
+      ],
+      image: import.meta.env.BASE_URL + "images/project-img/password-mcp.svg",
+      link: "https://github.com/laks08/password-generator-mcp-server",
+      showProjectLink: true,
+      showDemoLink: false,
+    },
+    {
+      title: "DocQueryAI",
+      description:
+        "Local document question-answering app that lets you chat with PDFs through Streamlit and LangChain.",
+      extendedDescription:
+        "Combines embedding generation, Chroma vector storage, and Ollama-hosted LLMs to keep every query private while supporting multi-document uploads, citation highlights, and conversational memory.",
+      tags: [
+        "Python",
+        "Streamlit",
+        "LangChain",
+        "Ollama",
+        "Vector Search",
+        "RAG",
+      ],
+      image: import.meta.env.BASE_URL + "images/project-img/docquery-ai.svg",
+      link: "https://github.com/laks08/DocQueryAI",
       showProjectLink: true,
       showDemoLink: false,
     },
@@ -281,7 +313,40 @@ const Projects = () => {
       showProjectLink: true,
       showDemoLink: false,
     },
-  ];
+  
+];
+
+const Projects = () => {
+  const projects = PROJECTS;
+
+  const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [isHovered, setIsHovered] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [imageLoadingStates, setImageLoadingStates] = useState(() =>
+    projects.reduce((acc, _, index) => {
+      acc[index] = true;
+      return acc;
+    }, {})
+  );
+  const [imageErrors, setImageErrors] = useState({});
+  const sliderRef = useRef(null);
+
+  // Check if device is mobile on component mount
+  React.useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    // Initial check
+    checkIfMobile();
+
+    // Add event listener for window resize
+    window.addEventListener("resize", checkIfMobile);
+
+    // Cleanup
+    return () => window.removeEventListener("resize", checkIfMobile);
+  }, []);
 
   const settings = {
     dots: false,
@@ -357,10 +422,6 @@ const Projects = () => {
   const handleImageError = (index) => {
     setImageErrors((prev) => ({ ...prev, [index]: true }));
     setImageLoadingStates((prev) => ({ ...prev, [index]: false }));
-  };
-
-  const handleImageLoadStart = (index) => {
-    setImageLoadingStates((prev) => ({ ...prev, [index]: true }));
   };
 
   return (
@@ -490,7 +551,6 @@ const Projects = () => {
                           className="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-110"
                           onLoad={() => handleImageLoad(index)}
                           onError={() => handleImageError(index)}
-                          onLoadStart={() => handleImageLoadStart(index)}
                         />
                       )}
                     </div>
@@ -634,3 +694,4 @@ const Projects = () => {
 };
 
 export default Projects;
+
