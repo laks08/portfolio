@@ -5,8 +5,7 @@ import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 const proficiencyStyles = {
   Expert:
     "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-200",
-  Advanced:
-    "bg-sky-100 text-sky-800 dark:bg-sky-900/50 dark:text-sky-200",
+  Advanced: "bg-sky-100 text-sky-800 dark:bg-sky-900/50 dark:text-sky-200",
   Intermediate:
     "bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-200",
 };
@@ -214,65 +213,6 @@ const skillCategories = [
     ],
   },
   {
-    title: "Data Engineering & Storage",
-    icon: "🗄️",
-    color: "from-amber-400 to-orange-600",
-    shadowColor: "shadow-amber-500/20",
-    tags: ["ETL", "Warehousing", "Quality", "Lineage"],
-    skills: [
-      {
-        name: "Snowflake",
-        strength: "Advanced",
-        keywords: ["Marts", "Snowpipe", "Streams"],
-      },
-      {
-        name: "PostgreSQL",
-        strength: "Advanced",
-        keywords: ["Modeling", "Indexes", "Views"],
-      },
-      {
-        name: "MySQL",
-        strength: "Advanced",
-        keywords: ["Procedures", "Reporting", "Tuning"],
-      },
-      {
-        name: "MongoDB",
-        strength: "Advanced",
-        keywords: ["Schemas", "Aggregations", "Ops"],
-      },
-      {
-        name: "dbt",
-        strength: "Advanced",
-        keywords: ["Models", "Tests", "Docs"],
-      },
-      {
-        name: "Airflow",
-        strength: "Advanced",
-        keywords: ["Scheduling", "Sensors", "Recovery"],
-      },
-      {
-        name: "Spark & PySpark",
-        strength: "Intermediate",
-        keywords: ["Batch", "Streaming", "ETL"],
-      },
-      {
-        name: "Kafka",
-        strength: "Intermediate",
-        keywords: ["Ingest", "Consumers", "Streams"],
-      },
-      {
-        name: "DuckDB",
-        strength: "Intermediate",
-        keywords: ["Analytics", "Parquet", "Local runs"],
-      },
-      {
-        name: "Great Expectations",
-        strength: "Advanced",
-        keywords: ["Validation", "Data SLAs", "Alerting"],
-      },
-    ],
-  },
-  {
     title: "AI, ML & Analytics Enablement",
     icon: "🤖",
     color: "from-blue-400 to-cyan-600",
@@ -328,6 +268,65 @@ const skillCategories = [
         name: "Tableau & Looker",
         strength: "Advanced",
         keywords: ["Visuals", "Dashboards", "Stories"],
+      },
+    ],
+  },
+  {
+    title: "Data Engineering & Storage",
+    icon: "🗄️",
+    color: "from-amber-400 to-orange-600",
+    shadowColor: "shadow-amber-500/20",
+    tags: ["ETL", "Warehousing", "Quality", "Lineage"],
+    skills: [
+      {
+        name: "Snowflake",
+        strength: "Advanced",
+        keywords: ["Marts", "Snowpipe", "Streams"],
+      },
+      {
+        name: "PostgreSQL",
+        strength: "Advanced",
+        keywords: ["Modeling", "Indexes", "Views"],
+      },
+      {
+        name: "MySQL",
+        strength: "Advanced",
+        keywords: ["Procedures", "Reporting", "Tuning"],
+      },
+      {
+        name: "MongoDB",
+        strength: "Advanced",
+        keywords: ["Schemas", "Aggregations", "Ops"],
+      },
+      {
+        name: "dbt",
+        strength: "Advanced",
+        keywords: ["Models", "Tests", "Docs"],
+      },
+      {
+        name: "Airflow",
+        strength: "Advanced",
+        keywords: ["Scheduling", "Sensors", "Recovery"],
+      },
+      {
+        name: "Spark & PySpark",
+        strength: "Intermediate",
+        keywords: ["Batch", "Streaming", "ETL"],
+      },
+      {
+        name: "Kafka",
+        strength: "Intermediate",
+        keywords: ["Ingest", "Consumers", "Streams"],
+      },
+      {
+        name: "DuckDB",
+        strength: "Intermediate",
+        keywords: ["Analytics", "Parquet", "Local runs"],
+      },
+      {
+        name: "Great Expectations",
+        strength: "Advanced",
+        keywords: ["Validation", "Data SLAs", "Alerting"],
       },
     ],
   },
