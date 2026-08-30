@@ -1,145 +1,146 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Menu, X } from "lucide-react";
 import { Link } from "react-scroll";
-import { FaTimes } from "react-icons/fa";
+import { FiMenu, FiX, FiSun, FiMoon } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTheme } from "../context/ThemeContext";
+
+const NAV_ITEMS = [
+  "home",
+  "projects",
+  "skills",
+  "education",
+  "experience",
+  "contact",
+];
+
+const ThemeToggle = ({ className = "" }) => {
+  const { isDark, toggleTheme } = useTheme();
+  return (
+    <button
+      type="button"
+      onClick={toggleTheme}
+      aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
+      className={`inline-flex items-center gap-2 rounded-full border border-line px-3 py-1.5 font-mono text-xs text-muted transition-colors hover:border-text hover:text-text ${className}`}
+    >
+      {isDark ? <FiSun size={14} /> : <FiMoon size={14} />}
+      <span>{isDark ? "light" : "dark"}</span>
+    </button>
+  );
+};
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isScrolling, setIsScrolling] = useState(false);
-  const navItems = ["home", "projects", "skills", "education", "experience"];
+  const [activeItem, setActiveItem] = useState("home");
+  const [scrolled, setScrolled] = useState(false);
   const menuRef = useRef(null);
 
-  // Handle click outside the menu
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 12);
+    onScroll();
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
         setIsOpen(false);
       }
     };
-
-    if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
-
+    if (isOpen) document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isOpen]);
 
-  const handleNavClick = (index) => {
-    setActiveIndex(index);
-    setIsScrolling(true);
-    setTimeout(() => setIsScrolling(false), 600);
-  };
-
-  const handleSetActive = (index) => {
-    if (!isScrolling) {
-      setActiveIndex(index);
-    }
-  };
-
   return (
-    <nav className="fixed top-0 w-full z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
-        <div className="relative flex items-center justify-between md:justify-center">
-          {/* Logo or Brand Name (optional) */}
-          <div className="flex-1 md:hidden"></div>
+    <nav
+      className={`fixed top-0 z-50 w-full transition-colors duration-300 ${
+        scrolled ? "border-b border-line bg-bg/80 backdrop-blur" : "border-b border-transparent"
+      }`}
+    >
+      <div className="mx-auto flex max-w-content items-center justify-between px-5 py-4 sm:px-8">
+        {/* Wordmark */}
+        <Link
+          to="home"
+          spy
+          smooth
+          duration={500}
+          className="cursor-pointer font-mono text-sm font-bold lowercase tracking-tightest text-text"
+        >
+          lakshya gupta
+        </Link>
 
-          {/* Pill-Shaped Menu */}
-          <div
-            className="hidden md:flex items-center relative bg-slate-800 rounded-full backdrop-filter backdrop-blur-md bg-opacity-50 shadow-md"
-            style={{ width: "min(800px, 90vw)" }}
+        {/* Desktop links */}
+        <div className="hidden items-center gap-6 md:flex">
+          {NAV_ITEMS.slice(1).map((item) => (
+            <Link
+              key={item}
+              to={item}
+              spy
+              smooth
+              duration={500}
+              onSetActive={() => setActiveItem(item)}
+              className={`cursor-pointer font-mono text-sm transition-colors ${
+                activeItem === item ? "text-text" : "text-muted hover:text-text"
+              }`}
+            >
+              {activeItem === item ? "/" : ""}
+              {item}
+            </Link>
+          ))}
+          <ThemeToggle />
+        </div>
+
+        {/* Mobile trigger */}
+        <div className="flex items-center gap-3 md:hidden">
+          <ThemeToggle />
+          <button
+            type="button"
+            onClick={() => setIsOpen((v) => !v)}
+            aria-label="Toggle menu"
+            className="text-text"
           >
-            {/* Sliding Pill Indicator */}
-            <div
-              className="absolute top-1 bottom-1 bg-white rounded-full transition-all duration-300 z-1 shadow-sm"
-              style={{
-                left: `calc(${activeIndex} * (100% / ${navItems.length}) + 4px)`,
-                width: `calc((100% / ${navItems.length}) - 8px)`,
-              }}
-            />
-            <div className="relative flex justify-between w-full z-10 px-2">
-              {navItems.map((item, index) => (
+            {isOpen ? <FiX size={22} /> : <FiMenu size={22} />}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile drawer */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            ref={menuRef}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-40 flex flex-col bg-bg px-5 pt-20 md:hidden"
+          >
+            <button
+              type="button"
+              onClick={() => setIsOpen(false)}
+              aria-label="Close menu"
+              className="absolute right-5 top-5 text-text"
+            >
+              <FiX size={24} />
+            </button>
+            <div className="divide-y divide-line border-y border-line">
+              {NAV_ITEMS.slice(1).map((item) => (
                 <Link
                   key={item}
                   to={item}
-                  spy={true}
-                  smooth={true}
+                  spy
+                  smooth
                   duration={500}
-                  onClick={() => handleNavClick(index)}
-                  onSetActive={() => handleSetActive(index)}
-                  className={`flex-1 text-center cursor-pointer py-3 px-4 transition-colors duration-300 text-lg font-medium mix-blend-difference ${
-                    activeIndex === index
-                      ? "text-slate-900"
-                      : "text-slate-300 hover:text-slate-100"
-                  }`}
+                  onClick={() => setIsOpen(false)}
+                  className="block cursor-pointer py-5 font-mono text-2xl lowercase text-text"
                 >
-                  {item.charAt(0).toUpperCase() + item.slice(1)}
+                  {item}
                 </Link>
               ))}
             </div>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <div className="flex md:hidden items-center">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="p-2.5 bg-slate-800 text-white bg-opacity-50 backdrop-filter backdrop-blur-md rounded-full shadow hover:bg-opacity-75 transition-all duration-300 focus:outline-none"
-              aria-label="Toggle menu"
-            >
-              {isOpen ? (
-                <X size={20} className="text-gray-200" />
-              ) : (
-                <Menu size={20} className="text-gray-200" />
-              )}
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile Menu with Smooth Closing Transition */}
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div
-              ref={menuRef}
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.2 }}
-              className="md:hidden fixed top-0 left-0 right-0 z-40 backdrop-filter backdrop-blur-lg bg-slate-900/95 shadow-lg min-h-screen"
-            >
-              <div className="px-4 py-6 space-y-2 max-w-7xl mx-auto">
-                <div className="flex justify-end mb-6">
-                  <button
-                    onClick={() => setIsOpen(false)}
-                    className="p-2 text-gray-400 hover:text-white transition-colors rounded-full hover:bg-white/10"
-                  >
-                    <FaTimes size={24} />
-                  </button>
-                </div>
-                {navItems.map((item, index) => (
-                  <Link
-                    key={item}
-                    to={item}
-                    spy={true}
-                    smooth={true}
-                    duration={500}
-                    onClick={() => {
-                      handleNavClick(index);
-                      setIsOpen(false);
-                    }}
-                    onSetActive={() => handleSetActive(index)}
-                    className="block px-4 py-3 text-lg font-medium text-gray-300 hover:text-white hover:bg-white/10 rounded-lg cursor-pointer transition-all duration-300"
-                  >
-                    {item.charAt(0).toUpperCase() + item.slice(1)}
-                  </Link>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 };

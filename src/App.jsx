@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Hero from "./components/Hero";
 import Projects from "./components/Projects";
 import Skills from "./components/Skills";
@@ -11,21 +11,10 @@ import FloatingContactButton from "./components/FloatingContactButton";
 import ErrorBoundary from "./components/ErrorBoundary";
 
 const App = () => {
-  useEffect(() => {
-    const handleContextMenu = (e) => {
-      e.preventDefault();
-    };
-
-    document.addEventListener("contextmenu", handleContextMenu);
-    return () => {
-      document.removeEventListener("contextmenu", handleContextMenu);
-    };
-  }, []);
-
   return (
     <ErrorBoundary>
       <ThemeProvider>
-        <div className="min-h-screen transition-colors duration-300 dark:bg-gray-900 bg-slate-200">
+        <div className="min-h-screen bg-bg font-sans text-text">
           <Navbar />
           <ErrorBoundary>
             <Hero />

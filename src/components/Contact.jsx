@@ -1,116 +1,92 @@
 import React from "react";
-import { motion } from "framer-motion";
 import { FaLinkedin, FaGithub, FaEnvelope } from "react-icons/fa";
+import { FiArrowRight } from "react-icons/fi";
+import { motion } from "framer-motion";
+import Section from "./ui/Section";
+import DisplayHeading from "./ui/DisplayHeading";
+import PillButton from "./ui/PillButton";
+import Chip from "./ui/Chip";
+
+const socialLinks = [
+  {
+    icon: FaLinkedin,
+    url: "https://www.linkedin.com/in/lakshyagupta-/",
+    label: "linkedin",
+  },
+  { icon: FaGithub, url: "https://github.com/laks08", label: "github" },
+  { icon: FaEnvelope, url: "mailto:lakshyagupta997@gmail.com", label: "email" },
+];
+
+const jumpLinks = ["projects", "skills", "education", "experience"];
 
 const Contact = () => {
-  const currentYear = new Date().getFullYear();
-
-  const socialLinks = [
-    {
-      icon: FaLinkedin,
-      url: "https://www.linkedin.com/in/lakshyagupta-/",
-      label: "LinkedIn",
-      color: "hover:text-blue-400",
-    },
-    {
-      icon: FaGithub,
-      url: "https://github.com/laks08",
-      label: "GitHub",
-      color: "hover:text-gray-400",
-    },
-    {
-      icon: FaEnvelope,
-      url: "mailto:lakshyagupta997@gmail.com",
-      label: "Email",
-      color: "hover:text-red-400",
-    },
-  ];
+  const year = new Date().getFullYear();
 
   return (
-    <section
+    <Section
       id="contact"
-      className="py-16 bg-slate-200 dark:bg-gray-900 relative overflow-hidden"
+      label="contacts"
+      labelAlign="right"
+      ringPosition="right"
     >
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-[0.03]">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23000000' fill-opacity='0.1'%3E%3Cpath d='M30 0l30 30-30 30L0 30z'/%3E%3C/g%3E%3C/svg%3E")`,
-            backgroundSize: "30px 30px",
-          }}
-        />
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+      <div className="grid grid-cols-1 gap-16 lg:grid-cols-[1.4fr_1fr]">
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-12"
-        >
-          <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-            Get In Touch
-          </h2>
-          <p className="text-gray-600 dark:text-gray-400 text-lg max-w-2xl mx-auto">
-            Have a question or want to work together? Feel free to reach out!
-          </p>
-        </motion.div>
-
-        {/* Contact Info and Social Links - Combined */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="max-w-2xl mx-auto"
         >
-          <div className="bg-white/80 dark:bg-gray-800/50 backdrop-blur-lg rounded-xl p-8 border border-gray-200 dark:border-gray-700/50 hover:border-blue-500/50 transition-all duration-300">
-            <div className="flex flex-col items-center">
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6">
-                Connect With Me
-              </h3>
+          <DisplayHeading
+            lines={[{ text: "Lakshya" }, { text: "Gupta" }]}
+            size="text-[clamp(3rem,13vw,8rem)]"
+          />
+          <p className="mt-4 font-mono text-xs tracking-label text-muted">
+            ai software engineer &amp; product owner
+          </p>
 
-              <div className="flex flex-wrap justify-center gap-6 mb-6">
-                {socialLinks.map((social, index) => (
-                  <motion.a
-                    key={social.label}
-                    href={social.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.95 }}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-full bg-gray-100 dark:bg-gray-900/50 text-gray-700 dark:text-gray-300 transition-colors duration-300 ${social.color}`}
-                  >
-                    <social.icon size={20} />
-                    <span>{social.label}</span>
-                  </motion.a>
-                ))}
-              </div>
+          <div className="mt-10 flex flex-wrap gap-3">
+            {socialLinks.map((s) => (
+              <Chip key={s.label} href={s.url} icon={s.icon} label={s.label} />
+            ))}
+          </div>
 
-              <div className="text-center">
-                <p className="text-gray-700 dark:text-gray-300 mb-2">
-                  Email me directly at:
-                </p>
-                <a
-                  href="mailto:lakshyagupta997@gmail.com"
-                  className="text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 transition-colors"
-                >
-                  lakshyagupta997@gmail.com
-                </a>
-              </div>
-            </div>
+          <div className="mt-8">
+            <PillButton
+              href="mailto:lakshyagupta997@gmail.com"
+              label="email me"
+              icon={<FiArrowRight size={16} />}
+              variant="solid"
+            />
           </div>
         </motion.div>
 
-        {/* Footer */}
-        <div className="mt-12 pt-6 border-t border-gray-300 dark:border-gray-800 text-center">
-          <p className="text-sm text-gray-600 dark:text-gray-500">
-            © {currentYear} Lakshya Gupta™. All rights reserved.
-          </p>
+        <div className="flex flex-col gap-10 lg:items-end lg:text-right">
+          <nav className="flex flex-col gap-2">
+            {jumpLinks.map((item) => (
+              <a
+                key={item}
+                href={`#${item}`}
+                className="font-mono text-sm text-muted transition-colors hover:text-text"
+              >
+                {item}
+              </a>
+            ))}
+          </nav>
+
+          <div className="font-mono text-xs leading-relaxed text-muted">
+            <p className="text-text">Site</p>
+            <p>designed &amp; built by Lakshya Gupta</p>
+            <p>{year}</p>
+          </div>
         </div>
       </div>
-    </section>
+
+      <div className="mt-20 border-t border-line pt-6">
+        <p className="font-mono text-xs text-muted">
+          © {year} Lakshya Gupta. All rights reserved.
+        </p>
+      </div>
+    </Section>
   );
 };
 

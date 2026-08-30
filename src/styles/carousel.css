@@ -1,0 +1,75 @@
+/* Monochrome react-slick overrides for the Projects carousel.
+   Replaces the old inert `<style jsx global>` block and the
+   .slick-track / .slick-list rules that lived in index.css. */
+
+.projects-carousel .slick-list {
+  overflow: visible !important;
+  margin: 0 -0.75rem;
+  padding: 1.5rem 0 !important;
+}
+
+.projects-carousel .slick-track {
+  display: flex !important;
+}
+
+.projects-carousel .slick-slide {
+  height: auto;
+  opacity: 0.35;
+  transform: scale(0.92);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.projects-carousel .slick-slide.slick-active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.projects-carousel .slick-slide > div {
+  height: 100%;
+}
+
+/* Pagination dots */
+.projects-carousel .slick-dots {
+  position: static;
+  margin-top: 2rem;
+  display: flex !important;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.projects-carousel .slick-dots li {
+  width: auto;
+  height: auto;
+  margin: 0;
+}
+
+.projects-carousel .slick-dots li button {
+  width: 10px;
+  height: 10px;
+  padding: 0;
+}
+
+.projects-carousel .slick-dots li button:before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  opacity: 1;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.projects-carousel .slick-dots li.slick-active button:before {
+  background-color: var(--color-text);
+  border-color: var(--color-text);
+}
+
+@media (max-width: 768px) {
+  .projects-carousel .slick-slide {
+    opacity: 1;
+    transform: scale(1);
+  }
+  .projects-carousel .slick-list {
+    margin: 0;
+  }
+}

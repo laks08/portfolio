@@ -1,65 +1,13 @@
 import React, { useRef, useState } from "react";
 import Slider from "react-slick";
 import { motion } from "framer-motion";
-import { FiGithub, FiPause, FiPlay, FiExternalLink } from "react-icons/fi";
+import { FiGithub, FiPause, FiPlay, FiExternalLink, FiArrowLeft, FiArrowRight } from "react-icons/fi";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
-const CustomPrevArrow = React.memo((props) => {
-  const { onClick } = props;
-  return (
-    <motion.button
-      className="p-3 bg-gray-800/80 backdrop-blur-sm rounded-full text-white hover:bg-gray-700/80 transition-colors"
-      onClick={onClick}
-      whileHover={{ scale: 1.1 }}
-      whileTap={{ scale: 0.9 }}
-      aria-label="Previous project"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        strokeWidth={2}
-        stroke="currentColor"
-        className="w-6 h-6"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M15.75 19.5L8.25 12l7.5-7.5"
-        />
-      </svg>
-    </motion.button>
-  );
-});
-
-const CustomNextArrow = React.memo((props) => {
-  const { onClick } = props;
-  return (
-    <motion.button
-      className="p-3 bg-gray-800/80 backdrop-blur-sm rounded-full text-white hover:bg-gray-700/80 transition-colors"
-      onClick={onClick}
-      whileHover={{ scale: 1.1 }}
-      whileTap={{ scale: 0.9 }}
-      aria-label="Next project"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        strokeWidth={2}
-        stroke="currentColor"
-        className="w-6 h-6"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M8.25 4.5l7.5 7.5-7.5 7.5"
-        />
-      </svg>
-    </motion.button>
-  );
-});
+import "../styles/carousel.css";
+import Section from "./ui/Section";
+import TagList from "./ui/TagList";
+import CircleButton from "./ui/CircleButton";
 
 const PROJECTS = [
   {
@@ -89,14 +37,7 @@ const PROJECTS = [
       "Multi-agent legal RAG system that answers questions over federal securities filings with traceable citations.",
     extendedDescription:
       "A LangGraph pipeline with a DeepAgents planner/subagent setup handles query rewriting, reranking, and cited synthesis over legal-domain embeddings stored in Chroma, so every answer traces back to primary-source filings.",
-    tags: [
-      "Python",
-      "LangGraph",
-      "DeepAgents",
-      "RAG",
-      "Reranking",
-      "Chroma",
-    ],
+    tags: ["Python", "LangGraph", "DeepAgents", "RAG", "Reranking", "Chroma"],
     image: import.meta.env.BASE_URL + "images/project-img/legal-rag.jpg",
     link: "https://github.com/laks08/legal-rag",
     showProjectLink: true,
@@ -128,8 +69,7 @@ const PROJECTS = [
     extendedDescription:
       "Works from transcripts to detect candidate highlight moments, then renders clips with FFmpeg off a Postgres-backed job queue.",
     tags: ["Python", "LLM", "FFmpeg", "PostgreSQL", "Job Queue"],
-    image:
-      import.meta.env.BASE_URL + "images/project-img/video-atomization.jpg",
+    image: import.meta.env.BASE_URL + "images/project-img/video-atomization.jpg",
     link: "https://github.com/laks08/video-atomization",
     showProjectLink: true,
     showDemoLink: false,
@@ -150,8 +90,7 @@ const PROJECTS = [
       "Data Engineering",
       "Weather API",
     ],
-    image:
-      import.meta.env.BASE_URL + "images/project-img/boston-weather-etl.jpg",
+    image: import.meta.env.BASE_URL + "images/project-img/boston-weather-etl.jpg",
     link: "https://github.com/laks08/weather-pipeline",
     showProjectLink: true,
     showDemoLink: false,
@@ -174,14 +113,7 @@ const PROJECTS = [
       "Developed a React-based platform using the MERN stack with RESTful API integration for efficient food ordering.",
     extendedDescription:
       "This application offers a seamless food ordering experience by integrating Express, MongoDB, and Node.js with a modern React UI enhanced by Tailwind CSS, SASS, and Chakra UI components. Its design prioritizes scalability and user-centric features.",
-    tags: [
-      "Next.js",
-      "MERN",
-      "Express",
-      "MongoDB",
-      "Tailwind CSS",
-      "Chakra UI",
-    ],
+    tags: ["Next.js", "MERN", "Express", "MongoDB", "Tailwind CSS", "Chakra UI"],
     image: import.meta.env.BASE_URL + "images/project-img/mealtrain.jpg",
     link: "https://github.com/laks08/Meal-Train-Food-Platform",
     showProjectLink: true,
@@ -231,14 +163,7 @@ const PROJECTS = [
       "FastAPI microservice that ingests CSV, PDF, and image uploads asynchronously using Redis queues and background workers.",
     extendedDescription:
       "The service offloads heavy parsing tasks to RQ workers, tracks job metadata in PostgreSQL, and exposes REST endpoints for status polling and JSON result retrieval, all packaged in Docker for easy deployment.",
-    tags: [
-      "FastAPI",
-      "Redis",
-      "PostgreSQL",
-      "RQ",
-      "Async Processing",
-      "Docker",
-    ],
+    tags: ["FastAPI", "Redis", "PostgreSQL", "RQ", "Async Processing", "Docker"],
     image: import.meta.env.BASE_URL + "images/project-img/async-parser.jpg",
     link: "https://github.com/laks08/async-file-parser-with-redis-and-postgres",
     showProjectLink: true,
@@ -250,14 +175,7 @@ const PROJECTS = [
       "Claude MCP server that delivers cryptographically strong passwords, passphrases, API keys, and PINs on demand.",
     extendedDescription:
       "Implements seven secure tools, including batch generation and entropy analysis, runs entirely inside Docker, and integrates seamlessly with Claude Desktop while keeping every credential offline.",
-    tags: [
-      "Python",
-      "Claude MCP",
-      "Security",
-      "Docker",
-      "CLI",
-      "Password Generation",
-    ],
+    tags: ["Python", "Claude MCP", "Security", "Docker", "CLI", "Password Generation"],
     image: import.meta.env.BASE_URL + "images/project-img/password-mcp.jpg",
     link: "https://github.com/laks08/password-generator-mcp-server",
     showProjectLink: true,
@@ -319,8 +237,7 @@ const PROJECTS = [
   },
   {
     title: "React Meetups Organizer",
-    description:
-      "A React-based event management platform for organizing meetups.",
+    description: "A React-based event management platform for organizing meetups.",
     extendedDescription:
       "This tool allows users to create, join, and manage events with real-time updates. Its intuitive and has responsive interface. Simple but effective, it showcases the power of React for dynamic web applications.",
     tags: ["React", "Event Management", "Real-time", "JavaScript"],
@@ -335,13 +252,7 @@ const PROJECTS = [
       "A real-time currency conversion app built with React, TypeScript, and Chakra UI components library.",
     extendedDescription:
       "Fetching live exchange rates via API, this application supports over 150 currencies. Offers a clean, responsive interface ideal for quick financial calculations.",
-    tags: [
-      "React",
-      "TypeScript",
-      "Chakra UI",
-      "API Integration",
-      "Currency Conversion",
-    ],
+    tags: ["React", "TypeScript", "Chakra UI", "API Integration", "Currency Conversion"],
     image: import.meta.env.BASE_URL + "images/project-img/currency.jpg",
     link: "https://github.com/laks08/React-CurrencyConverter",
     showProjectLink: true,
@@ -353,14 +264,7 @@ const PROJECTS = [
       "An interactive flashcard application built with React to aid in exam preparation.",
     extendedDescription:
       "This application allows users to create, edit, and practice with flashcards. With a dedicated quiz mode and dynamic review features, it supports effective study sessions using a simple interface styled with Bootstrap and custom CSS.",
-    tags: [
-      "React",
-      "JavaScript",
-      "Bootstrap",
-      "Flashcards",
-      "Study App",
-      "Axios",
-    ],
+    tags: ["React", "JavaScript", "Bootstrap", "Flashcards", "Study App", "Axios"],
     image: import.meta.env.BASE_URL + "images/project-img/flash-card.jpg",
     link: "https://github.com/laks08/React-Flashcard",
     showProjectLink: true,
@@ -380,380 +284,206 @@ const PROJECTS = [
   },
 ];
 
+const ProjectCard = ({ project, expanded, onToggle, isMobile, loading, errored, onLoad, onError }) => (
+  <motion.article
+    layout
+    onClick={onToggle}
+    role={isMobile ? "button" : undefined}
+    aria-expanded={isMobile ? expanded : undefined}
+    className={`flex h-full flex-col overflow-hidden rounded-card border border-line bg-surface transition-colors duration-300 hover:border-text ${
+      isMobile ? "" : "min-h-[560px]"
+    }`}
+  >
+    {/* Image */}
+    <div className="relative h-44 shrink-0 overflow-hidden border-b border-line">
+      <span
+        className="absolute left-2 top-3 z-10 font-mono text-[10px] uppercase tracking-label text-paper mix-blend-difference"
+        style={{ writingMode: "vertical-rl" }}
+      >
+        {project.title}
+      </span>
+
+      {loading && !errored && (
+        <div className="absolute inset-0 animate-pulse bg-surface-2" />
+      )}
+      {errored ? (
+        <div className="flex h-full w-full items-center justify-center bg-surface-2">
+          <span className="font-mono text-xs text-muted">image unavailable</span>
+        </div>
+      ) : (
+        <img
+          src={project.image}
+          alt={project.title}
+          loading="lazy"
+          onLoad={onLoad}
+          onError={onError}
+          className="h-full w-full object-cover"
+        />
+      )}
+    </div>
+
+    {/* Body */}
+    <div className="flex flex-1 flex-col p-6">
+      <h3 className="mb-3 font-mono text-lg font-bold text-text">
+        {project.title}
+      </h3>
+      <p className="mb-4 font-sans text-sm leading-relaxed text-muted">
+        {expanded ? project.extendedDescription : project.description}
+      </p>
+
+      <TagList
+        items={expanded ? project.tags : project.tags.slice(0, 5)}
+        className="mb-5"
+      />
+
+      <div className="mt-auto flex flex-wrap gap-2">
+        {project.showProjectLink && (
+          <a
+            href={project.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            className="inline-flex items-center gap-2 rounded-full border border-line px-4 py-1.5 font-sans text-xs italic text-text transition-colors hover:border-text"
+          >
+            <FiGithub size={14} /> code
+          </a>
+        )}
+        {project.showDemoLink && (
+          <a
+            href={project.demoLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            className="inline-flex items-center gap-2 rounded-full bg-paper px-4 py-1.5 font-sans text-xs italic text-paper-ink transition-opacity hover:opacity-90"
+          >
+            <FiExternalLink size={14} /> demo
+          </a>
+        )}
+      </div>
+    </div>
+  </motion.article>
+);
+
 const Projects = () => {
   const projects = PROJECTS;
-
-  const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [expandedTitle, setExpandedTitle] = useState(null);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [imageLoadingStates, setImageLoadingStates] = useState(() =>
-    projects.reduce((acc, _, index) => {
-      acc[index] = true;
-      return acc;
-    }, {})
-  );
+  const [imageLoading, setImageLoading] = useState({});
   const [imageErrors, setImageErrors] = useState({});
   const sliderRef = useRef(null);
 
-  // Check if device is mobile on component mount
   React.useEffect(() => {
-    const checkIfMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-
-    // Initial check
-    checkIfMobile();
-
-    // Add event listener for window resize
-    window.addEventListener("resize", checkIfMobile);
-
-    // Cleanup
-    return () => window.removeEventListener("resize", checkIfMobile);
+    const check = () => setIsMobile(window.innerWidth <= 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
   }, []);
 
   const settings = {
-    dots: false,
+    dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 1,
     autoplay: isAutoPlaying && !isHovered,
-    autoplaySpeed: 3000,
-    prevArrow: <></>,
-    nextArrow: <></>,
+    autoplaySpeed: 3500,
+    arrows: false,
     pauseOnHover: true,
     responsive: [
-      {
-        breakpoint: 1536, // 2xl
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 1280, // xl
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 768, // md
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
+      { breakpoint: 1280, settings: { slidesToShow: 2 } },
+      { breakpoint: 768, settings: { slidesToShow: 1 } },
     ],
   };
 
   const handlePlayPause = () => {
-    setIsAutoPlaying(!isAutoPlaying);
-    if (!isAutoPlaying) {
-      sliderRef.current?.slickPlay();
-    } else {
-      sliderRef.current?.slickPause();
-    }
+    setIsAutoPlaying((prev) => {
+      const next = !prev;
+      if (next) sliderRef.current?.slickPlay();
+      else sliderRef.current?.slickPause();
+      return next;
+    });
   };
 
   const handleMouseEnter = () => {
     setIsHovered(true);
-    if (isAutoPlaying) {
-      sliderRef.current?.slickPause();
-    }
+    if (isAutoPlaying) sliderRef.current?.slickPause();
   };
-
   const handleMouseLeave = () => {
     setIsHovered(false);
-    if (isAutoPlaying) {
-      sliderRef.current?.slickPlay();
-    }
+    if (isAutoPlaying) sliderRef.current?.slickPlay();
   };
 
-  // Handle card click/tap for mobile devices
-  const handleCardClick = (index) => {
-    if (isMobile) {
-      setHoveredIndex(hoveredIndex === index ? null : index);
-    }
+  const toggleCard = (title) => {
+    if (isMobile) setExpandedTitle((t) => (t === title ? null : title));
   };
 
-  // Handle image loading states
-  const handleImageLoad = (index) => {
-    setImageLoadingStates((prev) => ({ ...prev, [index]: false }));
-  };
-
-  const handleImageError = (index) => {
-    setImageErrors((prev) => ({ ...prev, [index]: true }));
-    setImageLoadingStates((prev) => ({ ...prev, [index]: false }));
-  };
+  const playing = isAutoPlaying && !isHovered;
 
   return (
-    <section
-      className="py-20 relative overflow-hidden bg-slate-200 dark:bg-gray-900"
-      id="projects"
-    >
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-[0.03]">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23000000' fill-opacity='0.1'%3E%3Cpath d='M30 0l30 30-30 30L0 30z'/%3E%3C/g%3E%3C/svg%3E")`,
-            backgroundSize: "30px 30px",
-          }}
-        />
-      </div>
+    <Section id="projects" label="projects" ringPosition="right">
+      <p className="mb-10 max-w-xl font-sans text-base leading-relaxed text-muted">
+        A rolling selection of what I&apos;ve built &mdash; AI systems, data
+        pipelines, backends, and apps.
+        {isMobile ? " Tap a card for more detail." : ""}
+      </p>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
+      <div className="mb-8 flex items-center justify-between">
+        <button
+          type="button"
+          onClick={handlePlayPause}
+          className="inline-flex items-center gap-2 rounded-full border border-line px-4 py-2 font-mono text-xs text-muted transition-colors hover:border-text hover:text-text"
+          aria-label={playing ? "Pause carousel" : "Play carousel"}
         >
-          <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-            Featured Projects
-          </h2>
-          <p className="text-gray-600 dark:text-gray-400 text-lg max-w-2xl mx-auto">
-            A collection of projects that showcase my passion for building
-            innovative solutions
-          </p>
-          {isMobile && (
-            <p className="text-gray-500 dark:text-gray-500 text-sm mt-2">
-              Tap on any project card to see more details
-            </p>
-          )}
-        </motion.div>
+          {playing ? <FiPause size={14} /> : <FiPlay size={14} />}
+          <span>{playing ? "pause" : "play"}</span>
+        </button>
 
-        {/* Controls */}
-        <div className="flex justify-between items-center mb-8">
-          <motion.button
-            onClick={handlePlayPause}
-            className="px-4 py-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full text-gray-900 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700/80 transition-all duration-300 flex items-center gap-2 shadow-sm"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            aria-label={
-              isAutoPlaying && !isHovered ? "Pause carousel" : "Play carousel"
-            }
+        <div className="flex items-center gap-3">
+          <CircleButton
+            label="Previous project"
+            onClick={() => sliderRef.current?.slickPrev()}
           >
-            {isAutoPlaying && !isHovered ? (
-              <FiPause size={16} />
-            ) : (
-              <FiPlay size={16} />
-            )}
-            <span>{isAutoPlaying && !isHovered ? "Pause" : "Play"}</span>
-          </motion.button>
-
-          <div className="flex items-center gap-4">
-            <CustomPrevArrow onClick={() => sliderRef.current?.slickPrev()} />
-            <CustomNextArrow onClick={() => sliderRef.current?.slickNext()} />
-          </div>
-        </div>
-
-        <div
-          className="projects-carousel"
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-        >
-          <Slider ref={sliderRef} {...settings}>
-            {projects.map((project, index) => (
-              <div key={index} className="px-3">
-                <motion.div
-                  className={`group relative overflow-visible transition-all duration-300 ${
-                    hoveredIndex === index ? "z-20" : "z-10"
-                  }`}
-                  onHoverStart={() => !isMobile && setHoveredIndex(index)}
-                  onHoverEnd={() => !isMobile && setHoveredIndex(null)}
-                  onClick={() => handleCardClick(index)}
-                >
-                  <motion.div
-                    layout
-                    className={`relative rounded-xl bg-white dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-700/50 transition-all duration-300 hover:border-blue-500/50 shadow-md hover:shadow-xl ${
-                      isMobile ? "active:scale-95" : ""
-                    } ${
-                      isMobile && hoveredIndex === index
-                        ? "min-h-[600px] h-auto"
-                        : "h-[550px]"
-                    }`}
-                    animate={{
-                      scale: hoveredIndex === index ? 1.05 : 1,
-                    }}
-                    role={isMobile ? "button" : undefined}
-                    aria-label={
-                      isMobile
-                        ? `Tap to ${
-                            hoveredIndex === index ? "collapse" : "expand"
-                          } ${project.title} details`
-                        : undefined
-                    }
-                  >
-                    {/* Project Image */}
-                    <div className="relative h-48 overflow-hidden rounded-t-xl">
-                      <div className="absolute inset-0 bg-blue-600 mix-blend-multiply opacity-60" />
-
-                      {/* Loading skeleton */}
-                      {imageLoadingStates[index] && (
-                        <div className="absolute inset-0 bg-gray-200 dark:bg-gray-700 animate-pulse flex items-center justify-center">
-                          <div className="text-gray-400 dark:text-gray-500">
-                            Loading...
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Error fallback */}
-                      {imageErrors[index] ? (
-                        <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-800 flex items-center justify-center">
-                          <div className="text-center text-gray-500 dark:text-gray-400">
-                            <div className="text-4xl mb-2">📁</div>
-                            <div className="text-sm">Project Image</div>
-                          </div>
-                        </div>
-                      ) : (
-                        <img
-                          src={project.image}
-                          alt={project.title}
-                          className="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-110"
-                          onLoad={() => handleImageLoad(index)}
-                          onError={() => handleImageError(index)}
-                        />
-                      )}
-                    </div>
-
-                    {/* Content */}
-                    <motion.div
-                      layout
-                      className={`${
-                        isMobile && hoveredIndex === index ? "p-4" : "p-6"
-                      }`}
-                    >
-                      <motion.h3
-                        layout
-                        className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors"
-                      >
-                        {project.title}
-                      </motion.h3>
-                      <motion.p
-                        layout
-                        className="text-gray-600 dark:text-gray-400 text-sm mb-4"
-                      >
-                        {hoveredIndex === index
-                          ? project.extendedDescription
-                          : project.description}
-                      </motion.p>
-
-                      {/* Tags */}
-                      <motion.div layout className="mb-4">
-                        <div
-                          className={`flex flex-wrap gap-2 ${
-                            hoveredIndex === index
-                              ? isMobile
-                                ? "max-h-24 overflow-y-auto"
-                                : "max-h-20 overflow-y-auto"
-                              : ""
-                          }`}
-                        >
-                          {(hoveredIndex === index
-                            ? project.tags
-                            : project.tags.slice(0, 4)
-                          ).map((tag, tagIndex) => (
-                            <motion.span
-                              key={tagIndex}
-                              layout
-                              className="px-2 py-1 text-xs rounded-full text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-900/30 border border-blue-100 dark:border-blue-800/50 flex-shrink-0"
-                              whileHover={{ scale: 1.05 }}
-                            >
-                              {tag}
-                            </motion.span>
-                          ))}
-                          {hoveredIndex !== index &&
-                            project.tags.length > 4 && (
-                              <span className="text-gray-500 dark:text-gray-400 text-xs flex-shrink-0">
-                                +{project.tags.length - 4} more
-                              </span>
-                            )}
-                        </div>
-                      </motion.div>
-
-                      {/* Links */}
-                      <motion.div
-                        layout
-                        className={`flex items-center gap-2 ${
-                          isMobile && hoveredIndex === index ? "mt-2" : ""
-                        }`}
-                      >
-                        {project.showProjectLink && (
-                          <motion.a
-                            href={project.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center gap-2 px-3 py-1.5 bg-blue-50 dark:bg-blue-600/20 text-blue-700 dark:text-blue-400 rounded-full hover:bg-blue-100 dark:hover:bg-blue-600/30 transition-colors text-sm shadow-sm"
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            <FiGithub size={16} />
-                            <span>View Project</span>
-                          </motion.a>
-                        )}
-                        {project.showDemoLink && (
-                          <motion.a
-                            href={project.demoLink}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center gap-2 px-3 py-1.5 bg-rose-50 dark:bg-rose-600/20 text-rose-700 dark:text-rose-400 rounded-full hover:bg-rose-100 dark:hover:bg-rose-600/30 transition-colors text-sm shadow-sm"
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            <FiExternalLink size={16} />
-                            <span>Demo</span>
-                          </motion.a>
-                        )}
-                      </motion.div>
-                    </motion.div>
-                  </motion.div>
-                </motion.div>
-              </div>
-            ))}
-          </Slider>
+            <FiArrowLeft size={16} />
+          </CircleButton>
+          <CircleButton
+            label="Next project"
+            onClick={() => sliderRef.current?.slickNext()}
+          >
+            <FiArrowRight size={16} />
+          </CircleButton>
         </div>
       </div>
 
-      <style jsx global>{`
-        .projects-carousel .slick-list {
-          overflow: visible !important;
-          margin: 0 -1rem;
-        }
-        .projects-carousel .slick-track {
-          display: flex !important;
-          gap: 1rem;
-        }
-        .projects-carousel .slick-slide {
-          opacity: 0.5;
-          transform: scale(0.9);
-          transition: all 0.3s ease;
-        }
-        .projects-carousel .slick-slide.slick-active {
-          opacity: 1;
-          transform: scale(1);
-        }
-        .projects-carousel .slick-slide > div {
-          height: 100%;
-        }
-
-        /* Mobile-specific styles */
-        @media (max-width: 768px) {
-          .projects-carousel .slick-slide {
-            opacity: 1;
-            transform: scale(1);
-          }
-
-          .projects-carousel .slick-list {
-            margin: 0;
-          }
-        }
-      `}</style>
-    </section>
+      <div
+        className="projects-carousel"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        <Slider ref={sliderRef} {...settings}>
+          {projects.map((project) => (
+            <div key={project.title} className="h-full px-3">
+              <ProjectCard
+                project={project}
+                isMobile={isMobile}
+                expanded={expandedTitle === project.title}
+                onToggle={() => toggleCard(project.title)}
+                loading={imageLoading[project.title] !== false}
+                errored={!!imageErrors[project.title]}
+                onLoad={() =>
+                  setImageLoading((p) => ({ ...p, [project.title]: false }))
+                }
+                onError={() => {
+                  setImageErrors((p) => ({ ...p, [project.title]: true }));
+                  setImageLoading((p) => ({ ...p, [project.title]: false }));
+                }}
+              />
+            </div>
+          ))}
+        </Slider>
+      </div>
+    </Section>
   );
 };
 

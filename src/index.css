@@ -2,164 +2,85 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Global styles */
+/* ------------------------------------------------------------------ *
+ * Design tokens — monochrome "Fira Code / Open Sans" system.
+ * :root holds the LIGHT palette (base). .dark overrides with the
+ * reference (dark-first) palette. ThemeProvider ships `.dark` by
+ * default, so the reference look is what loads first.
+ * ------------------------------------------------------------------ */
+:root {
+  --color-bg: #f5f5f5;
+  --color-surface: #ffffff;
+  --color-surface-2: #e6e6e6;
+  --color-border: #cfcfcf;
+  --color-text: #121212;
+  --color-muted: #5c5c5c;
+  --color-inverse-bg: #121212;
+  --color-inverse-text: #f5f5f5;
+
+  color-scheme: light;
+}
+
+.dark {
+  --color-bg: #121212;
+  --color-surface: #1a1a1a;
+  --color-surface-2: #3d3d3d;
+  --color-border: #3d3d3d;
+  --color-text: #f5f5f5;
+  --color-muted: #a6a6a6;
+  --color-inverse-bg: #f5f5f5;
+  --color-inverse-text: #121212;
+
+  color-scheme: dark;
+}
+
 * {
   -webkit-tap-highlight-color: transparent;
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-}
-
-/* Remove focus outlines */
-button:focus,
-a:focus {
-  outline: none !important;
-}
-
-/* Disable text selection for specific elements if needed */
-img, button, a {
-  -webkit-user-drag: none;
-  -khtml-user-drag: none;
-  -moz-user-drag: none;
-  -o-user-drag: none;
-  user-drag: none;
-}
-
-/* Custom focus styles if needed */
-button:focus-visible,
-a:focus-visible {
-  @apply ring-2 ring-blue-500/50 ring-offset-2 ring-offset-transparent;
-}
-
-/* Enable text selection for specific elements if needed */
-.selectable {
-  user-select: text;
-  -webkit-user-select: text;
-  -moz-user-select: text;
-  -ms-user-select: text;
-}
-
-/* Prevent image dragging */
-img {
-  -webkit-user-drag: none;
-  -khtml-user-drag: none;
-  -moz-user-drag: none;
-  -o-user-drag: none;
-  user-drag: none;
-  pointer-events: none;
 }
 
 html {
   scroll-behavior: smooth;
 }
 
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: "Open Sans", system-ui, -apple-system, sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+/* Keep images from being dragged out, but leave them interactive. */
+img {
+  -webkit-user-drag: none;
+  user-drag: none;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+/* Token-based focus ring (replaces the old outline:none + blue ring). */
+:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
+  border-radius: 2px;
 }
 
-@keyframes slideDown {
-  from {
-    transform: translateY(-100%);
+/* Opt-in helper kept for backwards compatibility. */
+.selectable {
+  user-select: text;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
-  to {
-    transform: translateY(0);
-  }
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-}
-
-.slick-track {
-  overflow: visible !important;
-}
-
-.slick-list {
-  padding: 20px 0 !important;
-}
-
-.project-card {
-  transition: all 0.3s ease;
-}
-
-.project-card:hover {
-  transform: scale(1.05);
-  z-index: 50;
-}
-
-.project-card-extended {
-  display: none;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background: white;
-  border-radius: 0.5rem;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
-              0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  z-index: 40;
-}
-
-.project-card:hover .project-card-extended {
-  display: block;
 }
