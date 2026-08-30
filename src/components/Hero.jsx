@@ -27,6 +27,16 @@ const fade = {
   }),
 };
 
+const Photo = ({ src }) => (
+  <div className="h-60 w-60 overflow-hidden rounded-card border border-line sm:h-72 sm:w-72 xl:h-80 xl:w-80">
+    <img
+      src={src}
+      alt="Lakshya Gupta"
+      className="h-full w-full object-cover grayscale"
+    />
+  </div>
+);
+
 const Hero = () => {
   const profilePic = import.meta.env.BASE_URL + "images/profilepic.jpeg";
 
@@ -54,6 +64,16 @@ const Hero = () => {
             <SectionLabel slash className="mb-6">
               About me
             </SectionLabel>
+          </motion.div>
+
+          {/* Mobile: photo sits right after "About me", centered. */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.15 }}
+            className="my-6 flex justify-center lg:hidden"
+          >
+            <Photo src={profilePic} />
           </motion.div>
 
           <motion.div
@@ -121,19 +141,14 @@ const Hero = () => {
           </motion.div>
         </div>
 
+        {/* Desktop: photo is the right-hand column. */}
         <motion.div
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="justify-self-start lg:justify-self-end"
+          className="hidden lg:block lg:justify-self-end"
         >
-          <div className="h-60 w-60 overflow-hidden rounded-card border border-line sm:h-72 sm:w-72 xl:h-80 xl:w-80">
-            <img
-              src={profilePic}
-              alt="Lakshya Gupta"
-              className="h-full w-full object-cover grayscale"
-            />
-          </div>
+          <Photo src={profilePic} />
         </motion.div>
       </div>
     </section>
