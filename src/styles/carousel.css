@@ -1,11 +1,26 @@
-/* Monochrome react-slick overrides for the Projects carousel.
-   Centre-active card at full strength, neighbours dimmed and peeking —
-   the reference's article carousel. */
+/* Projects carousel — monochrome, driven off slick's own classes.
+ *
+ * The BASE state is the reference's "Articles" card: black, thin outline,
+ * white title, readable grey body, solid white pill + arrow, text spanning
+ * the full card. `.slick-center` promotes a slide to ACTIVE, which reveals
+ * the full-bleed photo and narrows the copy onto a translucent scrim.
+ *
+ * Base-is-inactive is deliberate: `infinite` clones ~37 offscreen slides,
+ * and they all default to the correct style.
+ *
+ * Two rules that must not be "tidied up":
+ *  - Never hook off `.slick-active`. With centerOffset 0 it means
+ *    `index === currentSlide`, which is FALSE for the clone that is visually
+ *    centred during a wrap.
+ *  - Never use `backdrop-filter` for the scrim. `.slick-track`'s transform
+ *    and the slide's `opacity < 1` each establish a Backdrop Root, so it
+ *    would sample nothing and paint flat.
+ */
 
+/* ── track plumbing ─────────────────────────────────────────────── */
 .projects-carousel .slick-list {
   overflow: hidden;
-  padding-top: 4px;
-  padding-bottom: 4px;
+  padding: 4px 0;
 }
 
 .projects-carousel .slick-track {
@@ -15,7 +30,7 @@
 
 .projects-carousel .slick-slide {
   height: auto;
-  opacity: 0.28;
+  opacity: 0.35;
   transition: opacity 0.45s ease;
 }
 
@@ -23,23 +38,189 @@
   height: 100%;
 }
 
-/* `centerMode` marks the middle slide; without it (mobile) fall back to
-   the active slide so the card is never left dimmed. */
-.projects-carousel .slick-slide.slick-center,
-.projects-carousel .slick-slide.slick-current {
+.projects-carousel .slick-slide.slick-center {
   opacity: 1;
 }
 
-/* Neighbours are decorative — keep them out of the tab order's way. */
-.projects-carousel .slick-slide:not(.slick-center):not(.slick-current) {
+/* Neighbours are decorative — keep them out of the pointer/tab path. */
+.projects-carousel .slick-slide:not(.slick-center) {
   pointer-events: none;
 }
 
+/* ── card: BASE (= the reference's Articles card) ───────────────── */
+.projects-carousel .pc-card {
+  border-radius: 24px;
+  background: rgb(var(--color-bg));
+  border: 1px solid rgb(var(--color-border));
+  transition: border-color 0.45s ease;
+}
+
+.projects-carousel .pc-media {
+  opacity: 0;
+  transition: opacity 0.45s ease;
+}
+
+.projects-carousel .pc-scrim {
+  width: 100%;
+  background: rgb(var(--color-bg));
+  transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.45s ease;
+}
+
+.projects-carousel .pc-body {
+  width: 100%;
+  transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.projects-carousel .pc-title {
+  color: rgb(var(--color-text));
+  transition: color 0.45s ease;
+}
+
+.projects-carousel .pc-desc {
+  color: rgb(var(--color-text) / 0.72);
+  transition: color 0.45s ease;
+}
+
+.projects-carousel .pc-pill {
+  background: rgb(var(--color-inverse-bg));
+  color: rgb(var(--color-inverse-text));
+  border: 0;
+}
+
+.projects-carousel .pc-arrow {
+  background: rgb(var(--color-inverse-bg));
+  color: rgb(var(--color-inverse-text));
+  border-color: transparent;
+}
+
+/* ── ACTIVE: promoted by slick, clones included ─────────────────── */
+/* border-color, not `border: none` — keeps the box size identical. */
+.projects-carousel .slick-slide.slick-center .pc-card {
+  border-color: transparent;
+}
+
+.projects-carousel .slick-slide.slick-center .pc-media {
+  opacity: 1;
+}
+
+/* Hard vertical edge; the photo stays visible through the scrim. */
+.projects-carousel .slick-slide.slick-center .pc-scrim {
+  width: 57%;
+  background: rgba(9, 9, 11, 0.72);
+}
+
+.projects-carousel .slick-slide.slick-center .pc-body {
+  width: 57%;
+}
+
+/* The scrim sits on a photograph, so its copy stays light in both themes. */
+.projects-carousel .slick-slide.slick-center .pc-title {
+  color: #fff;
+}
+
+.projects-carousel .slick-slide.slick-center .pc-desc {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.projects-carousel .slick-slide.slick-center .pc-pill,
+.projects-carousel .slick-slide.slick-center .pc-arrow {
+  background: #f5f5f5;
+  color: #121212;
+}
+
+/* ── nav arrows overlapping the side cards ──────────────────────── */
+.projects-carousel-nav .pc-nav {
+  position: absolute;
+  top: 50%;
+  z-index: 20;
+  height: 78px;
+  width: 78px;
+  transform: translateY(-50%);
+  background: transparent;
+}
+
+.projects-carousel-nav .pc-nav--prev {
+  left: -12px;
+}
+
+.projects-carousel-nav .pc-nav--next {
+  right: -12px;
+}
+
+@media (min-width: 1280px) {
+  .projects-carousel-nav .pc-nav {
+    height: 90px;
+    width: 90px;
+  }
+  .projects-carousel-nav .pc-nav--prev {
+    left: -28px;
+  }
+  .projects-carousel-nav .pc-nav--next {
+    right: -28px;
+  }
+}
+
+/* ── mobile: centerMode is off, so no slide gets .slick-center ──── */
+/* Promote every slide unconditionally rather than keying off a class:
+ * `.slick-current` is only ever applied to originals, so mid-wrap the
+ * visible node (a clone) would have neither class and would flash the
+ * inactive style for the full 500ms. slider.js also starts with
+ * `breakpoint: null`, so first paint uses the desktop settings.
+ * Clones are fully offscreen here, so promoting all of them is safe. */
 @media (max-width: 640px) {
   .projects-carousel .slick-slide {
     opacity: 1;
-  }
-  .projects-carousel .slick-slide:not(.slick-center):not(.slick-current) {
     pointer-events: auto;
+  }
+
+  .projects-carousel .pc-card {
+    border-color: transparent;
+  }
+  .projects-carousel .pc-media {
+    opacity: 1;
+  }
+  /* Stacked: a horizontal scrim across the bottom — a 57% column is
+     unusable at 375px. */
+  .projects-carousel .pc-scrim {
+    inset: auto 0 0 0;
+    width: 100%;
+    height: 62%;
+    background: rgba(9, 9, 11, 0.78);
+  }
+  .projects-carousel .pc-body {
+    width: 100%;
+    justify-content: flex-end;
+  }
+  .projects-carousel .pc-title {
+    color: #fff;
+  }
+  .projects-carousel .pc-desc {
+    color: rgba(255, 255, 255, 0.78);
+  }
+  .projects-carousel .pc-pill,
+  .projects-carousel .pc-arrow {
+    background: #f5f5f5;
+    color: #121212;
+  }
+
+  /* No peeking neighbours on mobile, so the arrows would sit on top of the
+     card's own copy. Drop them below it instead. */
+  .projects-carousel-nav {
+    padding-bottom: 76px;
+  }
+  .projects-carousel-nav .pc-nav {
+    top: auto;
+    bottom: 0;
+    transform: none;
+    height: 52px;
+    width: 52px;
+  }
+  .projects-carousel-nav .pc-nav--prev {
+    left: 0;
+  }
+  .projects-carousel-nav .pc-nav--next {
+    left: 64px;
+    right: auto;
   }
 }

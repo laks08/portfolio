@@ -308,6 +308,7 @@ const ProjectImage = ({ project, loading, errored, onLoad, onError, className = 
         src={project.image}
         alt={project.title}
         loading="lazy"
+        decoding="async"
         onLoad={onLoad}
         onError={onError}
         className="h-full w-full object-cover"
@@ -321,15 +322,21 @@ const ProjectImage = ({ project, loading, errored, onLoad, onError, className = 
  * copy + "Read more" pill and circular arrow on the right.
  */
 const ProjectCardCollapsed = ({ project, onExpand, imageProps }) => (
-  <article className="grid h-[420px] grid-cols-1 grid-rows-[170px_1fr] overflow-hidden rounded-card border border-line bg-surface sm:h-[320px] sm:grid-cols-[0.85fr_1.15fr] sm:grid-rows-1">
-    <ProjectImage project={project} className="h-full" {...imageProps} />
+  <article className="pc-card relative h-[420px] overflow-hidden sm:h-[340px]">
+    {/* Full-bleed photo — only revealed on the centred slide. */}
+    <div className="pc-media absolute inset-0">
+      <ProjectImage project={project} className="h-full w-full" {...imageProps} />
+    </div>
 
-    <div className="flex flex-col justify-center p-6 sm:p-8">
-      <h3 className="font-mono text-xl font-bold leading-snug text-text sm:text-2xl">
+    {/* Hard-edged translucent scrim the copy sits on. */}
+    <div className="pc-scrim absolute inset-y-0 right-0" aria-hidden="true" />
+
+    <div className="pc-body relative z-10 ml-auto flex h-full flex-col justify-center p-6 sm:p-12">
+      <h3 className="pc-title font-mono text-xl font-bold leading-snug sm:text-2xl">
         {project.title}
       </h3>
 
-      <p className="mt-4 line-clamp-3 font-sans text-sm leading-relaxed text-muted">
+      <p className="pc-desc mt-4 line-clamp-3 font-sans text-sm leading-relaxed">
         {project.description}
       </p>
 
@@ -337,13 +344,14 @@ const ProjectCardCollapsed = ({ project, onExpand, imageProps }) => (
         <button
           type="button"
           onClick={onExpand}
-          className="rounded-full bg-paper px-6 py-3 font-sans text-sm italic text-paper-ink transition-opacity hover:opacity-90"
+          className="pc-pill rounded-full px-6 py-3 font-sans text-sm italic transition-opacity hover:opacity-90"
         >
           Read more
         </button>
         <CircleButton
           onClick={onExpand}
           label={`Read more about ${project.title}`}
+          className="pc-arrow"
         >
           <FiArrowRight size={16} />
         </CircleButton>
@@ -417,24 +425,20 @@ const ProjectCardExpanded = ({ project, onClose, imageProps }) => (
       className="mt-10 flex flex-wrap items-center gap-3 border-t border-line pt-8"
     >
       {project.showProjectLink && (
-        <a
+        <CircleButton
           href={project.link}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 rounded-full border border-line px-5 py-2.5 font-sans text-sm italic text-text transition-colors hover:border-text"
+          label={`${project.title} source on GitHub`}
         >
-          <FiGithub size={15} /> view code
-        </a>
+          <FiGithub size={16} />
+        </CircleButton>
       )}
       {project.showDemoLink && (
-        <a
+        <CircleButton
           href={project.demoLink}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 rounded-full border border-line px-5 py-2.5 font-sans text-sm italic text-text transition-colors hover:border-text"
+          label={`${project.title} live demo`}
         >
-          <FiExternalLink size={15} /> live demo
-        </a>
+          <FiExternalLink size={16} />
+        </CircleButton>
       )}
       {(project.showProjectLink || project.showDemoLink) && (
         <CircleButton
@@ -488,19 +492,22 @@ const Projects = () => {
 
   const settings = {
     dots: false,
-    // No cloning: each card renders once so its layoutId stays unique and
-    // the expand morph works.
-    infinite: false,
+    infinite: true,
     initialSlide: current,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
     centerMode: true,
     centerPadding: "140px",
-    autoplay: isAutoPlaying && !isHovered,
+    // Deliberately NOT `isAutoPlaying && !isHovered`: a boolean prop that
+    // flips on hover forces slick to re-measure, which can snap the track
+    // mid-wrap. handleMouseEnter/Leave pause and play imperatively instead.
+    autoplay: isAutoPlaying,
     autoplaySpeed: 6000,
     arrows: false,
     pauseOnHover: true,
+    // NOTE: never set slick's `lazyLoad` here — with centerMode + infinite it
+    // renders the mid-wrap centred clone as an empty div.
     beforeChange: (_, next) => setCurrent(next),
     responsive: [
       { breakpoint: 1024, settings: { centerPadding: "60px" } },
@@ -553,32 +560,36 @@ const Projects = () => {
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
-          <CircleButton
-            label="Previous project"
-            onClick={() => sliderRef.current?.slickPrev()}
-            disabled={!!expanded || current === 0}
-            className="disabled:opacity-30"
-          >
-            <FiArrowLeft size={16} />
-          </CircleButton>
-          <CircleButton
-            label="Next project"
-            onClick={() => sliderRef.current?.slickNext()}
-            disabled={!!expanded || current === projects.length - 1}
-            className="disabled:opacity-30"
-          >
-            <FiArrowRight size={16} />
-          </CircleButton>
-        </div>
       </div>
 
-      {/* `layout` lets the container animate its own height as the card
-          grows, while the shared layoutIds morph the card itself. */}
       {/* `layout` animates the container's own height as the card grows.
           It sits OUTSIDE the slick track — framer's layout projection and
           slick's transformed track do not mix. */}
-      <motion.div layout transition={{ duration: 0.36, ease: [0.22, 1, 0.36, 1] }}>
+      <motion.div
+        layout
+        transition={{ duration: 0.36, ease: [0.22, 1, 0.36, 1] }}
+        className="projects-carousel-nav relative"
+      >
+        {/* Nav arrows overlap the peeking side cards, as in the reference. */}
+        {!expanded && (
+          <>
+            <CircleButton
+              label="Previous project"
+              onClick={() => sliderRef.current?.slickPrev()}
+              className="pc-nav pc-nav--prev"
+            >
+              <FiArrowLeft size={20} />
+            </CircleButton>
+            <CircleButton
+              label="Next project"
+              onClick={() => sliderRef.current?.slickNext()}
+              className="pc-nav pc-nav--next"
+            >
+              <FiArrowRight size={20} />
+            </CircleButton>
+          </>
+        )}
+
         <AnimatePresence mode="wait" initial={false}>
           {expanded ? (
             <ProjectCardExpanded
