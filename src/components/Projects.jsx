@@ -373,9 +373,9 @@ const ProjectCardExpanded = ({ project, onClose, imageProps }) => (
       type="button"
       onClick={onClose}
       aria-label="Close project details"
-      className="absolute right-5 top-5 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full border border-line text-text transition-colors hover:border-transparent hover:bg-paper hover:text-paper-ink"
+      className="absolute right-5 top-5 z-10 inline-flex h-8 w-8 items-center justify-center rounded-full border border-line text-text transition-colors hover:border-transparent hover:bg-paper hover:text-paper-ink"
     >
-      <FiX size={18} />
+      <FiX size={15} />
     </button>
 
     <div className="grid grid-cols-1 items-start gap-8 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:gap-12">
@@ -575,7 +575,6 @@ const Projects = () => {
           <>
             <CircleButton
               label="Previous project"
-              variant="solid"
               onClick={() => sliderRef.current?.slickPrev()}
               className="pc-nav pc-nav--prev"
             >
@@ -583,7 +582,6 @@ const Projects = () => {
             </CircleButton>
             <CircleButton
               label="Next project"
-              variant="solid"
               onClick={() => sliderRef.current?.slickNext()}
               className="pc-nav pc-nav--next"
             >
