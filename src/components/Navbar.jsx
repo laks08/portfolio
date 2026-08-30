@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-scroll";
 import { FiMenu, FiX, FiSun, FiMoon } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "../context/ThemeContext";
@@ -12,6 +11,16 @@ const NAV_ITEMS = [
   "experience",
   "contact",
 ];
+
+const scrollToSection = (id) => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const reduce = window.matchMedia?.(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
+  el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+  history.replaceState?.(null, "", `#${id}`);
+};
 
 const ThemeToggle = ({ className = "" }) => {
   const { isDark, toggleTheme } = useTheme();
@@ -37,7 +46,7 @@ const Navbar = () => {
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
     onScroll();
-    window.addEventListener("scroll", onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
@@ -57,6 +66,50 @@ const Navbar = () => {
     return () => document.removeEventListener("keydown", onKeyDown);
   }, []);
 
+  // Active-link highlighting — one IntersectionObserver, no per-frame scroll math.
+  useEffect(() => {
+    const sections = NAV_ITEMS.map((id) => document.getElementById(id)).filter(
+      Boolean
+    );
+    if (!sections.length) return undefined;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const inBand = entries
+          .filter((e) => e.isIntersecting)
+          .sort(
+            (a, b) => a.boundingClientRect.top - b.boundingClientRect.top
+          );
+        if (inBand[0]) setActiveItem(inBand[0].target.id);
+      },
+      // Push the band below the fixed navbar, then shrink it to the upper
+      // ~45% of the viewport so exactly one section wins.
+      { rootMargin: "-64px 0px -55% 0px", threshold: 0 }
+    );
+    sections.forEach((s) => observer.observe(s));
+
+    // Make the last item light up at the very bottom of the page.
+    const onScroll = () => {
+      if (
+        window.innerHeight + window.scrollY >=
+        document.body.scrollHeight - 2
+      ) {
+        setActiveItem(NAV_ITEMS[NAV_ITEMS.length - 1]);
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, []);
+
+  const handleNavClick = (e, item) => {
+    e.preventDefault();
+    scrollToSection(item);
+  };
+
   return (
     <nav
       className={`fixed top-0 w-full transition-colors duration-300 ${
@@ -71,33 +124,28 @@ const Navbar = () => {
     >
       <div className="mx-auto flex max-w-content items-center justify-between px-5 py-4 sm:px-8">
         {/* Wordmark */}
-        <Link
-          to="home"
-          spy
-          smooth
-          duration={500}
+        <a
+          href="#home"
+          onClick={(e) => handleNavClick(e, "home")}
           className="cursor-pointer font-mono text-sm font-bold lowercase tracking-tightest text-text"
         >
           lakshya gupta
-        </Link>
+        </a>
 
         {/* Desktop links */}
         <div className="hidden items-center gap-6 md:flex">
           {NAV_ITEMS.slice(1).map((item) => (
-            <Link
+            <a
               key={item}
-              to={item}
-              spy
-              smooth
-              duration={500}
-              onSetActive={() => setActiveItem(item)}
+              href={`#${item}`}
+              onClick={(e) => handleNavClick(e, item)}
               className={`cursor-pointer font-mono text-sm transition-colors ${
                 activeItem === item ? "text-text" : "text-muted hover:text-text"
               }`}
             >
               {activeItem === item ? "/" : ""}
               {item}
-            </Link>
+            </a>
           ))}
           <ThemeToggle />
         </div>
@@ -143,17 +191,18 @@ const Navbar = () => {
             </div>
             <div className="divide-y divide-line border-y border-line">
               {NAV_ITEMS.slice(1).map((item) => (
-                <Link
+                <a
                   key={item}
-                  to={item}
-                  spy
-                  smooth
-                  duration={500}
-                  onClick={() => setIsOpen(false)}
+                  href={`#${item}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setIsOpen(false);
+                    requestAnimationFrame(() => scrollToSection(item));
+                  }}
                   className="block cursor-pointer py-5 font-mono text-2xl lowercase text-text"
                 >
                   {item}
-                </Link>
+                </a>
               ))}
             </div>
           </motion.div>

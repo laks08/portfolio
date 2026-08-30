@@ -16,7 +16,10 @@ const Section = ({
   className = "",
   children,
 }) => (
-  <section id={id} className={`relative overflow-hidden py-14 md:py-20 ${className}`}>
+  <section
+    id={id}
+    className={`relative scroll-mt-20 overflow-hidden py-14 md:py-20 ${className}`}
+  >
     {rings && <BackgroundRings position={ringPosition} />}
     <div className="relative z-10 mx-auto w-full max-w-content px-5 sm:px-8">
       {label && (

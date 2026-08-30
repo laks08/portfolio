@@ -78,6 +78,25 @@ img {
   user-select: text;
 }
 
+/* Animate token-driven colour changes ONLY while the theme is toggling.
+   ThemeContext adds `.theme-transition` to <html> for ~380ms per toggle. */
+.theme-transition,
+.theme-transition *,
+.theme-transition *::before,
+.theme-transition *::after {
+  transition: background-color 0.35s ease, border-color 0.35s ease,
+    color 0.35s ease, fill 0.35s ease, stroke 0.35s ease !important;
+  transition-delay: 0s !important;
+}
+
+/* Keep the carousel's own width/opacity transitions intact during a toggle —
+   constrain WHICH properties animate without wiping each element's timing. */
+.theme-transition .projects-carousel *,
+.theme-transition .projects-carousel *::before,
+.theme-transition .projects-carousel *::after {
+  transition-property: background-color, border-color, color, fill, stroke !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -86,5 +105,11 @@ img {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+  .theme-transition,
+  .theme-transition *,
+  .theme-transition *::before,
+  .theme-transition *::after {
+    transition-duration: 0.01ms !important;
   }
 }

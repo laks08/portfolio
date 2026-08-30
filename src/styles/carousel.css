@@ -57,19 +57,22 @@
 
 .projects-carousel .pc-media {
   opacity: 0;
-  transition: opacity 0.45s ease;
+  transition: opacity 0.3s ease;
 }
 
+/* Constant colour + fixed size — the scrim only ever fades in/out, so the
+   reveal has no width morph and no opaque->translucent colour shift. */
 .projects-carousel .pc-scrim {
-  width: 100%;
-  background: rgb(var(--color-bg));
-  transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-    background-color 0.45s ease;
+  width: 57%;
+  background: rgba(9, 9, 11, 0.72);
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .projects-carousel .pc-body {
   width: 100%;
-  transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: width;
+  transition: width 0.3s ease;
 }
 
 .projects-carousel .pc-title {
@@ -78,6 +81,7 @@
 }
 
 .projects-carousel .pc-desc {
+  min-height: 4.2rem; /* ~3 lines — stops the buttons jumping as text rewraps */
   color: rgb(var(--color-text) / 0.72);
   transition: color 0.45s ease;
 }
@@ -100,18 +104,35 @@
   border-color: transparent;
 }
 
+/* Reveal is sequenced with a small delay so it settles in AFTER the ~500ms
+   slide finishes, rather than fighting it. */
 .projects-carousel .slick-slide.slick-center .pc-media {
   opacity: 1;
+  transition: opacity 0.5s ease 0.16s;
 }
 
-/* Hard vertical edge; the photo stays visible through the scrim. */
 .projects-carousel .slick-slide.slick-center .pc-scrim {
-  width: 57%;
-  background: rgba(9, 9, 11, 0.72);
+  opacity: 1;
+  transition: opacity 0.45s ease 0.18s;
 }
 
 .projects-carousel .slick-slide.slick-center .pc-body {
   width: 57%;
+  transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.18s;
+  /* brief opacity dip masks the text reflow as the column narrows */
+  animation: pc-body-settle 0.6s ease 0.18s both;
+}
+
+@keyframes pc-body-settle {
+  0% {
+    opacity: 1;
+  }
+  35% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 /* The scrim sits on a photograph, so its copy stays light in both themes. */
@@ -186,18 +207,22 @@
   }
   .projects-carousel .pc-media {
     opacity: 1;
+    transition: none;
   }
   /* Stacked: a horizontal scrim across the bottom — a 57% column is
-     unusable at 375px. */
+     unusable at 375px. Constant colour + always visible; no transition. */
   .projects-carousel .pc-scrim {
     inset: auto 0 0 0;
     width: 100%;
     height: 62%;
+    opacity: 1;
     background: rgba(9, 9, 11, 0.78);
+    transition: none;
   }
   .projects-carousel .pc-body {
     width: 100%;
     justify-content: flex-end;
+    animation: none;
   }
   .projects-carousel .pc-title {
     color: #fff;

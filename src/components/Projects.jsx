@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useCallback, useMemo, useRef, useState } from "react";
 import Slider from "react-slick";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -470,17 +470,45 @@ const Projects = () => {
   const [imageErrors, setImageErrors] = useState({});
   const sliderRef = useRef(null);
 
+  // Slide to restore to after the expanded card closes and <Slider> remounts.
+  const restoreIndexRef = useRef(0);
+  // Stable indirection so `settings.beforeChange` identity never changes.
+  const onBeforeChange = useRef(() => {});
+  onBeforeChange.current = (_, next) => {
+    restoreIndexRef.current = next;
+    setCurrent(next);
+  };
+
   const expanded = projects.find((p) => p.title === expandedTitle) || null;
 
-  const imagePropsFor = (project) => ({
-    loading: imageLoading[project.title] !== false,
-    errored: !!imageErrors[project.title],
-    onLoad: () => setImageLoading((p) => ({ ...p, [project.title]: false })),
-    onError: () => {
-      setImageErrors((p) => ({ ...p, [project.title]: true }));
-      setImageLoading((p) => ({ ...p, [project.title]: false }));
-    },
-  });
+  const imagePropsFor = useCallback(
+    (project) => ({
+      loading: imageLoading[project.title] !== false,
+      errored: !!imageErrors[project.title],
+      onLoad: () => setImageLoading((p) => ({ ...p, [project.title]: false })),
+      onError: () => {
+        setImageErrors((p) => ({ ...p, [project.title]: true }));
+        setImageLoading((p) => ({ ...p, [project.title]: false }));
+      },
+    }),
+    [imageLoading, imageErrors]
+  );
+
+  // Rebuilt only when image load/error state changes — NOT when `current`
+  // changes, so a slide never churns the <Slider>'s children.
+  const slides = useMemo(
+    () =>
+      projects.map((project) => (
+        <div key={project.title} className="px-3">
+          <ProjectCardCollapsed
+            project={project}
+            onExpand={() => setExpandedTitle(project.title)}
+            imageProps={imagePropsFor(project)}
+          />
+        </div>
+      )),
+    [projects, imagePropsFor]
+  );
 
   // Close the expanded card with Escape.
   React.useEffect(() => {
@@ -490,29 +518,43 @@ const Projects = () => {
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [expandedTitle]);
 
-  const settings = {
-    dots: false,
-    infinite: true,
-    initialSlide: current,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    centerMode: true,
-    centerPadding: "140px",
-    // Deliberately NOT `isAutoPlaying && !isHovered`: a boolean prop that
-    // flips on hover forces slick to re-measure, which can snap the track
-    // mid-wrap. handleMouseEnter/Leave pause and play imperatively instead.
-    autoplay: isAutoPlaying,
-    autoplaySpeed: 6000,
-    arrows: false,
-    pauseOnHover: true,
-    // NOTE: never set slick's `lazyLoad` here — with centerMode + infinite it
-    // renders the mid-wrap centred clone as an empty div.
-    beforeChange: (_, next) => setCurrent(next),
-    responsive: [
-      { breakpoint: 1024, settings: { centerPadding: "60px" } },
-      { breakpoint: 640, settings: { centerMode: false, centerPadding: "0px" } },
-    ],
+  // Created once. `initialSlide` and `autoplay` are frozen primitives so
+  // InnerSlider.didPropsChange() never fires on a slide-driven re-render —
+  // that re-measure is what clobbers the in-flight track animation and makes
+  // the last->first wrap look broken. Autoplay is controlled imperatively.
+  const settings = useMemo(
+    () => ({
+      dots: false,
+      infinite: true,
+      initialSlide: 0,
+      speed: 500,
+      cssEase: "cubic-bezier(0.22, 1, 0.36, 1)",
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      centerMode: true,
+      centerPadding: "140px",
+      autoplay: true,
+      autoplaySpeed: 6000,
+      arrows: false,
+      pauseOnHover: false,
+      // NOTE: never set slick's `lazyLoad` — with centerMode + infinite it
+      // renders the mid-wrap centred clone as an empty div.
+      beforeChange: (a, b) => onBeforeChange.current(a, b),
+      responsive: [
+        { breakpoint: 1024, settings: { centerPadding: "60px" } },
+        {
+          breakpoint: 640,
+          settings: { centerMode: false, centerPadding: "0px" },
+        },
+      ],
+    }),
+    []
+  );
+
+  // Restore the slide after the expanded card closes and <Slider> re-mounts.
+  const handleSliderInit = () => {
+    const idx = restoreIndexRef.current;
+    if (idx > 0) sliderRef.current?.slickGoTo(idx, true); // instant jump
   };
 
   const handlePlayPause = () => {
@@ -609,16 +651,12 @@ const Projects = () => {
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
             >
-              <Slider ref={sliderRef} {...settings}>
-                {projects.map((project) => (
-                  <div key={project.title} className="px-3">
-                    <ProjectCardCollapsed
-                      project={project}
-                      onExpand={() => setExpandedTitle(project.title)}
-                      imageProps={imagePropsFor(project)}
-                    />
-                  </div>
-                ))}
+              <Slider
+                ref={sliderRef}
+                onInit={handleSliderInit}
+                {...settings}
+              >
+                {slides}
               </Slider>
             </motion.div>
           )}

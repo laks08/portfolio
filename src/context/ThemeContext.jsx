@@ -1,4 +1,11 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 const ThemeContext = createContext();
 const STORAGE_KEY = "theme";
@@ -18,6 +25,7 @@ const getInitialIsDark = () => {
 
 export const ThemeProvider = ({ children }) => {
   const [isDark, setIsDark] = useState(getInitialIsDark);
+  const themeTimer = useRef(null);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -44,7 +52,30 @@ export const ThemeProvider = ({ children }) => {
     return () => mq.removeEventListener?.("change", onChange);
   }, []);
 
-  const toggleTheme = () => setIsDark((v) => !v);
+  useEffect(
+    () => () => {
+      if (themeTimer.current) clearTimeout(themeTimer.current);
+    },
+    []
+  );
+
+  // Cross-fade every token-driven colour, but only for the duration of the
+  // toggle — a temporary `.theme-transition` class on <html> (see index.css).
+  const toggleTheme = useCallback(() => {
+    const root = document.documentElement;
+    const reduce = window.matchMedia?.(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    if (!reduce) {
+      root.classList.add("theme-transition");
+      if (themeTimer.current) clearTimeout(themeTimer.current);
+      themeTimer.current = setTimeout(() => {
+        root.classList.remove("theme-transition");
+        themeTimer.current = null;
+      }, 380);
+    }
+    setIsDark((v) => !v);
+  }, []);
 
   return (
     <ThemeContext.Provider value={{ isDark, toggleTheme }}>
