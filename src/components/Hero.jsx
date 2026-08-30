@@ -6,6 +6,7 @@ import BackgroundRings from "./ui/BackgroundRings";
 import DisplayHeading from "./ui/DisplayHeading";
 import PillButton from "./ui/PillButton";
 import Chip from "./ui/Chip";
+import SectionLabel from "./ui/SectionLabel";
 
 const socialLinks = [
   {
@@ -35,23 +36,25 @@ const Hero = () => {
       className="relative flex min-h-screen items-center overflow-hidden pt-24"
     >
       <BackgroundRings position="right" />
-      {/* Left accent bar */}
-      <div
-        aria-hidden="true"
-        className="absolute left-0 top-1/3 h-40 w-px bg-text"
-      />
 
       <div className="relative z-10 mx-auto grid w-full max-w-content grid-cols-1 gap-12 px-5 sm:px-8 lg:grid-cols-[1fr_auto] lg:items-center">
+        {/* Left accent bar — sits at the content's left edge */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute left-0 top-10 h-40 w-px bg-text"
+        />
+
         <div>
-          <motion.p
+          <motion.div
             variants={fade}
             initial="hidden"
             animate="show"
             custom={0}
-            className="mb-6 font-mono text-xs tracking-label text-muted"
           >
-            ... hi, i&apos;m lakshya gupta ...
-          </motion.p>
+            <SectionLabel slash className="mb-6">
+              About me
+            </SectionLabel>
+          </motion.div>
 
           <motion.div
             variants={fade}
@@ -65,7 +68,12 @@ const Hero = () => {
               lines={[
                 { text: "AI Software" },
                 { text: "Engineer" },
-                { text: "& Product Owner", muted: true },
+                {
+                  text: "& Product Owner",
+                  muted: true,
+                  indent: 0,
+                  className: "md:whitespace-nowrap",
+                },
               ]}
             />
           </motion.div>
@@ -119,7 +127,7 @@ const Hero = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="hidden justify-self-end lg:block"
         >
-          <div className="h-56 w-56 overflow-hidden rounded-card border border-line">
+          <div className="h-72 w-72 overflow-hidden rounded-card border border-line xl:h-80 xl:w-80">
             <img
               src={profilePic}
               alt="Lakshya Gupta"

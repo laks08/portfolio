@@ -367,15 +367,15 @@ const ProjectCardExpanded = ({ project, onClose, imageProps }) => (
     animate={{ opacity: 1, scale: 1, y: 0 }}
     exit={{ opacity: 0, scale: 0.94, y: 12 }}
     transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
-    className="relative overflow-hidden rounded-card border border-line bg-surface p-6 sm:p-10"
+    className="relative overflow-hidden rounded-card border border-line bg-bg p-6 sm:p-10"
   >
     <button
       type="button"
       onClick={onClose}
       aria-label="Close project details"
-      className="absolute right-5 top-5 z-10 inline-flex h-9 w-9 items-center justify-center rounded-full border border-line text-text transition-colors hover:border-text"
+      className="absolute right-5 top-5 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full border border-line text-text transition-colors hover:border-transparent hover:bg-paper hover:text-paper-ink"
     >
-      <FiX size={16} />
+      <FiX size={18} />
     </button>
 
     <div className="grid grid-cols-1 items-start gap-8 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:gap-12">
@@ -575,6 +575,7 @@ const Projects = () => {
           <>
             <CircleButton
               label="Previous project"
+              variant="solid"
               onClick={() => sliderRef.current?.slickPrev()}
               className="pc-nav pc-nav--prev"
             >
@@ -582,6 +583,7 @@ const Projects = () => {
             </CircleButton>
             <CircleButton
               label="Next project"
+              variant="solid"
               onClick={() => sliderRef.current?.slickNext()}
               className="pc-nav pc-nav--next"
             >
