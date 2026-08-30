@@ -8,7 +8,7 @@ const Experience = () => {
       company: "Aerocode",
       location: "New Delhi, India",
       period: "Apr 2026 – Present",
-      logo: import.meta.env.BASE_URL + "images/aerocode.jpg",
+      logo: import.meta.env.BASE_URL + "images/aerocode_logo.jpeg",
       color: "from-cyan-400 to-cyan-600",
 
       technologies: [
