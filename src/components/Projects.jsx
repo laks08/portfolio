@@ -63,6 +63,78 @@ const CustomNextArrow = React.memo((props) => {
 
 const PROJECTS = [
   {
+    title: "StyleSync AI",
+    description:
+      "Multi-agent fashion recommendation backend where five LangChain/LangGraph agents collaborate to assemble outfit recommendations.",
+    extendedDescription:
+      "Five specialized agents hand work off to each other to build a recommendation, with agent-to-agent orchestration running through kagent and kmcp. Packaged for Docker and Kubernetes.",
+    tags: [
+      "Python",
+      "LangChain",
+      "LangGraph",
+      "Multi-agent",
+      "kagent",
+      "kmcp",
+      "Docker",
+      "Kubernetes",
+    ],
+    image: import.meta.env.BASE_URL + "images/project-img/stylesync-ai.jpg",
+    link: "https://github.com/laks08/style-sync-ai",
+    showProjectLink: true,
+    showDemoLink: false,
+  },
+  {
+    title: "legal-rag",
+    description:
+      "Multi-agent legal RAG system that answers questions over federal securities filings with traceable citations.",
+    extendedDescription:
+      "A LangGraph pipeline with a DeepAgents planner/subagent setup handles query rewriting, reranking, and cited synthesis over legal-domain embeddings stored in Chroma, so every answer traces back to primary-source filings.",
+    tags: [
+      "Python",
+      "LangGraph",
+      "DeepAgents",
+      "RAG",
+      "Reranking",
+      "Chroma",
+    ],
+    image: import.meta.env.BASE_URL + "images/project-img/legal-rag.jpg",
+    link: "https://github.com/laks08/legal-rag",
+    showProjectLink: true,
+    showDemoLink: false,
+  },
+  {
+    title: "legal-embedder",
+    description:
+      "Fine-tuned sentence-embedding model for legal semantic search, trained on US federal court opinions.",
+    extendedDescription:
+      "Sentence embeddings fine-tuned on US federal court opinions and benchmarked against all-MiniLM-L6-v2 to measure retrieval gains on legal text.",
+    tags: [
+      "Python",
+      "Sentence Transformers",
+      "Fine-tuning",
+      "Embeddings",
+      "Legal NLP",
+      "Benchmarking",
+    ],
+    image: import.meta.env.BASE_URL + "images/project-img/legal-embedder.jpg",
+    link: "https://github.com/laks08/legal-embedder",
+    showProjectLink: true,
+    showDemoLink: false,
+  },
+  {
+    title: "Video Atomization",
+    description:
+      "LLM-driven pipeline that detects highlight moments in long-form video from transcripts and renders the clips.",
+    extendedDescription:
+      "Works from transcripts to detect candidate highlight moments, then renders clips with FFmpeg off a Postgres-backed job queue.",
+    tags: ["Python", "LLM", "FFmpeg", "PostgreSQL", "Job Queue"],
+    image:
+      import.meta.env.BASE_URL + "images/project-img/video-atomization.jpg",
+    link: "https://github.com/laks08/video-atomization",
+    showProjectLink: true,
+    showDemoLink: false,
+  },
+  {
     title: "Boston Weather Data ETL Pipeline",
     description:
       "A comprehensive weather data pipeline using the 4D Stack (DuckDB, DBT, Dagster, Docker) that fetches Boston weather data from the National Weather Service API.",
@@ -158,7 +230,7 @@ const PROJECTS = [
     description:
       "FastAPI microservice that ingests CSV, PDF, and image uploads asynchronously using Redis queues and background workers.",
     extendedDescription:
-      "The service offloads heavy parsing tasks to RQ workers, tracks job metadata in PostgreSQL, and exposes REST endpoints for status polling and JSON result retrieval — all packaged in Docker for easy deployment.",
+      "The service offloads heavy parsing tasks to RQ workers, tracks job metadata in PostgreSQL, and exposes REST endpoints for status polling and JSON result retrieval, all packaged in Docker for easy deployment.",
     tags: [
       "FastAPI",
       "Redis",
@@ -194,17 +266,10 @@ const PROJECTS = [
   {
     title: "DocQueryAI",
     description:
-      "Local document question-answering app that lets you chat with PDFs through Streamlit and LangChain.",
+      "Local RAG chatbot for PDFs. Chat with your documents entirely offline.",
     extendedDescription:
-      "Combines embedding generation, Chroma vector storage, and Ollama-hosted LLMs to keep every query private while supporting multi-document uploads, citation highlights, and conversational memory.",
-    tags: [
-      "Python",
-      "Streamlit",
-      "LangChain",
-      "Ollama",
-      "Vector Search",
-      "RAG",
-    ],
+      "Built on LangChain, Ollama, and ChromaDB. Embedding generation and vector search run locally, so documents and queries never leave the machine.",
+    tags: ["Python", "LangChain", "Ollama", "ChromaDB", "RAG", "Local"],
     image: import.meta.env.BASE_URL + "images/project-img/docquery-ai.jpg",
     link: "https://github.com/laks08/DocQueryAI",
     showProjectLink: true,

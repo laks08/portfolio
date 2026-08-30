@@ -2,14 +2,6 @@ import React, { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
-const proficiencyStyles = {
-  Expert:
-    "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-200",
-  Advanced: "bg-sky-100 text-sky-800 dark:bg-sky-900/50 dark:text-sky-200",
-  Intermediate:
-    "bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-200",
-};
-
 const skillCategories = [
   {
     title: "Languages & Core Engineering",
@@ -20,32 +12,26 @@ const skillCategories = [
     skills: [
       {
         name: "Java",
-        strength: "Expert",
         keywords: ["Spring Boot", "Microservices", "REST"],
       },
       {
         name: "Python",
-        strength: "Advanced",
         keywords: ["FastAPI", "Data Ops", "Automation"],
       },
       {
         name: "JavaScript & TypeScript",
-        strength: "Advanced",
         keywords: ["React", "Node.js", "Tooling"],
       },
       {
         name: "Go",
-        strength: "Intermediate",
         keywords: ["Services", "Concurrency", "CLIs"],
       },
       {
         name: "SQL",
-        strength: "Expert",
         keywords: ["Query tuning", "Analytics", "ETL"],
       },
       {
         name: "HTML & CSS",
-        strength: "Advanced",
         keywords: ["Responsive", "Accessibility", "Tailwind"],
       },
     ],
@@ -59,47 +45,38 @@ const skillCategories = [
     skills: [
       {
         name: "React",
-        strength: "Expert",
         keywords: ["Hooks", "State mgmt", "Testing"],
       },
       {
         name: "Next.js",
-        strength: "Advanced",
         keywords: ["SSR", "Routing", "Optimizations"],
       },
       {
         name: "Vue",
-        strength: "Intermediate",
         keywords: ["Dashboards", "TypeScript", "Animations"],
       },
       {
         name: "Redux",
-        strength: "Advanced",
         keywords: ["State", "Tooling", "Async"],
       },
       {
         name: "React Native",
-        strength: "Intermediate",
         keywords: ["Mobile UI", "Expo", "Auth"],
       },
       {
         name: "Vite",
-        strength: "Advanced",
         keywords: ["HMR", "Build tools", "DX"],
       },
       {
         name: "Tailwind CSS",
-        strength: "Advanced",
         keywords: ["Utility-first", "Responsive", "Design systems"],
       },
       {
         name: "Chakra UI",
-        strength: "Advanced",
         keywords: ["Components", "Accessibility", "Themes"],
       },
       {
         name: "Firebase",
-        strength: "Intermediate",
         keywords: ["Auth", "Hosting", "Realtime"],
       },
     ],
@@ -113,42 +90,34 @@ const skillCategories = [
     skills: [
       {
         name: "Node.js",
-        strength: "Advanced",
         keywords: ["REST APIs", "Tooling", "Workers"],
       },
       {
         name: "Express.js",
-        strength: "Advanced",
         keywords: ["Routing", "Middleware", "Auth"],
       },
       {
         name: "FastAPI",
-        strength: "Advanced",
         keywords: ["Async IO", "Validation", "Docs"],
       },
       {
         name: "Spring Boot",
-        strength: "Advanced",
         keywords: ["JPA", "Batch jobs", "Resilience"],
       },
       {
         name: "LangChain Services",
-        strength: "Advanced",
         keywords: ["Tools", "RAG", "Agents"],
       },
       {
         name: "REST Integrations",
-        strength: "Expert",
         keywords: ["Salesforce", "HubSpot", "QuickBooks"],
       },
       {
         name: "MCP Servers",
-        strength: "Intermediate",
         keywords: ["JSON-RPC", "Tool registry", "Automation"],
       },
       {
         name: "Authentication",
-        strength: "Advanced",
         keywords: ["JWT", "OAuth", "Role policies"],
       },
     ],
@@ -162,52 +131,42 @@ const skillCategories = [
     skills: [
       {
         name: "AWS",
-        strength: "Advanced",
         keywords: ["EC2", "S3", "Lambda"],
       },
       {
         name: "Azure",
-        strength: "Advanced",
         keywords: ["App Service", "AI Studio", "Functions"],
       },
       {
         name: "Docker",
-        strength: "Expert",
         keywords: ["Images", "Compose", "Hardening"],
       },
       {
         name: "Kubernetes",
-        strength: "Advanced",
         keywords: ["Workloads", "Helm", "Autoscale"],
       },
       {
         name: "GitHub Actions",
-        strength: "Advanced",
         keywords: ["CI/CD", "Caching", "Deploy"],
       },
       {
         name: "GitLab CI",
-        strength: "Advanced",
         keywords: ["Pipelines", "Security", "Reviews"],
       },
       {
         name: "Terraform",
-        strength: "Intermediate",
         keywords: ["IaC", "Modules", "Environments"],
       },
       {
         name: "Ansible",
-        strength: "Intermediate",
         keywords: ["Playbooks", "Provisioning", "Config"],
       },
       {
         name: "Dagster",
-        strength: "Intermediate",
         keywords: ["Asset graph", "Orchestration", "Recoveries"],
       },
       {
         name: "Datadog & OpenTelemetry",
-        strength: "Advanced",
         keywords: ["Tracing", "Dashboards", "Alerts"],
       },
     ],
@@ -217,56 +176,58 @@ const skillCategories = [
     icon: "🤖",
     color: "from-blue-400 to-cyan-600",
     shadowColor: "shadow-cyan-500/20",
-    tags: ["RAG", "Eval", "Dashboards", "Insights"],
+    tags: ["RAG", "Agents", "Eval", "Insights"],
     skills: [
       {
         name: "LangChain",
-        strength: "Advanced",
         keywords: ["Agents", "Tools", "Pipelines"],
       },
       {
         name: "LangGraph",
-        strength: "Advanced",
         keywords: ["Workflow", "Retries", "Routing"],
       },
       {
+        name: "DeepAgents",
+        keywords: ["Planner", "Subagents", "Task graphs"],
+      },
+      {
+        name: "kagent & kmcp",
+        keywords: ["Agent-to-agent", "Orchestration", "Kubernetes"],
+      },
+      {
         name: "vLLM & Ollama",
-        strength: "Intermediate",
         keywords: ["Serving", "Batching", "Deploy"],
       },
       {
         name: "OpenAI API",
-        strength: "Advanced",
         keywords: ["Function calling", "Guardrails", "Eval"],
       },
       {
+        name: "Sentence Transformers",
+        keywords: ["Fine-tuning", "Embeddings", "Benchmarking"],
+      },
+      {
         name: "pgvector & Chroma",
-        strength: "Advanced",
         keywords: ["Embeddings", "Ranking", "Hybrid search"],
       },
       {
         name: "FAISS & ElasticSearch",
-        strength: "Intermediate",
         keywords: ["Semantic search", "Scale", "Sharding"],
       },
       {
         name: "Scikit-learn",
-        strength: "Advanced",
         keywords: ["Modeling", "Metrics", "Pipelines"],
       },
       {
         name: "XGBoost",
-        strength: "Advanced",
         keywords: ["Structured data", "Features", "Optimization"],
       },
       {
         name: "Power BI",
-        strength: "Advanced",
         keywords: ["KPI modeling", "Row security", "Refresh"],
       },
       {
         name: "Tableau & Looker",
-        strength: "Advanced",
         keywords: ["Visuals", "Dashboards", "Stories"],
       },
     ],
@@ -280,52 +241,42 @@ const skillCategories = [
     skills: [
       {
         name: "Snowflake",
-        strength: "Advanced",
         keywords: ["Marts", "Snowpipe", "Streams"],
       },
       {
         name: "PostgreSQL",
-        strength: "Advanced",
         keywords: ["Modeling", "Indexes", "Views"],
       },
       {
         name: "MySQL",
-        strength: "Advanced",
         keywords: ["Procedures", "Reporting", "Tuning"],
       },
       {
         name: "MongoDB",
-        strength: "Advanced",
         keywords: ["Schemas", "Aggregations", "Ops"],
       },
       {
         name: "dbt",
-        strength: "Advanced",
         keywords: ["Models", "Tests", "Docs"],
       },
       {
         name: "Airflow",
-        strength: "Advanced",
         keywords: ["Scheduling", "Sensors", "Recovery"],
       },
       {
         name: "Spark & PySpark",
-        strength: "Intermediate",
         keywords: ["Batch", "Streaming", "ETL"],
       },
       {
         name: "Kafka",
-        strength: "Intermediate",
         keywords: ["Ingest", "Consumers", "Streams"],
       },
       {
         name: "DuckDB",
-        strength: "Intermediate",
         keywords: ["Analytics", "Parquet", "Local runs"],
       },
       {
         name: "Great Expectations",
-        strength: "Advanced",
         keywords: ["Validation", "Data SLAs", "Alerting"],
       },
     ],
@@ -548,19 +499,9 @@ const Skills = () => {
                     transition={{ delay: idx * 0.08 }}
                     className="p-4 rounded-xl bg-gray-50 dark:bg-gray-900/40 border border-gray-200 dark:border-gray-700/60 shadow-sm"
                   >
-                    <div className="flex items-center justify-between mb-3">
-                      <p className="text-lg font-semibold text-gray-900 dark:text-white">
-                        {skill.name}
-                      </p>
-                      <span
-                        className={`text-xs font-semibold tracking-wide px-3 py-1 rounded-full ${
-                          proficiencyStyles[skill.strength] ||
-                          proficiencyStyles.Advanced
-                        }`}
-                      >
-                        {skill.strength}
-                      </span>
-                    </div>
+                    <p className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+                      {skill.name}
+                    </p>
                     <div className="flex flex-wrap gap-2">
                       {skill.keywords.map((keyword) => (
                         <span
