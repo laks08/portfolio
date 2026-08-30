@@ -1,12 +1,19 @@
 import React, { useRef, useState } from "react";
 import Slider from "react-slick";
-import { motion } from "framer-motion";
-import { FiGithub, FiPause, FiPlay, FiExternalLink, FiArrowLeft, FiArrowRight } from "react-icons/fi";
+import {
+  FiGithub,
+  FiPause,
+  FiPlay,
+  FiExternalLink,
+  FiArrowLeft,
+  FiArrowRight,
+  FiArrowUpRight,
+} from "react-icons/fi";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "../styles/carousel.css";
 import Section from "./ui/Section";
-import TagList from "./ui/TagList";
+import TagPill from "./ui/TagPill";
 import CircleButton from "./ui/CircleButton";
 
 const PROJECTS = [
@@ -284,117 +291,113 @@ const PROJECTS = [
   },
 ];
 
-const ProjectCard = ({ project, expanded, onToggle, isMobile, loading, errored, onLoad, onError }) => (
-  <motion.article
-    layout
-    onClick={onToggle}
-    role={isMobile ? "button" : undefined}
-    aria-expanded={isMobile ? expanded : undefined}
-    className={`flex h-full flex-col overflow-hidden rounded-card border border-line bg-surface transition-colors duration-300 hover:border-text ${
-      isMobile ? "" : "min-h-[560px]"
-    }`}
-  >
-    {/* Image */}
-    <div className="relative h-44 shrink-0 overflow-hidden border-b border-line">
+const ProjectCard = ({ project, loading, errored, onLoad, onError }) => (
+  <article className="grid grid-cols-1 items-center gap-8 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:gap-14">
+    {/* Text column */}
+    <div className="order-2 md:order-1">
+      <h3 className="font-mono text-2xl font-medium text-text md:text-3xl">
+        {project.title}
+      </h3>
+
+      <div className="mt-6 flex flex-wrap gap-2">
+        {project.tags.map((tag) => (
+          <TagPill key={tag}>{tag}</TagPill>
+        ))}
+      </div>
+
+      <p className="mt-8 font-sans text-sm leading-relaxed text-muted">
+        {project.description}
+      </p>
+      <p className="mt-4 font-sans text-sm leading-relaxed text-muted">
+        {project.extendedDescription}
+      </p>
+
+      <div className="mt-8 flex items-center gap-3">
+        {project.showProjectLink && (
+          <CircleButton
+            href={project.link}
+            label={`${project.title} source on GitHub`}
+          >
+            <FiGithub size={16} />
+          </CircleButton>
+        )}
+        {project.showDemoLink && (
+          <CircleButton
+            href={project.demoLink}
+            label={`${project.title} live demo`}
+          >
+            <FiExternalLink size={16} />
+          </CircleButton>
+        )}
+        {(project.showProjectLink || project.showDemoLink) && (
+          <CircleButton
+            href={project.showDemoLink ? project.demoLink : project.link}
+            label={`Open ${project.title}`}
+            variant="solid"
+          >
+            <FiArrowUpRight size={18} />
+          </CircleButton>
+        )}
+      </div>
+    </div>
+
+    {/* Image column */}
+    <div className="relative order-1 md:order-2">
+      <div className="relative aspect-[16/10] overflow-hidden rounded-card border border-line">
+        {loading && !errored && (
+          <div className="absolute inset-0 animate-pulse bg-surface-2" />
+        )}
+        {errored ? (
+          <div className="flex h-full w-full items-center justify-center bg-surface-2">
+            <span className="font-mono text-xs text-muted">
+              image unavailable
+            </span>
+          </div>
+        ) : (
+          <img
+            src={project.image}
+            alt={project.title}
+            loading="lazy"
+            onLoad={onLoad}
+            onError={onError}
+            className="h-full w-full object-cover"
+          />
+        )}
+      </div>
+
+      {/* Rotated caption running along the image edge */}
       <span
-        className="absolute left-2 top-3 z-10 font-mono text-[10px] uppercase tracking-label text-paper mix-blend-difference"
+        aria-hidden="true"
+        className="absolute -left-7 top-0 hidden font-mono text-[10px] uppercase tracking-label text-muted md:inline-block"
         style={{ writingMode: "vertical-rl" }}
       >
         {project.title}
       </span>
-
-      {loading && !errored && (
-        <div className="absolute inset-0 animate-pulse bg-surface-2" />
-      )}
-      {errored ? (
-        <div className="flex h-full w-full items-center justify-center bg-surface-2">
-          <span className="font-mono text-xs text-muted">image unavailable</span>
-        </div>
-      ) : (
-        <img
-          src={project.image}
-          alt={project.title}
-          loading="lazy"
-          onLoad={onLoad}
-          onError={onError}
-          className="h-full w-full object-cover"
-        />
-      )}
     </div>
-
-    {/* Body */}
-    <div className="flex flex-1 flex-col p-6">
-      <h3 className="mb-3 font-mono text-lg font-bold text-text">
-        {project.title}
-      </h3>
-      <p className="mb-4 font-sans text-sm leading-relaxed text-muted">
-        {expanded ? project.extendedDescription : project.description}
-      </p>
-
-      <TagList
-        items={expanded ? project.tags : project.tags.slice(0, 5)}
-        className="mb-5"
-      />
-
-      <div className="mt-auto flex flex-wrap gap-2">
-        {project.showProjectLink && (
-          <a
-            href={project.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={(e) => e.stopPropagation()}
-            className="inline-flex items-center gap-2 rounded-full border border-line px-4 py-1.5 font-sans text-xs italic text-text transition-colors hover:border-text"
-          >
-            <FiGithub size={14} /> code
-          </a>
-        )}
-        {project.showDemoLink && (
-          <a
-            href={project.demoLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={(e) => e.stopPropagation()}
-            className="inline-flex items-center gap-2 rounded-full bg-paper px-4 py-1.5 font-sans text-xs italic text-paper-ink transition-opacity hover:opacity-90"
-          >
-            <FiExternalLink size={14} /> demo
-          </a>
-        )}
-      </div>
-    </div>
-  </motion.article>
+  </article>
 );
 
 const Projects = () => {
   const projects = PROJECTS;
-  const [expandedTitle, setExpandedTitle] = useState(null);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const [current, setCurrent] = useState(0);
   const [imageLoading, setImageLoading] = useState({});
   const [imageErrors, setImageErrors] = useState({});
   const sliderRef = useRef(null);
 
-  React.useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth <= 768);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, []);
-
   const settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: 3,
+    slidesToShow: 1,
     slidesToScroll: 1,
+    adaptiveHeight: true,
     autoplay: isAutoPlaying && !isHovered,
-    autoplaySpeed: 3500,
+    autoplaySpeed: 6000,
     arrows: false,
     pauseOnHover: true,
-    responsive: [
-      { breakpoint: 1280, settings: { slidesToShow: 2 } },
-      { breakpoint: 768, settings: { slidesToShow: 1 } },
-    ],
+    beforeChange: (_, next) => setCurrent(next),
   };
 
   const handlePlayPause = () => {
@@ -415,10 +418,6 @@ const Projects = () => {
     if (isAutoPlaying) sliderRef.current?.slickPlay();
   };
 
-  const toggleCard = (title) => {
-    if (isMobile) setExpandedTitle((t) => (t === title ? null : title));
-  };
-
   const playing = isAutoPlaying && !isHovered;
 
   return (
@@ -426,19 +425,24 @@ const Projects = () => {
       <p className="mb-10 max-w-xl font-sans text-base leading-relaxed text-muted">
         A rolling selection of what I&apos;ve built &mdash; AI systems, data
         pipelines, backends, and apps.
-        {isMobile ? " Tap a card for more detail." : ""}
       </p>
 
-      <div className="mb-8 flex items-center justify-between">
-        <button
-          type="button"
-          onClick={handlePlayPause}
-          className="inline-flex items-center gap-2 rounded-full border border-line px-4 py-2 font-mono text-xs text-muted transition-colors hover:border-text hover:text-text"
-          aria-label={playing ? "Pause carousel" : "Play carousel"}
-        >
-          {playing ? <FiPause size={14} /> : <FiPlay size={14} />}
-          <span>{playing ? "pause" : "play"}</span>
-        </button>
+      <div className="mb-10 flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <button
+            type="button"
+            onClick={handlePlayPause}
+            className="inline-flex items-center gap-2 rounded-full border border-line px-4 py-2 font-mono text-xs text-muted transition-colors hover:border-text hover:text-text"
+            aria-label={playing ? "Pause carousel" : "Play carousel"}
+          >
+            {playing ? <FiPause size={14} /> : <FiPlay size={14} />}
+            <span>{playing ? "pause" : "play"}</span>
+          </button>
+          <p className="font-mono text-xs text-muted">
+            {String(current + 1).padStart(2, "0")} /{" "}
+            {String(projects.length).padStart(2, "0")}
+          </p>
+        </div>
 
         <div className="flex items-center gap-3">
           <CircleButton
@@ -463,12 +467,9 @@ const Projects = () => {
       >
         <Slider ref={sliderRef} {...settings}>
           {projects.map((project) => (
-            <div key={project.title} className="h-full px-3">
+            <div key={project.title}>
               <ProjectCard
                 project={project}
-                isMobile={isMobile}
-                expanded={expandedTitle === project.title}
-                onToggle={() => toggleCard(project.title)}
                 loading={imageLoading[project.title] !== false}
                 errored={!!imageErrors[project.title]}
                 onLoad={() =>

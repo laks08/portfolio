@@ -4,15 +4,17 @@ export default {
   darkMode: "class",
   theme: {
     extend: {
+      // `<alpha-value>` keeps opacity modifiers working (bg-bg/80,
+      // text-paper-ink/70); the CSS vars hold raw RGB channels.
       colors: {
-        bg: "var(--color-bg)",
-        surface: "var(--color-surface)",
-        "surface-2": "var(--color-surface-2)",
-        line: "var(--color-border)",
-        text: "var(--color-text)",
-        muted: "var(--color-muted)",
-        paper: "var(--color-inverse-bg)",
-        "paper-ink": "var(--color-inverse-text)",
+        bg: "rgb(var(--color-bg) / <alpha-value>)",
+        surface: "rgb(var(--color-surface) / <alpha-value>)",
+        "surface-2": "rgb(var(--color-surface-2) / <alpha-value>)",
+        line: "rgb(var(--color-border) / <alpha-value>)",
+        text: "rgb(var(--color-text) / <alpha-value>)",
+        muted: "rgb(var(--color-muted) / <alpha-value>)",
+        paper: "rgb(var(--color-inverse-bg) / <alpha-value>)",
+        "paper-ink": "rgb(var(--color-inverse-text) / <alpha-value>)",
       },
       fontFamily: {
         mono: ['"Fira Code"', "ui-monospace", "SFMono-Regular", "Menlo", "monospace"],

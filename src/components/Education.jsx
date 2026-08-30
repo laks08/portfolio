@@ -49,27 +49,34 @@ const Education = () => (
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.35, delay: index * 0.06 }}
-          className="border-b border-line"
+          className="group border-b border-line transition-colors duration-200 hover:bg-paper hover:text-paper-ink"
         >
-          <div className="grid grid-cols-1 gap-3 px-1 py-6 md:grid-cols-[140px_1.6fr_1fr] md:items-baseline md:gap-6 md:px-4">
-            <p className="font-mono text-xs text-muted">{edu.date}</p>
+          <div className="grid grid-cols-1 gap-3 px-1 py-6 md:grid-cols-[140px_1.6fr_1fr] md:items-start md:gap-6 md:px-4">
+            <p className="font-mono text-xs text-muted group-hover:text-paper-ink/70">
+              {edu.date}
+            </p>
 
-            <div className="flex items-start gap-2">
+            <div className="flex items-start gap-3">
               <img
                 src={edu.logo}
                 alt=""
-                className="mt-0.5 h-5 w-5 shrink-0 rounded object-contain grayscale"
+                className="h-12 w-12 shrink-0 rounded-md bg-white object-contain p-1.5"
               />
               <div>
-                <p className="font-mono text-sm font-bold text-text">
-                  {edu.school}
+                <p className="font-mono text-sm font-bold">{edu.school}</p>
+                <p className="mt-1 font-mono text-xs text-muted group-hover:text-paper-ink/70">
+                  {edu.degree}
                 </p>
-                <p className="mt-1 font-mono text-xs text-muted">{edu.degree}</p>
-                <TagList items={edu.courses} className="mt-2" />
+                <TagList
+                  items={edu.courses}
+                  className="mt-2 group-hover:!text-paper-ink/70"
+                />
               </div>
             </div>
 
-            <p className="font-mono text-xs text-muted">{edu.location}</p>
+            <p className="font-mono text-xs text-muted group-hover:text-paper-ink/70">
+              {edu.location}
+            </p>
           </div>
         </motion.div>
       ))}

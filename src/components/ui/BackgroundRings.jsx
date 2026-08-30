@@ -30,7 +30,7 @@ const BackgroundRings = ({ className = "", position = "right" }) => {
             cx="450"
             cy="450"
             r={r}
-            stroke="var(--color-border)"
+            stroke="rgb(var(--color-border))"
             strokeWidth="1"
           />
         ))}

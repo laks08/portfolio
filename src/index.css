@@ -7,29 +7,33 @@
  * :root holds the LIGHT palette (base). .dark overrides with the
  * reference (dark-first) palette. ThemeProvider ships `.dark` by
  * default, so the reference look is what loads first.
+ *
+ * Values are space-separated RGB channels, not hex, so Tailwind can
+ * apply alpha modifiers (bg-bg/80, text-paper-ink/70). Read them in
+ * plain CSS as rgb(var(--color-x)).
  * ------------------------------------------------------------------ */
 :root {
-  --color-bg: #f5f5f5;
-  --color-surface: #ffffff;
-  --color-surface-2: #e6e6e6;
-  --color-border: #cfcfcf;
-  --color-text: #121212;
-  --color-muted: #5c5c5c;
-  --color-inverse-bg: #121212;
-  --color-inverse-text: #f5f5f5;
+  --color-bg: 245 245 245; /* #F5F5F5 */
+  --color-surface: 255 255 255; /* #FFFFFF */
+  --color-surface-2: 230 230 230; /* #E6E6E6 */
+  --color-border: 207 207 207; /* #CFCFCF */
+  --color-text: 18 18 18; /* #121212 */
+  --color-muted: 92 92 92; /* #5C5C5C */
+  --color-inverse-bg: 18 18 18; /* #121212 */
+  --color-inverse-text: 245 245 245; /* #F5F5F5 */
 
   color-scheme: light;
 }
 
 .dark {
-  --color-bg: #121212;
-  --color-surface: #1a1a1a;
-  --color-surface-2: #3d3d3d;
-  --color-border: #3d3d3d;
-  --color-text: #f5f5f5;
-  --color-muted: #a6a6a6;
-  --color-inverse-bg: #f5f5f5;
-  --color-inverse-text: #121212;
+  --color-bg: 18 18 18; /* #121212 */
+  --color-surface: 26 26 26; /* #1A1A1A */
+  --color-surface-2: 61 61 61; /* #3D3D3D */
+  --color-border: 61 61 61; /* #3D3D3D */
+  --color-text: 245 245 245; /* #F5F5F5 */
+  --color-muted: 166 166 166; /* #A6A6A6 */
+  --color-inverse-bg: 245 245 245; /* #F5F5F5 */
+  --color-inverse-text: 18 18 18; /* #121212 */
 
   color-scheme: dark;
 }
@@ -46,8 +50,8 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background-color: var(--color-bg);
-  color: var(--color-text);
+  background-color: rgb(var(--color-bg));
+  color: rgb(var(--color-text));
   font-family: "Open Sans", system-ui, -apple-system, sans-serif;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
@@ -64,7 +68,7 @@ img {
 
 /* Token-based focus ring (replaces the old outline:none + blue ring). */
 :focus-visible {
-  outline: 2px solid var(--color-text);
+  outline: 2px solid rgb(var(--color-text));
   outline-offset: 2px;
   border-radius: 2px;
 }

@@ -95,49 +95,38 @@ const Experience = () => (
     </div>
 
     <div className="border-t border-line">
-      {experiences.map((exp, index) => {
-        const highlighted = index === 0;
-        return (
-          <motion.div
-            key={`${exp.company}-${exp.period}`}
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.35, delay: Math.min(index, 4) * 0.05 }}
-            className={`border-b border-line ${
-              highlighted ? "bg-paper text-paper-ink" : ""
-            }`}
-          >
-            <div className="grid grid-cols-1 gap-3 px-1 py-6 md:grid-cols-[140px_1.1fr_1.3fr_1.4fr] md:items-baseline md:gap-6 md:px-4">
-              <p
-                className={`font-mono text-xs ${
-                  highlighted ? "text-paper-ink/70" : "text-muted"
-                }`}
-              >
-                {exp.period}
-              </p>
+      {experiences.map((exp, index) => (
+        <motion.div
+          key={`${exp.company}-${exp.period}`}
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.35, delay: Math.min(index, 4) * 0.05 }}
+          className="group border-b border-line transition-colors duration-200 hover:bg-paper hover:text-paper-ink"
+        >
+          <div className="grid grid-cols-1 gap-3 px-1 py-6 md:grid-cols-[140px_1.1fr_1.3fr_1.4fr] md:items-center md:gap-6 md:px-4">
+            <p className="font-mono text-xs text-muted group-hover:text-paper-ink/70">
+              {exp.period}
+            </p>
 
-              <div className="flex items-center gap-2">
-                <img
-                  src={exp.logo}
-                  alt=""
-                  className={`h-5 w-5 shrink-0 rounded object-contain ${
-                    highlighted ? "" : "grayscale"
-                  }`}
-                />
-                <p className="font-mono text-sm font-bold">{exp.company}</p>
-              </div>
-
-              <p className="font-mono text-sm">{exp.title}</p>
-
-              <TagList
-                items={exp.technologies}
-                className={highlighted ? "!text-paper-ink/70" : ""}
+            <div className="flex items-center gap-3">
+              <img
+                src={exp.logo}
+                alt=""
+                className="h-10 w-10 shrink-0 rounded-md bg-white object-contain p-1"
               />
+              <p className="font-mono text-sm font-bold">{exp.company}</p>
             </div>
-          </motion.div>
-        );
-      })}
+
+            <p className="font-mono text-sm">{exp.title}</p>
+
+            <TagList
+              items={exp.technologies}
+              className="group-hover:!text-paper-ink/70"
+            />
+          </div>
+        </motion.div>
+      ))}
     </div>
   </Section>
 );

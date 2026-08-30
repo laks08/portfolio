@@ -61,11 +61,13 @@ const Hero = () => {
           >
             <DisplayHeading
               as="h1"
-              lines={[{ text: "AI Software" }, { text: "Engineer" }]}
+              size="text-[clamp(2rem,5.4vw,4.25rem)]"
+              lines={[
+                { text: "AI Software" },
+                { text: "Engineer" },
+                { text: "& Product Owner", muted: true },
+              ]}
             />
-            <p className="ml-[4vw] mt-3 font-mono text-xl font-medium text-muted md:ml-[5ch] md:text-2xl">
-              &amp; Product Owner
-            </p>
           </motion.div>
 
           <motion.p

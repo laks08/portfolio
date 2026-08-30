@@ -6,4 +6,5 @@ export { default as PillButton } from "./PillButton";
 export { default as CircleButton } from "./CircleButton";
 export { default as Chip } from "./Chip";
 export { default as TagList } from "./TagList";
+export { default as TagPill } from "./TagPill";
 export { default as Card } from "./Card";
