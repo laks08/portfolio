@@ -40,9 +40,6 @@ const Contact = () => {
             lines={[{ text: "Lakshya" }, { text: "Gupta" }]}
             size="text-[clamp(3rem,13vw,8rem)]"
           />
-          <p className="mt-4 font-mono text-xs tracking-label text-muted">
-            ai software engineer &amp; product owner
-          </p>
 
           <div className="mt-10 flex flex-wrap gap-3">
             {socialLinks.map((s) => (

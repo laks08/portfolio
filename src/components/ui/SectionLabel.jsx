@@ -9,7 +9,7 @@ const SectionLabel = ({ children, slash = true, align = "left", className = "" }
     align === "center" ? "text-center" : align === "right" ? "text-right" : "text-left";
   return (
     <p
-      className={`font-mono text-sm font-bold tracking-label text-muted md:text-base ${alignment} ${className}`}
+      className={`font-mono text-sm font-bold tracking-label text-text md:text-base ${alignment} ${className}`}
     >
       <span aria-hidden="true">... </span>
       {slash ? "/" : ""}

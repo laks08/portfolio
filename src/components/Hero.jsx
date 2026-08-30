@@ -125,9 +125,9 @@ const Hero = () => {
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="hidden justify-self-end lg:block"
+          className="justify-self-start lg:justify-self-end"
         >
-          <div className="h-72 w-72 overflow-hidden rounded-card border border-line xl:h-80 xl:w-80">
+          <div className="h-60 w-60 overflow-hidden rounded-card border border-line sm:h-72 sm:w-72 xl:h-80 xl:w-80">
             <img
               src={profilePic}
               alt="Lakshya Gupta"
