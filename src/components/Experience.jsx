@@ -4,10 +4,29 @@ import { motion } from "framer-motion";
 const Experience = () => {
   const experiences = [
     {
-      title: "Project Lead / AI & Software Engineer",
+      title: "AI Software Engineer & Product Owner",
+      company: "Aerocode",
+      location: "New Delhi, India",
+      period: "Apr 2026 – Present",
+      logo: import.meta.env.BASE_URL + "images/aerocode.jpg",
+      color: "from-cyan-400 to-cyan-600",
+
+      technologies: [
+        "Python",
+        "LangChain",
+        "LangGraph",
+        "RAG",
+        "Multi-agent",
+        "FastAPI",
+        "Docker",
+        "AWS",
+      ],
+    },
+    {
+      title: "Software Engineer, AI Systems",
       company: "Ipser Lab",
       location: "Boston, MA",
-      period: "Mar 2025 – Present",
+      period: "Mar 2025 – Feb 2026",
       logo: import.meta.env.BASE_URL + "images/ipserlab.jpeg",
       color: "from-indigo-400 to-indigo-600",
 

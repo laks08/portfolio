@@ -184,8 +184,17 @@ const Hero = () => {
                 transition={{ duration: 0.5, delay: 0.1 }}
                 className="text-xl sm:text-2xl lg:text-3xl font-medium text-gray-600 dark:text-gray-400"
               >
-                Software Engineer | AI & Data Analyst
+                AI Software Engineer &amp; Product Owner
               </motion.h2>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.15 }}
+                className="text-sm sm:text-base font-medium text-blue-600 dark:text-blue-400"
+              >
+                Building and owning production AI systems across engineering,
+                product, and program.
+              </motion.p>
             </div>
 
             {/* Description */}
@@ -195,10 +204,11 @@ const Hero = () => {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="text-base sm:text-lg text-gray-700 dark:text-gray-300 max-w-2xl mx-auto lg:mx-0 leading-relaxed"
             >
-              A passionate professional with expertise in full-stack
-              development, data analysis, machine learning, and business
-              intelligence tools. Skilled in building scalable applications,
-              custom dashboards, and predictive analytics solutions.
+              I build LLM and RAG systems, agentic workflows, and the services
+              around them, and I own them end to end, from product decisions
+              through deployment. Currently at Aerocode as sole technical owner
+              on client AI SaaS builds. 5+ years combined across engineering and
+              product/program work, focused now on GenAI.
             </motion.p>
 
             {/* CTA Buttons */}

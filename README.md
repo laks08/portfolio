@@ -1,73 +1,48 @@
-# Lakshya Gupta - Portfolio Website
+# Lakshya Gupta Portfolio Website
 
-👋 Hi! I'm **Lakshya Gupta**, a passionate **Software Engineer** and **AI & Data Analyst** with expertise in full-stack development, data analysis, machine learning, and business intelligence tools.
+Personal portfolio for **Lakshya Gupta**, AI Software Engineer & Product Owner. I build LLM and RAG systems, agentic workflows, and the services around them, and own them from product decisions through deployment. 5+ years combined across engineering and product/program work, focused now on GenAI.
 
-## 🌐 Live Portfolio
+## Live site
 
-Visit my website: **[https://lakshyagupta.com](https://lakshyagupta.com)**
+**[https://lakshyagupta.com](https://lakshyagupta.com)**
 
-## 👨‍💻 About Me
+## Featured projects
 
-I'm a passionate professional who loves building scalable applications, custom dashboards, and predictive analytics solutions. My journey spans across multiple domains:
+- **StyleSync AI**: Multi-agent fashion recommendation backend. Five LangChain/LangGraph agents collaborate to assemble outfit recommendations, with agent-to-agent orchestration via kagent and kmcp. Docker/Kubernetes.
+- **legal-rag**: Multi-agent legal RAG over federal securities filings. A LangGraph pipeline with a DeepAgents planner/subagent setup handles query rewriting, reranking, and cited synthesis over legal-domain embeddings in Chroma.
+- **legal-embedder**: Fine-tuned sentence embeddings for legal semantic search, trained on US federal court opinions and benchmarked against all-MiniLM-L6-v2.
+- **Video Atomization**: LLM pipeline that detects highlight moments in long-form video from transcripts and renders clips with FFmpeg off a Postgres-backed job queue.
+- **DocQueryAI**: Local RAG chatbot for PDFs. LangChain + Ollama + ChromaDB, running fully offline.
 
-- **Full-Stack Development**: Building end-to-end applications with modern frameworks
-- **Data Engineering**: Creating robust ETL pipelines and data processing systems
-- **AI & Machine Learning**: Developing predictive models and intelligent solutions
-- **Business Intelligence**: Crafting insightful dashboards and analytics tools
+More work, including earlier engineering and data projects, is on [GitHub](https://github.com/laks08).
 
-## 🚀 Featured Projects
+## Experience
 
-My portfolio showcases a diverse range of projects including:
+- **Aerocode**: AI Software Engineer & Product Owner, Contract (Apr 2026–Present), New Delhi
+- **Ipser Lab**: Software Engineer, AI Systems (Mar 2025–Feb 2026), Boston
+- **Burmester & Vogel**: Software Engineer (Jan 2024–Aug 2024), Cambridge, MA
+- **Essence Global**: Solutions Developer (Jan 2021–Jun 2022), Gurgaon
+- **Delhivery Logistics**: Web Developer (Dec 2019–Apr 2020), Gurgaon
 
-- **Boston Weather Data ETL Pipeline** - Modern data engineering with the 4D Stack (DuckDB, DBT, Dagster, Docker)
-- **AI-Powered Job Application Manager** - Java application with ChatGPT integration for resume optimization
-- **Community Food Ordering Platform** - Full-stack MERN application with modern UI
-- **Business Intelligence Dashboards** - Power BI solutions with Salesforce API integration
-- **Mobile Applications** - React Native apps including Signal and Uber clones
-- **Web Applications** - Various React projects showcasing different technologies
+## Education
 
-## 💼 Technical Expertise
+- **M.S., Information Systems**: Northeastern University (2022–2024)
+- **B.Tech, Computer Science Engineering**: Bennett University (2016–2020)
 
-### Programming Languages
+## Tech stack (this site)
 
-- **Java** (4+ years) - Spring Boot, JavaFX, Enterprise applications
-- **JavaScript** (3+ years) - React, Node.js, Full-stack development
-- **Python** (3+ years) - Data analysis, Machine learning, ETL pipelines
-- **Swift** (2+ years) - iOS development
-- **C, PHP, Apex** - Various projects and integrations
-
-### Web Technologies
-
-- **Frontend**: React, Redux, HTML/CSS, Vue.js, React Native
-- **Backend**: Spring Boot, Spring MVC, Node.js, Express
-- **Databases**: MongoDB, MySQL, DuckDB
-- **Cloud & Tools**: Git, VS Code, Postman, JIRA, Salesforce
-
-### Data & Analytics
-
-- **Analytics Tools**: Power BI, Google Analytics, Salesforce Analytics
-- **Data Science**: Pandas, Matplotlib, Scikit-learn
-- **Business Intelligence**: MS Fabric, Custom dashboards
-- **Data Engineering**: ETL pipelines, DBT, Dagster
-
-## 🛠️ Tech Stack (This Website)
-
-This portfolio website is built with:
-
-- **React 18** with modern hooks and functional components
-- **Vite** for fast development and optimized builds
-- **Tailwind CSS** for responsive, utility-first styling
-- **Framer Motion** for smooth animations and interactions
-- **React Slick** for the interactive project carousel
+- **React 18** with functional components and hooks
+- **Vite** for development and builds
+- **Tailwind CSS** for styling
+- **Framer Motion** for animation
+- **React Slick** for the project carousel
 - **GitHub Pages** for deployment
 
-## ✨ Website Features
+## Local development
 
-- **Interactive Project Carousel** with hover effects and auto-play
-- **Responsive Design** optimized for all devices
-- **Dark/Light Mode** toggle for user preference
-- **Smooth Animations** powered by Framer Motion
-- **Hexagonal Skills Grid** with detailed breakdowns
-- **Modern UI/UX** with glassmorphism effects
-
----
+```bash
+npm install
+npm run dev      # start the dev server
+npm run build    # production build to dist/
+npm run deploy   # build and publish to GitHub Pages
+```
