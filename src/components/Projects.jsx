@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import Slider from "react-slick";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   FiGithub,
   FiPause,
@@ -8,6 +9,7 @@ import {
   FiArrowLeft,
   FiArrowRight,
   FiArrowUpRight,
+  FiX,
 } from "react-icons/fi";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -291,90 +293,167 @@ const PROJECTS = [
   },
 ];
 
-const ProjectCard = ({ project, loading, errored, onLoad, onError }) => (
-  <article className="grid grid-cols-1 items-center gap-8 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:gap-14">
-    {/* Text column */}
-    <div className="order-2 md:order-1">
-      <h3 className="font-mono text-2xl font-medium text-text md:text-3xl">
+/** Shared image element so it morphs between the two states. */
+const ProjectImage = ({ project, loading, errored, onLoad, onError, className = "" }) => (
+  <div className={`relative overflow-hidden bg-surface-2 ${className}`}>
+    {loading && !errored && (
+      <div className="absolute inset-0 animate-pulse bg-surface-2" />
+    )}
+    {errored ? (
+      <div className="flex h-full w-full items-center justify-center">
+        <span className="font-mono text-xs text-muted">image unavailable</span>
+      </div>
+    ) : (
+      <img
+        src={project.image}
+        alt={project.title}
+        loading="lazy"
+        onLoad={onLoad}
+        onError={onError}
+        className="h-full w-full object-cover"
+      />
+    )}
+  </div>
+);
+
+/**
+ * Collapsed carousel card — the reference layout: image on the left,
+ * copy + "Read more" pill and circular arrow on the right.
+ */
+const ProjectCardCollapsed = ({ project, onExpand, imageProps }) => (
+  <article className="grid h-[420px] grid-cols-1 grid-rows-[170px_1fr] overflow-hidden rounded-card border border-line bg-surface sm:h-[320px] sm:grid-cols-[0.85fr_1.15fr] sm:grid-rows-1">
+    <ProjectImage project={project} className="h-full" {...imageProps} />
+
+    <div className="flex flex-col justify-center p-6 sm:p-8">
+      <h3 className="font-mono text-xl font-bold leading-snug text-text sm:text-2xl">
         {project.title}
       </h3>
 
-      <div className="mt-6 flex flex-wrap gap-2">
-        {project.tags.map((tag) => (
-          <TagPill key={tag}>{tag}</TagPill>
-        ))}
-      </div>
-
-      <p className="mt-8 font-sans text-sm leading-relaxed text-muted">
+      <p className="mt-4 line-clamp-3 font-sans text-sm leading-relaxed text-muted">
         {project.description}
       </p>
-      <p className="mt-4 font-sans text-sm leading-relaxed text-muted">
-        {project.extendedDescription}
-      </p>
 
-      <div className="mt-8 flex items-center gap-3">
-        {project.showProjectLink && (
-          <CircleButton
-            href={project.link}
-            label={`${project.title} source on GitHub`}
-          >
-            <FiGithub size={16} />
-          </CircleButton>
-        )}
-        {project.showDemoLink && (
-          <CircleButton
-            href={project.demoLink}
-            label={`${project.title} live demo`}
-          >
-            <FiExternalLink size={16} />
-          </CircleButton>
-        )}
-        {(project.showProjectLink || project.showDemoLink) && (
-          <CircleButton
-            href={project.showDemoLink ? project.demoLink : project.link}
-            label={`Open ${project.title}`}
-            variant="solid"
-          >
-            <FiArrowUpRight size={18} />
-          </CircleButton>
-        )}
+      <div className="mt-7 flex items-center gap-3">
+        <button
+          type="button"
+          onClick={onExpand}
+          className="rounded-full bg-paper px-6 py-3 font-sans text-sm italic text-paper-ink transition-opacity hover:opacity-90"
+        >
+          Read more
+        </button>
+        <CircleButton
+          onClick={onExpand}
+          label={`Read more about ${project.title}`}
+        >
+          <FiArrowRight size={16} />
+        </CircleButton>
       </div>
-    </div>
-
-    {/* Image column */}
-    <div className="relative order-1 md:order-2">
-      <div className="relative aspect-[16/10] overflow-hidden rounded-card border border-line">
-        {loading && !errored && (
-          <div className="absolute inset-0 animate-pulse bg-surface-2" />
-        )}
-        {errored ? (
-          <div className="flex h-full w-full items-center justify-center bg-surface-2">
-            <span className="font-mono text-xs text-muted">
-              image unavailable
-            </span>
-          </div>
-        ) : (
-          <img
-            src={project.image}
-            alt={project.title}
-            loading="lazy"
-            onLoad={onLoad}
-            onError={onError}
-            className="h-full w-full object-cover"
-          />
-        )}
-      </div>
-
-      {/* Rotated caption running along the image edge */}
-      <span
-        aria-hidden="true"
-        className="absolute -left-7 top-0 hidden font-mono text-[10px] uppercase tracking-label text-muted md:inline-block"
-        style={{ writingMode: "vertical-rl" }}
-      >
-        {project.title}
-      </span>
     </div>
   </article>
+);
+
+/** Expanded detail — full container, image plus links below. */
+const ProjectCardExpanded = ({ project, onClose, imageProps }) => (
+  <motion.article
+    initial={{ opacity: 0, scale: 0.94, y: 12 }}
+    animate={{ opacity: 1, scale: 1, y: 0 }}
+    exit={{ opacity: 0, scale: 0.94, y: 12 }}
+    transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+    className="relative overflow-hidden rounded-card border border-line bg-surface p-6 sm:p-10"
+  >
+    <button
+      type="button"
+      onClick={onClose}
+      aria-label="Close project details"
+      className="absolute right-5 top-5 z-10 inline-flex h-9 w-9 items-center justify-center rounded-full border border-line text-text transition-colors hover:border-text"
+    >
+      <FiX size={16} />
+    </button>
+
+    <div className="grid grid-cols-1 items-start gap-8 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:gap-12">
+      <div>
+        <h3 className="pr-12 font-mono text-2xl font-bold leading-snug text-text md:text-3xl">
+          {project.title}
+        </h3>
+
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.16, duration: 0.3 }}
+        >
+          <div className="mt-6 flex flex-wrap gap-2">
+            {project.tags.map((tag) => (
+              <TagPill key={tag}>{tag}</TagPill>
+            ))}
+          </div>
+
+          <p className="mt-7 font-sans text-sm leading-relaxed text-muted">
+            {project.description}
+          </p>
+          <p className="mt-4 font-sans text-sm leading-relaxed text-muted">
+            {project.extendedDescription}
+          </p>
+        </motion.div>
+      </div>
+
+      <motion.div
+        initial={{ opacity: 0, scale: 0.97 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 0.08, duration: 0.32 }}
+      >
+        <ProjectImage
+          project={project}
+          className="aspect-[16/10] rounded-card border border-line"
+          {...imageProps}
+        />
+      </motion.div>
+    </div>
+
+    {/* Links below */}
+    <motion.div
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.24, duration: 0.3 }}
+      className="mt-10 flex flex-wrap items-center gap-3 border-t border-line pt-8"
+    >
+      {project.showProjectLink && (
+        <a
+          href={project.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 rounded-full border border-line px-5 py-2.5 font-sans text-sm italic text-text transition-colors hover:border-text"
+        >
+          <FiGithub size={15} /> view code
+        </a>
+      )}
+      {project.showDemoLink && (
+        <a
+          href={project.demoLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 rounded-full border border-line px-5 py-2.5 font-sans text-sm italic text-text transition-colors hover:border-text"
+        >
+          <FiExternalLink size={15} /> live demo
+        </a>
+      )}
+      {(project.showProjectLink || project.showDemoLink) && (
+        <CircleButton
+          href={project.showDemoLink ? project.demoLink : project.link}
+          label={`Open ${project.title}`}
+          variant="solid"
+        >
+          <FiArrowUpRight size={18} />
+        </CircleButton>
+      )}
+      <button
+        type="button"
+        onClick={onClose}
+        className="ml-auto font-mono text-xs text-muted transition-colors hover:text-text"
+      >
+        close
+      </button>
+    </motion.div>
+  </motion.article>
 );
 
 const Projects = () => {
@@ -382,22 +461,51 @@ const Projects = () => {
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
   const [current, setCurrent] = useState(0);
+  const [expandedTitle, setExpandedTitle] = useState(null);
   const [imageLoading, setImageLoading] = useState({});
   const [imageErrors, setImageErrors] = useState({});
   const sliderRef = useRef(null);
 
+  const expanded = projects.find((p) => p.title === expandedTitle) || null;
+
+  const imagePropsFor = (project) => ({
+    loading: imageLoading[project.title] !== false,
+    errored: !!imageErrors[project.title],
+    onLoad: () => setImageLoading((p) => ({ ...p, [project.title]: false })),
+    onError: () => {
+      setImageErrors((p) => ({ ...p, [project.title]: true }));
+      setImageLoading((p) => ({ ...p, [project.title]: false }));
+    },
+  });
+
+  // Close the expanded card with Escape.
+  React.useEffect(() => {
+    if (!expandedTitle) return undefined;
+    const onKeyDown = (e) => e.key === "Escape" && setExpandedTitle(null);
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [expandedTitle]);
+
   const settings = {
     dots: false,
-    infinite: true,
+    // No cloning: each card renders once so its layoutId stays unique and
+    // the expand morph works.
+    infinite: false,
+    initialSlide: current,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    adaptiveHeight: true,
+    centerMode: true,
+    centerPadding: "140px",
     autoplay: isAutoPlaying && !isHovered,
     autoplaySpeed: 6000,
     arrows: false,
     pauseOnHover: true,
     beforeChange: (_, next) => setCurrent(next),
+    responsive: [
+      { breakpoint: 1024, settings: { centerPadding: "60px" } },
+      { breakpoint: 640, settings: { centerMode: false, centerPadding: "0px" } },
+    ],
   };
 
   const handlePlayPause = () => {
@@ -432,7 +540,8 @@ const Projects = () => {
           <button
             type="button"
             onClick={handlePlayPause}
-            className="inline-flex items-center gap-2 rounded-full border border-line px-4 py-2 font-mono text-xs text-muted transition-colors hover:border-text hover:text-text"
+            disabled={!!expanded}
+            className="inline-flex items-center gap-2 rounded-full border border-line px-4 py-2 font-mono text-xs text-muted transition-colors hover:border-text hover:text-text disabled:opacity-40 disabled:hover:border-line disabled:hover:text-muted"
             aria-label={playing ? "Pause carousel" : "Play carousel"}
           >
             {playing ? <FiPause size={14} /> : <FiPlay size={14} />}
@@ -448,42 +557,62 @@ const Projects = () => {
           <CircleButton
             label="Previous project"
             onClick={() => sliderRef.current?.slickPrev()}
+            disabled={!!expanded || current === 0}
+            className="disabled:opacity-30"
           >
             <FiArrowLeft size={16} />
           </CircleButton>
           <CircleButton
             label="Next project"
             onClick={() => sliderRef.current?.slickNext()}
+            disabled={!!expanded || current === projects.length - 1}
+            className="disabled:opacity-30"
           >
             <FiArrowRight size={16} />
           </CircleButton>
         </div>
       </div>
 
-      <div
-        className="projects-carousel"
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-      >
-        <Slider ref={sliderRef} {...settings}>
-          {projects.map((project) => (
-            <div key={project.title}>
-              <ProjectCard
-                project={project}
-                loading={imageLoading[project.title] !== false}
-                errored={!!imageErrors[project.title]}
-                onLoad={() =>
-                  setImageLoading((p) => ({ ...p, [project.title]: false }))
-                }
-                onError={() => {
-                  setImageErrors((p) => ({ ...p, [project.title]: true }));
-                  setImageLoading((p) => ({ ...p, [project.title]: false }));
-                }}
-              />
-            </div>
-          ))}
-        </Slider>
-      </div>
+      {/* `layout` lets the container animate its own height as the card
+          grows, while the shared layoutIds morph the card itself. */}
+      {/* `layout` animates the container's own height as the card grows.
+          It sits OUTSIDE the slick track — framer's layout projection and
+          slick's transformed track do not mix. */}
+      <motion.div layout transition={{ duration: 0.36, ease: [0.22, 1, 0.36, 1] }}>
+        <AnimatePresence mode="wait" initial={false}>
+          {expanded ? (
+            <ProjectCardExpanded
+              key="expanded"
+              project={expanded}
+              onClose={() => setExpandedTitle(null)}
+              imageProps={imagePropsFor(expanded)}
+            />
+          ) : (
+            <motion.div
+              key="carousel"
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.98 }}
+              transition={{ duration: 0.24 }}
+              className="projects-carousel"
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            >
+              <Slider ref={sliderRef} {...settings}>
+                {projects.map((project) => (
+                  <div key={project.title} className="px-3">
+                    <ProjectCardCollapsed
+                      project={project}
+                      onExpand={() => setExpandedTitle(project.title)}
+                      imageProps={imagePropsFor(project)}
+                    />
+                  </div>
+                ))}
+              </Slider>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
     </Section>
   );
 };

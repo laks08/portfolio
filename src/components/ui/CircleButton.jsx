@@ -14,7 +14,7 @@ const CircleButton = React.forwardRef(
       variant === "solid"
         ? "bg-paper text-paper-ink border border-transparent hover:opacity-90"
         : "border border-line text-text hover:border-text";
-    const cls = `inline-flex shrink-0 items-center justify-center rounded-full transition-colors duration-200 ${dims} ${look} ${className}`;
+    const cls = `inline-flex shrink-0 items-center justify-center rounded-full transition-colors duration-200 disabled:cursor-not-allowed ${dims} ${look} ${className}`;
 
     if (href) {
       const external = /^https?:/.test(href);

@@ -1,30 +1,45 @@
 /* Monochrome react-slick overrides for the Projects carousel.
-   One full-width editorial block at a time, matching the reference. */
+   Centre-active card at full strength, neighbours dimmed and peeking —
+   the reference's article carousel. */
 
 .projects-carousel .slick-list {
   overflow: hidden;
+  padding-top: 4px;
+  padding-bottom: 4px;
 }
 
 .projects-carousel .slick-track {
   display: flex !important;
-  align-items: flex-start;
+  align-items: stretch;
 }
 
 .projects-carousel .slick-slide {
   height: auto;
+  opacity: 0.28;
+  transition: opacity 0.45s ease;
 }
 
 .projects-carousel .slick-slide > div {
   height: 100%;
 }
 
-/* Only the active slide is interactive; the rest are visually offstage. */
-.projects-carousel .slick-slide[aria-hidden="true"] {
-  opacity: 0;
-  transition: opacity 0.4s ease;
+/* `centerMode` marks the middle slide; without it (mobile) fall back to
+   the active slide so the card is never left dimmed. */
+.projects-carousel .slick-slide.slick-center,
+.projects-carousel .slick-slide.slick-current {
+  opacity: 1;
 }
 
-.projects-carousel .slick-slide.slick-active {
-  opacity: 1;
-  transition: opacity 0.4s ease;
+/* Neighbours are decorative — keep them out of the tab order's way. */
+.projects-carousel .slick-slide:not(.slick-center):not(.slick-current) {
+  pointer-events: none;
+}
+
+@media (max-width: 640px) {
+  .projects-carousel .slick-slide {
+    opacity: 1;
+  }
+  .projects-carousel .slick-slide:not(.slick-center):not(.slick-current) {
+    pointer-events: auto;
+  }
 }
