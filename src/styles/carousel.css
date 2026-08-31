@@ -42,8 +42,17 @@
   opacity: 1;
 }
 
-/* Neighbours are decorative — keep them out of the pointer/tab path. */
-.projects-carousel .slick-slide:not(.slick-center) {
+/* Neighbours are decorative — keep them out of the pointer/tab path.
+   Scoped to >640px: below that, centerMode is off so NO slide is
+   `.slick-center` and this would disable every card (Read more etc.). */
+@media (min-width: 641px) {
+  .projects-carousel .slick-slide:not(.slick-center) {
+    pointer-events: none;
+  }
+}
+
+/* Decorative overlay must never intercept taps on the buttons beneath it. */
+.projects-carousel .pc-scrim {
   pointer-events: none;
 }
 

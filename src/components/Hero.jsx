@@ -106,7 +106,7 @@ const Hero = () => {
             className="mt-8 max-w-xl font-sans text-base leading-relaxed text-muted"
           >
             I build <em>LLM and RAG systems</em>, agentic workflows, and the
-            services around them &mdash; and I <em>own them end to end</em>, from
+            services around them, and I <em>own them end to end</em>, from
             product decisions through deployment. Currently at Aerocode as sole
             technical owner on client AI SaaS builds. 5+ years combined across
             engineering and product/program work, focused now on GenAI.

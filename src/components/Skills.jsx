@@ -96,9 +96,9 @@ const skillCategories = [
 const Skills = () => (
   <Section id="skills" label="skills" ringPosition="left">
     <p className="mb-12 max-w-2xl font-sans text-base leading-relaxed text-muted">
-      The stack I <em>build production systems with</em> &mdash; grouped by where
-      it sits in the pipeline, from language fundamentals through AI enablement
-      and data platforms.
+      The stack I <em>build production systems with</em>, grouped by where it
+      sits in the pipeline, from language fundamentals through AI enablement and
+      data platforms.
     </p>
 
     <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">

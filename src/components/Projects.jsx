@@ -580,8 +580,8 @@ const Projects = () => {
   return (
     <Section id="projects" label="projects" ringPosition="right">
       <p className="mb-10 max-w-xl font-sans text-base leading-relaxed text-muted">
-        A rolling selection of what I&apos;ve built &mdash; AI systems, data
-        pipelines, backends, and apps.
+        A rolling selection of what I&apos;ve built: AI systems, data pipelines,
+        backends, and apps.
       </p>
 
       <div className="mb-10 flex items-center justify-between">
