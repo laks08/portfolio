@@ -16,7 +16,7 @@ const skillCategories = [
   {
     title: "Languages & Core Engineering",
     Icon: PiBracketsAngleDuotone,
-    iconSize: 84,
+    iconSize: 64,
     skills: [
       { name: "Java", keywords: ["Spring Boot", "Microservices", "REST"] },
       { name: "Python", keywords: ["FastAPI", "Data Ops", "Automation"] },
@@ -128,11 +128,12 @@ const Skills = () => (
           <Card className="group relative h-full overflow-hidden transition-colors duration-300 hover:border-text">
             <category.Icon
               aria-hidden="true"
-              size={category.iconSize ?? 106}
-              className="pointer-events-none absolute right-4 top-4 text-text/[0.09] transition-colors duration-300 group-hover:text-text/[0.16]"
+              size={category.iconSize ?? 84}
+              className="pointer-events-none absolute right-5 top-5 text-text/[0.09] transition-colors duration-300 group-hover:text-text/[0.16]"
             />
 
-            <h3 className="relative mb-6 max-w-[78%] font-mono text-lg font-bold leading-snug text-text">
+            {/* min-h reserves the icon's corner so pills never land on it */}
+            <h3 className="relative mb-5 min-h-[4.5rem] max-w-[72%] font-mono text-lg font-bold leading-snug text-text">
               {category.title}
             </h3>
 
