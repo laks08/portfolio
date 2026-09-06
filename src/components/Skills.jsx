@@ -16,6 +16,7 @@ const skillCategories = [
   {
     title: "Languages & Core Engineering",
     Icon: PiBracketsAngleDuotone,
+    iconSize: 84,
     skills: [
       { name: "Java", keywords: ["Spring Boot", "Microservices", "REST"] },
       { name: "Python", keywords: ["FastAPI", "Data Ops", "Automation"] },
@@ -127,7 +128,7 @@ const Skills = () => (
           <Card className="group relative h-full overflow-hidden transition-colors duration-300 hover:border-text">
             <category.Icon
               aria-hidden="true"
-              size={124}
+              size={category.iconSize ?? 106}
               className="pointer-events-none absolute -right-4 -top-4 text-text/[0.09] transition-colors duration-300 group-hover:text-text/[0.16]"
             />
 
