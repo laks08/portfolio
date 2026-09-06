@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiMail } from "react-icons/fi";
+import { scrollToSection } from "../lib/scroll";
 
 const FloatingContactButton = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -31,6 +32,10 @@ const FloatingContactButton = () => {
         <motion.a
           href="#contact"
           aria-label="Jump to contact"
+          onClick={(e) => {
+            e.preventDefault();
+            scrollToSection("contact");
+          }}
           initial={{ opacity: 0, scale: 0.6 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.6 }}

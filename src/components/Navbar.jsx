@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { FiMenu, FiX, FiSun, FiMoon } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "../context/ThemeContext";
+import { scrollToSection } from "../lib/scroll";
 
 const NAV_ITEMS = [
   "home",
@@ -11,16 +12,6 @@ const NAV_ITEMS = [
   "experience",
   "contact",
 ];
-
-const scrollToSection = (id) => {
-  const el = document.getElementById(id);
-  if (!el) return;
-  const reduce = window.matchMedia?.(
-    "(prefers-reduced-motion: reduce)"
-  ).matches;
-  el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
-  history.replaceState?.(null, "", `#${id}`);
-};
 
 const ThemeToggle = ({ className = "" }) => {
   const { isDark, toggleTheme } = useTheme();
