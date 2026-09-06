@@ -1,8 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
 import Section from "./ui/Section";
-import Card from "./ui/Card";
-import TagList from "./ui/TagList";
 
 const skillCategories = [
   {
@@ -95,36 +93,26 @@ const skillCategories = [
 
 const Skills = () => (
   <Section id="skills" label="skills" ringPosition="left">
-    <p className="mb-12 max-w-2xl font-sans text-base leading-relaxed text-muted">
+    <p className="mb-14 max-w-2xl font-sans text-base leading-relaxed text-muted">
       The stack I <em>build production systems with</em>, grouped by where it
       sits in the pipeline, from language fundamentals through AI enablement and
       data platforms.
     </p>
 
-    <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+    <div className="border-t border-line">
       {skillCategories.map((category, i) => (
         <motion.div
           key={category.title}
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.4, delay: (i % 3) * 0.06 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.35, delay: Math.min(i, 4) * 0.05 }}
+          className="group grid grid-cols-1 gap-2 border-b border-line px-1 py-7 transition-colors duration-200 hover:bg-paper hover:text-paper-ink md:grid-cols-[240px_1fr] md:gap-10 md:px-4"
         >
-          <Card className="h-full">
-            <h3 className="mb-5 font-mono text-base font-bold text-text">
-              {category.title}
-            </h3>
-            <ul className="space-y-3">
-              {category.skills.map((skill) => (
-                <li key={skill.name}>
-                  <p className="font-mono text-sm font-medium text-text">
-                    {skill.name}
-                  </p>
-                  <TagList items={skill.keywords} className="mt-0.5" />
-                </li>
-              ))}
-            </ul>
-          </Card>
+          <h3 className="font-mono text-sm font-bold">{category.title}</h3>
+          <p className="font-mono text-sm leading-relaxed text-muted group-hover:text-paper-ink/70">
+            {category.skills.map((s) => s.name).join("  /  ")}
+          </p>
         </motion.div>
       ))}
     </div>

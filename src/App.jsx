@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Hero from "./components/Hero";
 import Projects from "./components/Projects";
 import Skills from "./components/Skills";
@@ -11,6 +11,12 @@ import FloatingContactButton from "./components/FloatingContactButton";
 import ErrorBoundary from "./components/ErrorBoundary";
 
 const App = () => {
+  useEffect(() => {
+    const blockContextMenu = (e) => e.preventDefault();
+    document.addEventListener("contextmenu", blockContextMenu);
+    return () => document.removeEventListener("contextmenu", blockContextMenu);
+  }, []);
+
   return (
     <ErrorBoundary>
       <ThemeProvider>

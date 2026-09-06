@@ -48,12 +48,6 @@ const Hero = () => {
       <BackgroundRings position="right" />
 
       <div className="relative z-10 mx-auto grid w-full max-w-content grid-cols-1 gap-12 px-5 sm:px-8 lg:grid-cols-[1fr_auto] lg:items-center">
-        {/* Left accent bar — sits at the content's left edge */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute left-0 top-10 h-40 w-px bg-text"
-        />
-
         <div>
           <motion.div
             variants={fade}
