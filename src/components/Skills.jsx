@@ -1,13 +1,13 @@
 import React from "react";
 import { motion } from "framer-motion";
 import {
-  FiCode,
-  FiLayout,
-  FiServer,
-  FiCloud,
-  FiCpu,
-  FiDatabase,
-} from "react-icons/fi";
+  PiBracketsAngleDuotone,
+  PiBrowserDuotone,
+  PiHardDrivesDuotone,
+  PiCloudDuotone,
+  PiCpuDuotone,
+  PiDatabaseDuotone,
+} from "react-icons/pi";
 import Section from "./ui/Section";
 import Card from "./ui/Card";
 import TagPill from "./ui/TagPill";
@@ -15,7 +15,7 @@ import TagPill from "./ui/TagPill";
 const skillCategories = [
   {
     title: "Languages & Core Engineering",
-    Icon: FiCode,
+    Icon: PiBracketsAngleDuotone,
     skills: [
       { name: "Java", keywords: ["Spring Boot", "Microservices", "REST"] },
       { name: "Python", keywords: ["FastAPI", "Data Ops", "Automation"] },
@@ -27,7 +27,7 @@ const skillCategories = [
   },
   {
     title: "Frontend Engineering",
-    Icon: FiLayout,
+    Icon: PiBrowserDuotone,
     skills: [
       { name: "React", keywords: ["Hooks", "State mgmt", "Testing"] },
       { name: "Next.js", keywords: ["SSR", "Routing", "Optimizations"] },
@@ -42,7 +42,7 @@ const skillCategories = [
   },
   {
     title: "Backend & API Platforms",
-    Icon: FiServer,
+    Icon: PiHardDrivesDuotone,
     skills: [
       { name: "Node.js", keywords: ["REST APIs", "Tooling", "Workers"] },
       { name: "Express.js", keywords: ["Routing", "Middleware", "Auth"] },
@@ -56,7 +56,7 @@ const skillCategories = [
   },
   {
     title: "Cloud, DevOps & Observability",
-    Icon: FiCloud,
+    Icon: PiCloudDuotone,
     skills: [
       { name: "AWS", keywords: ["EC2", "S3", "Lambda"] },
       { name: "Azure", keywords: ["App Service", "AI Studio", "Functions"] },
@@ -72,7 +72,7 @@ const skillCategories = [
   },
   {
     title: "AI, ML & Analytics Enablement",
-    Icon: FiCpu,
+    Icon: PiCpuDuotone,
     skills: [
       { name: "LangChain", keywords: ["Agents", "Tools", "Pipelines"] },
       { name: "LangGraph", keywords: ["Workflow", "Retries", "Routing"] },
@@ -91,7 +91,7 @@ const skillCategories = [
   },
   {
     title: "Data Engineering & Storage",
-    Icon: FiDatabase,
+    Icon: PiDatabaseDuotone,
     skills: [
       { name: "Snowflake", keywords: ["Marts", "Snowpipe", "Streams"] },
       { name: "PostgreSQL", keywords: ["Modeling", "Indexes", "Views"] },
@@ -127,9 +127,8 @@ const Skills = () => (
           <Card className="group relative h-full overflow-hidden transition-colors duration-300 hover:border-text">
             <category.Icon
               aria-hidden="true"
-              size={132}
-              strokeWidth={1}
-              className="pointer-events-none absolute -right-5 -top-5 text-text/[0.06] transition-colors duration-300 group-hover:text-text/[0.11]"
+              size={124}
+              className="pointer-events-none absolute -right-4 -top-4 text-text/[0.09] transition-colors duration-300 group-hover:text-text/[0.16]"
             />
 
             <h3 className="relative mb-6 max-w-[78%] font-mono text-lg font-bold leading-snug text-text">
