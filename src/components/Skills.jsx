@@ -129,7 +129,7 @@ const Skills = () => (
             <category.Icon
               aria-hidden="true"
               size={category.iconSize ?? 106}
-              className="pointer-events-none absolute -right-4 -top-4 text-text/[0.09] transition-colors duration-300 group-hover:text-text/[0.16]"
+              className="pointer-events-none absolute right-4 top-4 text-text/[0.09] transition-colors duration-300 group-hover:text-text/[0.16]"
             />
 
             <h3 className="relative mb-6 max-w-[78%] font-mono text-lg font-bold leading-snug text-text">
