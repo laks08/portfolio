@@ -1,6 +1,8 @@
 import React from "react";
 import { motion } from "framer-motion";
 import Section from "./ui/Section";
+import Card from "./ui/Card";
+import TagPill from "./ui/TagPill";
 
 const skillCategories = [
   {
@@ -99,20 +101,33 @@ const Skills = () => (
       data platforms.
     </p>
 
-    <div className="border-t border-line">
+    <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
       {skillCategories.map((category, i) => (
         <motion.div
           key={category.title}
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.35, delay: Math.min(i, 4) * 0.05 }}
-          className="group grid grid-cols-1 gap-2 border-b border-line px-1 py-7 transition-colors duration-200 hover:bg-paper hover:text-paper-ink md:grid-cols-[240px_1fr] md:gap-10 md:px-4"
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.4, delay: (i % 3) * 0.06 }}
         >
-          <h3 className="font-mono text-sm font-bold">{category.title}</h3>
-          <p className="font-mono text-sm leading-relaxed text-muted group-hover:text-paper-ink/70">
-            {category.skills.map((s) => s.name).join("  /  ")}
-          </p>
+          <Card className="group relative h-full overflow-hidden transition-colors duration-300 hover:border-text">
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute right-3 top-2 select-none font-mono text-6xl font-bold leading-none text-muted/15 transition-colors duration-300 group-hover:text-muted/25"
+            >
+              {String(i + 1).padStart(2, "0")}
+            </span>
+
+            <h3 className="relative mb-6 max-w-[80%] font-mono text-lg font-bold leading-snug text-text">
+              {category.title}
+            </h3>
+
+            <div className="relative flex flex-wrap gap-2">
+              {category.skills.map((skill) => (
+                <TagPill key={skill.name}>{skill.name}</TagPill>
+              ))}
+            </div>
+          </Card>
         </motion.div>
       ))}
     </div>
