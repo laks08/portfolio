@@ -115,7 +115,12 @@ const Experience = () => (
                 alt=""
                 className="h-10 w-10 shrink-0 rounded-md bg-white object-contain p-1"
               />
-              <p className="font-mono text-sm font-bold">{exp.company}</p>
+              <div>
+                <p className="font-mono text-sm font-bold">{exp.company}</p>
+                <p className="font-mono text-xs text-muted group-hover:text-paper-ink/70">
+                  {exp.location}
+                </p>
+              </div>
             </div>
 
             <p className="font-mono text-sm">{exp.title}</p>
