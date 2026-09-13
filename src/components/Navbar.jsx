@@ -16,31 +16,46 @@ const NAV_ITEMS = [
 const ThemeToggle = ({ className = "" }) => {
   const { isDark, toggleTheme } = useTheme();
   return (
-    <button
+    // `layout="size"` morphs the button's real width/height between "dark"
+    // and "light" (they measure differently) instead of it snapping to the
+    // new size the instant the label swaps — the button stays the same
+    // element throughout, it just breathes to fit.
+    <motion.button
+      layout="size"
       type="button"
       onClick={toggleTheme}
       aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
+      transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
       className={`inline-flex items-center gap-2 overflow-hidden rounded-full border border-line px-3 py-1.5 font-mono text-xs text-muted transition-colors hover:border-text hover:text-text ${className}`}
     >
-      {/* Crossfade the icon+label instead of popping between them — the
-          instant swap read as a jarring beat inside an otherwise-animated
-          toggle. A quiet vertical slide-fade, on the same easing curve the
-          carousel/expanded card use elsewhere on the site, reads sleeker
-          than a spin. */}
-      <AnimatePresence mode="wait" initial={false}>
+      {/* Icon crossfades in place inside a fixed-size slot, rather than the
+          whole button's content popping out and a new one sliding in. */}
+      <span className="relative inline-grid h-[14px] w-[14px] shrink-0 place-items-center">
+        <AnimatePresence mode="popLayout" initial={false}>
+          <motion.span
+            key={isDark ? "sun" : "moon"}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.15 }}
+            className="absolute inset-0 inline-grid place-items-center"
+          >
+            {isDark ? <FiSun size={14} /> : <FiMoon size={14} />}
+          </motion.span>
+        </AnimatePresence>
+      </span>
+      <AnimatePresence mode="popLayout" initial={false}>
         <motion.span
-          key={isDark ? "dark" : "light"}
-          initial={{ opacity: 0, y: 6 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -6 }}
-          transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          className="inline-flex items-center gap-2"
+          key={isDark ? "light" : "dark"}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.15 }}
         >
-          {isDark ? <FiSun size={14} /> : <FiMoon size={14} />}
-          <span>{isDark ? "light" : "dark"}</span>
+          {isDark ? "light" : "dark"}
         </motion.span>
       </AnimatePresence>
-    </button>
+    </motion.button>
   );
 };
 
