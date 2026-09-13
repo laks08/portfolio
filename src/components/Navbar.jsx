@@ -30,13 +30,24 @@ const ThemeToggle = ({ className = "" }) => {
         isDark ? "justify-end" : "justify-start"
       } ${className}`}
     >
-      {/* `layout` alone: the parent's justify-start/-end flip is what moves
-          this, framer just FLIP-animates the resulting position change —
-          no manual translateX math, stays correct at any track width. */}
+      {/* toggleTheme wraps the theme flip in a page-wide View Transition,
+          which captures the WHOLE page as a flat before/after image pair and
+          crossfades those two — so the knob's own `layout` slide, happening
+          on the live DOM underneath that overlay, was invisible: you only
+          ever saw the two settled bookend states blend into each other.
+          `view-transition-name` carves the knob out into its OWN named
+          transition group, so the browser morphs and crossfades its
+          position/content independently (a native "shared element"
+          transition) instead of flattening it into the root snapshot. The
+          two ThemeToggle instances (desktop/mobile) are mutually exclusive
+          via `hidden`/`md:hidden`, so only one is ever actually rendered
+          (not display:none) to claim this name at a time.
+          `layout` + the spring stays as the fallback for browsers without
+          View Transition support, where nothing masks it. */}
       <motion.span
         layout
         transition={{ type: "spring", stiffness: 700, damping: 32 }}
-        className="relative grid h-6 w-6 place-items-center overflow-hidden rounded-full bg-surface text-text shadow-sm"
+        className="relative grid h-6 w-6 place-items-center overflow-hidden rounded-full bg-surface text-text shadow-sm [view-transition-name:theme-toggle-knob]"
       >
         <AnimatePresence mode="popLayout" initial={false}>
           <motion.span
