@@ -84,9 +84,18 @@ const experiences = [
 ];
 
 const Experience = () => (
-  <Section id="experience" label="experience" ringPosition="right">
+  <Section
+    id="experience"
+    label="experience"
+    headingId="experience-heading"
+    ringPosition="right"
+  >
     <div className="mb-12 flex items-end justify-between gap-6">
-      <DisplayHeading lines={[{ text: "Work" }]} size="text-[clamp(3rem,12vw,7rem)]" />
+      <DisplayHeading
+        id="experience-heading"
+        lines={[{ text: "Work" }]}
+        size="text-[clamp(3rem,12vw,7rem)]"
+      />
       <p className="hidden shrink-0 pb-3 text-right font-mono text-xs text-muted sm:block">
         experience
         <br />

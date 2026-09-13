@@ -13,10 +13,12 @@ const INDENT = ["ml-0", "ml-[3vw] md:ml-[3ch]", "ml-[6vw] md:ml-[6ch]"];
 const DisplayHeading = ({
   lines,
   as: Tag = "h2",
+  id,
   className = "",
   size = "text-[clamp(2.5rem,8vw,5.5rem)]",
 }) => (
   <Tag
+    id={id}
     className={`font-mono font-bold leading-[1.05] tracking-tightest ${size} ${className}`}
   >
     {lines.map((line, i) => {
