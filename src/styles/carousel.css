@@ -1,0 +1,267 @@
+/* Projects carousel — monochrome, driven off slick's own classes.
+ *
+ * The BASE state is the reference's "Articles" card: black, thin outline,
+ * white title, readable grey body, solid white pill + arrow, text spanning
+ * the full card. `.slick-center` promotes a slide to ACTIVE, which reveals
+ * the full-bleed photo and narrows the copy onto a translucent scrim.
+ *
+ * Base-is-inactive is deliberate: `infinite` clones ~37 offscreen slides,
+ * and they all default to the correct style.
+ *
+ * Two rules that must not be "tidied up":
+ *  - Never hook off `.slick-active`. With centerOffset 0 it means
+ *    `index === currentSlide`, which is FALSE for the clone that is visually
+ *    centred during a wrap.
+ *  - Never use `backdrop-filter` for the scrim. `.slick-track`'s transform
+ *    and the slide's `opacity < 1` each establish a Backdrop Root, so it
+ *    would sample nothing and paint flat.
+ */
+
+/* ── track plumbing ─────────────────────────────────────────────── */
+.projects-carousel .slick-list {
+  overflow: hidden;
+  padding: 4px 0;
+}
+
+.projects-carousel .slick-track {
+  display: flex !important;
+  align-items: stretch;
+}
+
+.projects-carousel .slick-slide {
+  height: auto;
+  opacity: 0.35;
+  transition: opacity 0.45s ease;
+}
+
+.projects-carousel .slick-slide > div {
+  height: 100%;
+}
+
+.projects-carousel .slick-slide.slick-center {
+  opacity: 1;
+}
+
+/* Neighbours are decorative — keep them out of the pointer/tab path.
+   Scoped to >640px: below that, centerMode is off so NO slide is
+   `.slick-center` and this would disable every card (Read more etc.). */
+@media (min-width: 641px) {
+  .projects-carousel .slick-slide:not(.slick-center) {
+    pointer-events: none;
+  }
+}
+
+/* Decorative overlay must never intercept taps on the buttons beneath it. */
+.projects-carousel .pc-scrim {
+  pointer-events: none;
+}
+
+/* ── card: BASE (= the reference's Articles card) ───────────────── */
+.projects-carousel .pc-card {
+  border-radius: 24px;
+  background: rgb(var(--color-bg));
+  border: 1px solid rgb(var(--color-border));
+  transition: border-color 0.45s ease;
+}
+
+.projects-carousel .pc-media {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Constant colour + fixed size — the scrim only ever fades in/out, so the
+   reveal has no width morph and no opaque->translucent colour shift. */
+.projects-carousel .pc-scrim {
+  width: 57%;
+  background: rgba(9, 9, 11, 0.72);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.projects-carousel .pc-body {
+  width: 100%;
+  will-change: width;
+  transition: width 0.3s ease;
+}
+
+.projects-carousel .pc-title {
+  color: rgb(var(--color-text));
+  transition: color 0.45s ease;
+}
+
+.projects-carousel .pc-desc {
+  min-height: 4.2rem; /* ~3 lines — stops the buttons jumping as text rewraps */
+  color: rgb(var(--color-text) / 0.72);
+  transition: color 0.45s ease;
+}
+
+.projects-carousel .pc-pill {
+  background: rgb(var(--color-inverse-bg));
+  color: rgb(var(--color-inverse-text));
+  border: 0;
+}
+
+.projects-carousel .pc-arrow {
+  background: rgb(var(--color-inverse-bg));
+  color: rgb(var(--color-inverse-text));
+  border-color: transparent;
+}
+
+/* ── ACTIVE: promoted by slick, clones included ─────────────────── */
+/* border-color, not `border: none` — keeps the box size identical. */
+.projects-carousel .slick-slide.slick-center .pc-card {
+  border-color: transparent;
+}
+
+/* Reveal is sequenced with a small delay so it settles in AFTER the ~500ms
+   slide finishes, rather than fighting it. */
+.projects-carousel .slick-slide.slick-center .pc-media {
+  opacity: 1;
+  transition: opacity 0.5s ease 0.16s;
+}
+
+.projects-carousel .slick-slide.slick-center .pc-scrim {
+  opacity: 1;
+  transition: opacity 0.45s ease 0.18s;
+}
+
+.projects-carousel .slick-slide.slick-center .pc-body {
+  width: 57%;
+  transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.18s;
+  /* brief opacity dip masks the text reflow as the column narrows */
+  animation: pc-body-settle 0.6s ease 0.18s both;
+}
+
+@keyframes pc-body-settle {
+  0% {
+    opacity: 1;
+  }
+  35% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* The scrim sits on a photograph, so its copy stays light in both themes. */
+.projects-carousel .slick-slide.slick-center .pc-title {
+  color: #fff;
+}
+
+.projects-carousel .slick-slide.slick-center .pc-desc {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.projects-carousel .slick-slide.slick-center .pc-pill,
+.projects-carousel .slick-slide.slick-center .pc-arrow {
+  background: #f5f5f5;
+  color: #121212;
+}
+
+/* ── nav arrows overlapping the side cards ──────────────────────── */
+.projects-carousel-nav .pc-nav {
+  position: absolute;
+  top: 50%;
+  z-index: 20;
+  height: 78px;
+  width: 78px;
+  transform: translateY(-50%);
+  background: transparent;
+}
+
+/* Default is the faint outlined circle; fill solid white only on hover. */
+.projects-carousel-nav .pc-nav:hover {
+  background: rgb(var(--color-inverse-bg));
+  color: rgb(var(--color-inverse-text));
+  border-color: transparent;
+}
+
+.projects-carousel-nav .pc-nav--prev {
+  left: -12px;
+}
+
+.projects-carousel-nav .pc-nav--next {
+  right: -12px;
+}
+
+@media (min-width: 1280px) {
+  .projects-carousel-nav .pc-nav {
+    height: 90px;
+    width: 90px;
+  }
+  .projects-carousel-nav .pc-nav--prev {
+    left: -28px;
+  }
+  .projects-carousel-nav .pc-nav--next {
+    right: -28px;
+  }
+}
+
+/* ── mobile: centerMode is off, so no slide gets .slick-center ──── */
+/* Promote every slide unconditionally rather than keying off a class:
+ * `.slick-current` is only ever applied to originals, so mid-wrap the
+ * visible node (a clone) would have neither class and would flash the
+ * inactive style for the full 500ms. slider.js also starts with
+ * `breakpoint: null`, so first paint uses the desktop settings.
+ * Clones are fully offscreen here, so promoting all of them is safe. */
+@media (max-width: 640px) {
+  .projects-carousel .slick-slide {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .projects-carousel .pc-card {
+    border-color: transparent;
+  }
+  .projects-carousel .pc-media {
+    opacity: 1;
+    transition: none;
+  }
+  /* Stacked: a horizontal scrim across the bottom — a 57% column is
+     unusable at 375px. Constant colour + always visible; no transition. */
+  .projects-carousel .pc-scrim {
+    inset: auto 0 0 0;
+    width: 100%;
+    height: 62%;
+    opacity: 1;
+    background: rgba(9, 9, 11, 0.78);
+    transition: none;
+  }
+  .projects-carousel .pc-body {
+    width: 100%;
+    justify-content: flex-end;
+    animation: none;
+  }
+  .projects-carousel .pc-title {
+    color: #fff;
+  }
+  .projects-carousel .pc-desc {
+    color: rgba(255, 255, 255, 0.78);
+  }
+  .projects-carousel .pc-pill,
+  .projects-carousel .pc-arrow {
+    background: #f5f5f5;
+    color: #121212;
+  }
+
+  /* No peeking neighbours on mobile, so the arrows would sit on top of the
+     card's own copy. Drop them below it instead. */
+  .projects-carousel-nav {
+    padding-bottom: 76px;
+  }
+  .projects-carousel-nav .pc-nav {
+    top: auto;
+    bottom: 0;
+    transform: none;
+    height: 52px;
+    width: 52px;
+  }
+  .projects-carousel-nav .pc-nav--prev {
+    left: 0;
+  }
+  .projects-carousel-nav .pc-nav--next {
+    left: 64px;
+    right: auto;
+  }
+}

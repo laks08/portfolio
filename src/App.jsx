@@ -12,20 +12,15 @@ import ErrorBoundary from "./components/ErrorBoundary";
 
 const App = () => {
   useEffect(() => {
-    const handleContextMenu = (e) => {
-      e.preventDefault();
-    };
-
-    document.addEventListener("contextmenu", handleContextMenu);
-    return () => {
-      document.removeEventListener("contextmenu", handleContextMenu);
-    };
+    const blockContextMenu = (e) => e.preventDefault();
+    document.addEventListener("contextmenu", blockContextMenu);
+    return () => document.removeEventListener("contextmenu", blockContextMenu);
   }, []);
 
   return (
     <ErrorBoundary>
       <ThemeProvider>
-        <div className="min-h-screen transition-colors duration-300 dark:bg-gray-900 bg-slate-200">
+        <div className="min-h-screen bg-bg font-sans text-text">
           <Navbar />
           <ErrorBoundary>
             <Hero />

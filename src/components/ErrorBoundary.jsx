@@ -6,7 +6,7 @@ class ErrorBoundary extends React.Component {
     this.state = { hasError: false, error: null, errorInfo: null };
   }
 
-  static getDerivedStateFromError(error) {
+  static getDerivedStateFromError() {
     return { hasError: true };
   }
 
@@ -22,20 +22,19 @@ class ErrorBoundary extends React.Component {
   render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900">
-          <div className="max-w-md w-full p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
-            <h2 className="text-2xl font-bold text-red-600 dark:text-red-400 mb-4">
+        <div className="flex min-h-screen items-center justify-center bg-bg px-5">
+          <div className="w-full max-w-md rounded-card border border-line bg-surface p-8">
+            <h2 className="mb-4 font-mono text-xl font-bold text-text">
               Something went wrong
             </h2>
-            <p className="text-gray-600 dark:text-gray-300 mb-4">
-              We apologize for the inconvenience. Please try refreshing the
-              page.
+            <p className="mb-6 font-sans text-sm text-muted">
+              We apologize for the inconvenience. Please try refreshing the page.
             </p>
             <button
               onClick={() => window.location.reload()}
-              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+              className="rounded-full bg-paper px-5 py-2 font-sans text-sm italic text-paper-ink transition-opacity hover:opacity-90"
             >
-              Refresh Page
+              Refresh page
             </button>
           </div>
         </div>

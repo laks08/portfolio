@@ -29,6 +29,10 @@ export default [
       ...react.configs['jsx-runtime'].rules,
       ...reactHooks.configs.recommended.rules,
       'react/jsx-no-target-blank': 'off',
+      // Plain-JS project (no TypeScript); prop-types add noise without value.
+      'react/prop-types': 'off',
+      // New JSX runtime — `React` need not be in scope for JSX.
+      'no-unused-vars': ['error', { varsIgnorePattern: '^React$' }],
       'react-refresh/only-export-components': [
         'warn',
         { allowConstantExport: true },
