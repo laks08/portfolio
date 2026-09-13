@@ -57,7 +57,7 @@ const Hero = () => {
             custom={0}
           >
             <SectionLabel slash className="mb-6">
-              About me
+              about me
             </SectionLabel>
           </motion.div>
 

@@ -20,10 +20,24 @@ const ThemeToggle = ({ className = "" }) => {
       type="button"
       onClick={toggleTheme}
       aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
-      className={`inline-flex items-center gap-2 rounded-full border border-line px-3 py-1.5 font-mono text-xs text-muted transition-colors hover:border-text hover:text-text ${className}`}
+      className={`inline-flex items-center gap-2 overflow-hidden rounded-full border border-line px-3 py-1.5 font-mono text-xs text-muted transition-colors hover:border-text hover:text-text ${className}`}
     >
-      {isDark ? <FiSun size={14} /> : <FiMoon size={14} />}
-      <span>{isDark ? "light" : "dark"}</span>
+      {/* Crossfade the icon+label instead of popping between them — the
+          instant swap read as a jarring beat inside an otherwise-animated
+          toggle. */}
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.span
+          key={isDark ? "dark" : "light"}
+          initial={{ opacity: 0, rotate: -90, scale: 0.6 }}
+          animate={{ opacity: 1, rotate: 0, scale: 1 }}
+          exit={{ opacity: 0, rotate: 90, scale: 0.6 }}
+          transition={{ duration: 0.16 }}
+          className="inline-flex items-center gap-2"
+        >
+          {isDark ? <FiSun size={14} /> : <FiMoon size={14} />}
+          <span>{isDark ? "light" : "dark"}</span>
+        </motion.span>
+      </AnimatePresence>
     </button>
   );
 };

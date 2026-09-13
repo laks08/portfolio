@@ -113,3 +113,24 @@ img {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Theme toggle, modern-browser path: a single crossfade of the whole page
+   via the View Transitions API (see ThemeContext's toggleTheme). This runs
+   entirely on the compositor — two rasterized snapshots blending — so it
+   stays smooth regardless of how many elements changed colour, unlike the
+   `.theme-transition` per-element fallback above.
+   ThemeContext already skips this path under prefers-reduced-motion, but
+   guard the animation here too in case a browser starts a transition
+   outside that call. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.4s;
+  animation-timing-function: ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+}
