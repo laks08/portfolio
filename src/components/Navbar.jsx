@@ -13,49 +13,45 @@ const NAV_ITEMS = [
   "contact",
 ];
 
+// iOS-style sliding switch: a pill track with a circular knob that slides
+// between the two ends, the sun/moon icon crossfading inside the knob as it
+// travels. `role="switch"`/`aria-checked` rather than a plain labelled
+// button — now that it visually IS a switch, that's the correct semantics.
 const ThemeToggle = ({ className = "" }) => {
   const { isDark, toggleTheme } = useTheme();
   return (
-    // `layout="size"` morphs the button's real width/height between "dark"
-    // and "light" (they measure differently) instead of it snapping to the
-    // new size the instant the label swaps — the button stays the same
-    // element throughout, it just breathes to fit.
-    <motion.button
-      layout="size"
+    <button
       type="button"
+      role="switch"
+      aria-checked={isDark}
       onClick={toggleTheme}
       aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
-      transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-      className={`inline-flex items-center gap-2 overflow-hidden rounded-full border border-line px-3 py-1.5 font-mono text-xs text-muted transition-colors hover:border-text hover:text-text ${className}`}
+      className={`flex h-8 w-14 shrink-0 items-center rounded-full border border-line bg-surface-2/50 p-1 transition-colors duration-300 hover:border-text ${
+        isDark ? "justify-end" : "justify-start"
+      } ${className}`}
     >
-      {/* Icon crossfades in place inside a fixed-size slot, rather than the
-          whole button's content popping out and a new one sliding in. */}
-      <span className="relative inline-grid h-[14px] w-[14px] shrink-0 place-items-center">
+      {/* `layout` alone: the parent's justify-start/-end flip is what moves
+          this, framer just FLIP-animates the resulting position change —
+          no manual translateX math, stays correct at any track width. */}
+      <motion.span
+        layout
+        transition={{ type: "spring", stiffness: 700, damping: 32 }}
+        className="relative grid h-6 w-6 place-items-center overflow-hidden rounded-full bg-surface text-text shadow-sm"
+      >
         <AnimatePresence mode="popLayout" initial={false}>
           <motion.span
-            key={isDark ? "sun" : "moon"}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.15 }}
-            className="absolute inset-0 inline-grid place-items-center"
+            key={isDark ? "moon" : "sun"}
+            initial={{ opacity: 0, rotate: -45, scale: 0.5 }}
+            animate={{ opacity: 1, rotate: 0, scale: 1 }}
+            exit={{ opacity: 0, rotate: 45, scale: 0.5 }}
+            transition={{ duration: 0.2 }}
+            className="absolute inset-0 grid place-items-center"
           >
-            {isDark ? <FiSun size={14} /> : <FiMoon size={14} />}
+            {isDark ? <FiMoon size={13} /> : <FiSun size={13} />}
           </motion.span>
         </AnimatePresence>
-      </span>
-      <AnimatePresence mode="popLayout" initial={false}>
-        <motion.span
-          key={isDark ? "light" : "dark"}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.15 }}
-        >
-          {isDark ? "light" : "dark"}
-        </motion.span>
-      </AnimatePresence>
-    </motion.button>
+      </motion.span>
+    </button>
   );
 };
 
