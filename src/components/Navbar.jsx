@@ -24,14 +24,16 @@ const ThemeToggle = ({ className = "" }) => {
     >
       {/* Crossfade the icon+label instead of popping between them — the
           instant swap read as a jarring beat inside an otherwise-animated
-          toggle. */}
+          toggle. A quiet vertical slide-fade, on the same easing curve the
+          carousel/expanded card use elsewhere on the site, reads sleeker
+          than a spin. */}
       <AnimatePresence mode="wait" initial={false}>
         <motion.span
           key={isDark ? "dark" : "light"}
-          initial={{ opacity: 0, rotate: -90, scale: 0.6 }}
-          animate={{ opacity: 1, rotate: 0, scale: 1 }}
-          exit={{ opacity: 0, rotate: 90, scale: 0.6 }}
-          transition={{ duration: 0.16 }}
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -6 }}
+          transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
           className="inline-flex items-center gap-2"
         >
           {isDark ? <FiSun size={14} /> : <FiMoon size={14} />}
