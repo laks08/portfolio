@@ -26,8 +26,27 @@
       content="camera=(), microphone=(), geolocation=()"
     />
     <title>Lakshya Gupta</title>
-    <script type="module" crossorigin src="./assets/index-Dpc9Kwp6.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-BKQQVpMP.css">
+    <!--
+      Set the theme class before first paint so dark-mode visitors don't see
+      a light->dark flash. Mirrors ThemeContext's getInitialIsDark(), and
+      must be kept in sync with it if that logic ever changes.
+    -->
+    <script>
+      (function () {
+        try {
+          var saved = window.localStorage.getItem("theme");
+          var isDark =
+            saved === "dark" ||
+            (saved !== "light" &&
+              !window.matchMedia("(prefers-color-scheme: light)").matches);
+          document.documentElement.classList.toggle("dark", isDark);
+        } catch (e) {
+          document.documentElement.classList.add("dark");
+        }
+      })();
+    </script>
+    <script type="module" crossorigin src="./assets/index-BtphRLyc.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-DLv7SKFi.css">
   </head>
   <body>
     <div id="root"></div>
