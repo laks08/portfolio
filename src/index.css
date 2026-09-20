@@ -73,8 +73,17 @@ img {
   border-radius: 2px;
 }
 
-/* Opt-in helper kept for backwards compatibility. */
+/* Disable text selection site-wide (and the iOS long-press callout). */
+html,
+body {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* Opt-in helper: add to anything that should stay selectable. */
 .selectable {
+  -webkit-user-select: text;
   user-select: text;
 }
 
