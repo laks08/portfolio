@@ -13,17 +13,55 @@ const NAV_ITEMS = [
   "contact",
 ];
 
+// iOS-style sliding switch: a pill track with a circular knob that slides
+// between the two ends, the sun/moon icon crossfading inside the knob as it
+// travels. `role="switch"`/`aria-checked` rather than a plain labelled
+// button — now that it visually IS a switch, that's the correct semantics.
 const ThemeToggle = ({ className = "" }) => {
   const { isDark, toggleTheme } = useTheme();
   return (
     <button
       type="button"
+      role="switch"
+      aria-checked={isDark}
       onClick={toggleTheme}
       aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
-      className={`inline-flex items-center gap-2 rounded-full border border-line px-3 py-1.5 font-mono text-xs text-muted transition-colors hover:border-text hover:text-text ${className}`}
+      className={`flex h-8 w-14 shrink-0 items-center rounded-full border border-line bg-surface-2/50 p-1 transition-colors duration-300 hover:border-text ${
+        isDark ? "justify-end" : "justify-start"
+      } ${className}`}
     >
-      {isDark ? <FiSun size={14} /> : <FiMoon size={14} />}
-      <span>{isDark ? "light" : "dark"}</span>
+      {/* toggleTheme wraps the theme flip in a page-wide View Transition,
+          which captures the WHOLE page as a flat before/after image pair and
+          crossfades those two — so the knob's own `layout` slide, happening
+          on the live DOM underneath that overlay, was invisible: you only
+          ever saw the two settled bookend states blend into each other.
+          `view-transition-name` carves the knob out into its OWN named
+          transition group, so the browser morphs and crossfades its
+          position/content independently (a native "shared element"
+          transition) instead of flattening it into the root snapshot. The
+          two ThemeToggle instances (desktop/mobile) are mutually exclusive
+          via `hidden`/`md:hidden`, so only one is ever actually rendered
+          (not display:none) to claim this name at a time.
+          `layout` + the spring stays as the fallback for browsers without
+          View Transition support, where nothing masks it. */}
+      <motion.span
+        layout
+        transition={{ type: "spring", stiffness: 700, damping: 32 }}
+        className="relative grid h-6 w-6 place-items-center overflow-hidden rounded-full bg-surface text-text shadow-sm [view-transition-name:theme-toggle-knob]"
+      >
+        <AnimatePresence mode="popLayout" initial={false}>
+          <motion.span
+            key={isDark ? "moon" : "sun"}
+            initial={{ opacity: 0, rotate: -45, scale: 0.5 }}
+            animate={{ opacity: 1, rotate: 0, scale: 1 }}
+            exit={{ opacity: 0, rotate: 45, scale: 0.5 }}
+            transition={{ duration: 0.2 }}
+            className="absolute inset-0 grid place-items-center"
+          >
+            {isDark ? <FiMoon size={13} /> : <FiSun size={13} />}
+          </motion.span>
+        </AnimatePresence>
+      </motion.span>
     </button>
   );
 };
@@ -33,6 +71,9 @@ const Navbar = () => {
   const [activeItem, setActiveItem] = useState("home");
   const [scrolled, setScrolled] = useState(false);
   const menuRef = useRef(null);
+  const menuTriggerRef = useRef(null);
+  const menuCloseRef = useRef(null);
+  const hasOpenedRef = useRef(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -56,6 +97,41 @@ const Navbar = () => {
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
   }, []);
+
+  // Move focus into the drawer on open, and back to the trigger that
+  // opened it on close (never on initial mount, when it was never open).
+  useEffect(() => {
+    if (isOpen) {
+      hasOpenedRef.current = true;
+      menuCloseRef.current?.focus();
+    } else if (hasOpenedRef.current) {
+      menuTriggerRef.current?.focus();
+    }
+  }, [isOpen]);
+
+  // Basic focus trap: keep Tab/Shift+Tab cycling within the open drawer.
+  useEffect(() => {
+    if (!isOpen) return undefined;
+    const container = menuRef.current;
+    if (!container) return undefined;
+
+    const onKeyDown = (e) => {
+      if (e.key !== "Tab") return;
+      const focusable = container.querySelectorAll("a[href], button:not([disabled])");
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+    container.addEventListener("keydown", onKeyDown);
+    return () => container.removeEventListener("keydown", onKeyDown);
+  }, [isOpen]);
 
   // Active-link highlighting — one IntersectionObserver, no per-frame scroll math.
   useEffect(() => {
@@ -145,9 +221,12 @@ const Navbar = () => {
         <div className="flex items-center gap-3 md:hidden">
           <ThemeToggle />
           <button
+            ref={menuTriggerRef}
             type="button"
             onClick={() => setIsOpen((v) => !v)}
-            aria-label="Toggle menu"
+            aria-label={isOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isOpen}
+            aria-controls="mobile-nav-drawer"
             className="text-text"
           >
             {isOpen ? <FiX size={22} /> : <FiMenu size={22} />}
@@ -160,6 +239,10 @@ const Navbar = () => {
         {isOpen && (
           <motion.div
             ref={menuRef}
+            id="mobile-nav-drawer"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Site navigation"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -172,6 +255,7 @@ const Navbar = () => {
                 lakshya gupta
               </span>
               <button
+                ref={menuCloseRef}
                 type="button"
                 onClick={() => setIsOpen(false)}
                 aria-label="Close menu"

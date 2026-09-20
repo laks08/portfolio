@@ -24,6 +24,7 @@ const Contact = () => {
       id="contact"
       label="contacts"
       labelAlign="right"
+      headingId="contact-heading"
       ringPosition="right"
     >
       <motion.div
@@ -33,6 +34,7 @@ const Contact = () => {
         transition={{ duration: 0.5 }}
       >
         <DisplayHeading
+          id="contact-heading"
           lines={[{ text: "Lakshya" }, { text: "Gupta" }]}
           size="text-[clamp(3rem,13vw,8rem)]"
         />

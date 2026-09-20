@@ -109,7 +109,7 @@ const skillCategories = [
 ];
 
 const Skills = () => (
-  <Section id="skills" label="skills" ringPosition="left">
+  <Section id="skills" label="skills" heading="Skills" ringPosition="left">
     <p className="mb-14 max-w-2xl font-sans text-base leading-relaxed text-muted">
       The stack I <em>build production systems with</em>, grouped by where it
       sits in the pipeline, from language fundamentals through AI enablement and

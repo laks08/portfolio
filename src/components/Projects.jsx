@@ -41,7 +41,7 @@ const PROJECTS = [
     showDemoLink: false,
   },
   {
-    title: "legal-rag",
+    title: "Legal RAG",
     description:
       "Multi-agent legal RAG system that answers questions over federal securities filings with traceable citations.",
     extendedDescription:
@@ -53,7 +53,7 @@ const PROJECTS = [
     showDemoLink: false,
   },
   {
-    title: "legal-embedder",
+    title: "Legal Embedder",
     description:
       "Fine-tuned sentence-embedding model for legal semantic search, trained on US federal court opinions.",
     extendedDescription:
@@ -578,7 +578,7 @@ const Projects = () => {
   const playing = isAutoPlaying && !isHovered;
 
   return (
-    <Section id="projects" label="projects" ringPosition="right">
+    <Section id="projects" label="projects" heading="Projects" ringPosition="right">
       <p className="mb-10 max-w-xl font-sans text-base leading-relaxed text-muted">
         A rolling selection of what I&apos;ve built: AI systems, data pipelines,
         backends, and apps.

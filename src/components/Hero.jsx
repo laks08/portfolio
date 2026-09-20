@@ -43,6 +43,7 @@ const Hero = () => {
   return (
     <section
       id="home"
+      aria-labelledby="home-heading"
       className="relative flex min-h-screen scroll-mt-20 items-center overflow-hidden pt-24"
     >
       <BackgroundRings position="right" />
@@ -56,7 +57,7 @@ const Hero = () => {
             custom={0}
           >
             <SectionLabel slash className="mb-6">
-              About me
+              about me
             </SectionLabel>
           </motion.div>
 
@@ -78,6 +79,7 @@ const Hero = () => {
           >
             <DisplayHeading
               as="h1"
+              id="home-heading"
               size="text-[clamp(2rem,5.4vw,4.25rem)]"
               lines={[
                 { text: "AI Software" },

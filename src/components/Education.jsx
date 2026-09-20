@@ -34,8 +34,14 @@ const education = [
 ];
 
 const Education = () => (
-  <Section id="education" label="education" ringPosition="left">
+  <Section
+    id="education"
+    label="education"
+    headingId="education-heading"
+    ringPosition="left"
+  >
     <DisplayHeading
+      id="education-heading"
       lines={[{ text: "Education" }]}
       size="text-[clamp(2.5rem,9vw,5.5rem)]"
       className="mb-12"
